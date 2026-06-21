@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Companion — AI Friends for Little Minds</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f9f7ff; color: #2d2d2d; min-height: 100vh; }
+
+    /* ── NAV ── */
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 16px 32px; background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,.07); position: sticky; top: 0; z-index: 100; }
+    .logo { font-size: 1.3rem; font-weight: 700; color: #5c3dc4; letter-spacing: -.5px; }
+    .nav-actions { display: flex; gap: 12px; align-items: center; }
+    .btn { padding: 9px 20px; border-radius: 8px; font-size: .9rem; font-weight: 600; cursor: pointer; border: none; transition: opacity .15s; }
+    .btn:hover { opacity: .85; }
+    .btn-outline { background: transparent; border: 2px solid #5c3dc4; color: #5c3dc4; }
+    .btn-primary { background: #5c3dc4; color: #fff; }
+    .btn-sm { padding: 7px 16px; font-size: .82rem; }
+
+    /* ── HERO ── */
+    .hero { text-align: center; padding: 64px 24px 32px; }
+    .hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; color: #1a1a2e; line-height: 1.2; }
+    .hero h1 span { color: #5c3dc4; }
+    .hero p { margin-top: 16px; font-size: 1.1rem; color: #555; max-width: 560px; margin-inline: auto; }
+
+    /* ── PERSONA CARDS ── */
+    .cards-section { padding: 40px 24px 64px; }
+    .cards-section h2 { text-align: center; font-size: 1.5rem; font-weight: 700; margin-bottom: 28px; color: #1a1a2e; }
+    .cards { display: flex; flex-wrap: wrap; gap: 24px; justify-content: center; max-width: 1200px; margin: 0 auto; }
+    .card { background: #fff; border-radius: 20px; padding: 28px 24px; width: 280px; cursor: pointer; box-shadow: 0 2px 12px rgba(0,0,0,.07); border: 2px solid transparent; transition: transform .2s, border-color .2s, box-shadow .2s; text-align: center; }
+    .card:hover { transform: translateY(-5px); box-shadow: 0 10px 28px rgba(0,0,0,.12); }
+    .card.selected { border-color: #5c3dc4; box-shadow: 0 0 0 3px rgba(92,61,196,.2); }
+    .card-avatar { width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 18px; overflow: hidden; }
+    .card-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 5px; }
+    .card .vibe { font-size: .8rem; color: #888; margin-bottom: 12px; }
+    .tag { display: inline-block; font-size: .72rem; font-weight: 600; padding: 3px 10px; border-radius: 20px; margin-bottom: 10px; }
+    .card p { font-size: .85rem; color: #666; line-height: 1.45; }
+    .starters { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+    .starter-btn { background: #f3f0ff; border: none; border-radius: 8px; padding: 6px 9px; font-size: .74rem; color: #5c3dc4; cursor: pointer; text-align: left; transition: background .15s; }
+    .starter-btn:hover { background: #e4ddff; }
+
+    /* ── PERSONA DETAIL (lives inside the modal) ── */
+    .detail-avatar { width: 100px; height: 100px; border-radius: 50%; overflow: hidden; margin: 0 auto 16px; box-shadow: 0 4px 16px rgba(0,0,0,.13); }
+    .detail-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .detail-name { font-size: 1.35rem; font-weight: 800; margin-bottom: 7px; text-align: center; }
+    .detail-tag { display: inline-block; font-size: .74rem; font-weight: 600; padding: 3px 12px; border-radius: 20px; margin-bottom: 12px; }
+    .detail-desc { font-size: .88rem; color: #555; line-height: 1.55; text-align: center; margin-bottom: 20px; }
+
+    /* Video preview placeholder */
+    .preview-box { position: relative; background: #1a1a2e; border-radius: 14px; overflow: hidden; aspect-ratio: 16/9; cursor: pointer; margin-bottom: 20px; }
+    .preview-label { position: absolute; top: 10px; left: 12px; font-size: .64rem; font-weight: 700; letter-spacing: 1.2px; color: rgba(255,255,255,.45); text-transform: uppercase; }
+    .preview-idle { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 9px; }
+    .play-btn { width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,.12); border: 2px solid rgba(255,255,255,.35); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; transition: background .2s, transform .2s; backdrop-filter: blur(4px); }
+    .preview-box:hover .play-btn { background: rgba(255,255,255,.22); transform: scale(1.08); }
+    .preview-idle > span { color: rgba(255,255,255,.7); font-size: .76rem; font-weight: 600; }
+    .preview-playing { position: absolute; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 14px; background: #1a1a2e; }
+    .preview-playing.active { display: flex; }
+    .preview-bars { display: flex; gap: 6px; align-items: flex-end; height: 40px; }
+    .preview-bar { width: 6px; border-radius: 3px; animation: bar-bounce 1s ease-in-out infinite; }
+    @keyframes bar-bounce { 0%,100% { height: 8px; opacity: .6; } 50% { height: 38px; opacity: 1; } }
+    .preview-bar:nth-child(2) { animation-delay: .12s; }
+    .preview-bar:nth-child(3) { animation-delay: .24s; }
+    .preview-bar:nth-child(4) { animation-delay: .36s; }
+    .preview-bar:nth-child(5) { animation-delay: .48s; }
+    .preview-playing > p { color: rgba(255,255,255,.65); font-size: .78rem; }
+
+    /* USP list */
+    .detail-usps { background: #f5f3ff; border-radius: 14px; padding: 18px 20px; margin-bottom: 20px; }
+    .detail-usps h4 { font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #bbb; margin-bottom: 13px; }
+    .usp-item { display: flex; align-items: flex-start; gap: 9px; margin-bottom: 10px; font-size: .85rem; color: #444; line-height: 1.4; }
+    .usp-item:last-child { margin-bottom: 0; }
+    .usp-check { font-weight: 700; flex-shrink: 0; }
+    .btn-choose { width: 100%; padding: 14px; font-size: 1rem; border-radius: 12px; }
+
+    /* ── CHAT SCREEN ── */
+    #chat-screen { display: none; max-width: 700px; margin: 0 auto; padding: 24px 16px 148px; }
+    .chat-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding: 14px 18px; background: #fff; border-radius: 16px; box-shadow: 0 2px 8px rgba(0,0,0,.07); }
+    .chat-avatar { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; flex-shrink: 0; }
+    .chat-header-info h3 { font-size: 1rem; font-weight: 700; }
+    .chat-header-info p { font-size: .8rem; color: #777; }
+    .back-btn { margin-left: auto; background: #f3f0ff; border: none; color: #5c3dc4; padding: 7px 14px; border-radius: 8px; cursor: pointer; font-size: .82rem; font-weight: 600; }
+
+    .messages { display: flex; flex-direction: column; gap: 14px; min-height: 300px; }
+    .msg { max-width: 80%; padding: 12px 16px; border-radius: 18px; font-size: .95rem; line-height: 1.55; animation: fadeIn .2s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+    .msg.user { background: #5c3dc4; color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
+    .msg.assistant { background: #fff; color: #2d2d2d; align-self: flex-start; border-bottom-left-radius: 4px; box-shadow: 0 1px 6px rgba(0,0,0,.08); }
+    .typing-indicator { display: flex; gap: 5px; padding: 14px 18px; background: #fff; border-radius: 18px; border-bottom-left-radius: 4px; align-self: flex-start; box-shadow: 0 1px 6px rgba(0,0,0,.08); }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: #ccc; animation: bounce .9s infinite; }
+    .dot:nth-child(2) { animation-delay: .15s; }
+    .dot:nth-child(3) { animation-delay: .3s; }
+    @keyframes bounce { 0%,60%,100% { transform: translateY(0); } 30% { transform: translateY(-6px); } }
+
+    .chat-input-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; border-top: 1px solid #eee; padding: 12px 16px; display: none; }
+    .chat-input-inner { max-width: 700px; margin: 0 auto; display: flex; gap: 10px; align-items: center; }
+    #chat-input { flex: 1; border: 2px solid #e0d9ff; border-radius: 12px; padding: 11px 16px; font-size: .95rem; outline: none; transition: border-color .2s; }
+    #chat-input:focus { border-color: #5c3dc4; }
+    #chat-input:disabled { background: #f5f5f5; }
+    #mic-btn { width: 44px; height: 44px; border-radius: 50%; border: 2px solid #e0d9ff; background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; transition: background .15s, border-color .15s; flex-shrink: 0; }
+    #mic-btn.listening { background: #fee; border-color: #e55; animation: pulse-red .8s infinite; }
+    @keyframes pulse-red { 0%,100% { box-shadow: 0 0 0 0 rgba(229,85,85,.4); } 50% { box-shadow: 0 0 0 7px rgba(229,85,85,0); } }
+    #send-btn { width: 44px; height: 44px; border-radius: 50%; background: #5c3dc4; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.1rem; flex-shrink: 0; }
+    #send-btn:disabled { background: #ccc; cursor: not-allowed; }
+    .chat-signup-row { max-width: 700px; margin: 8px auto 0; }
+    .btn-chat-signup { width: 100%; padding: 13px; background: #fff; border: 2.5px solid #5c3dc4; border-radius: 12px; color: #5c3dc4; font-size: 1rem; font-weight: 700; cursor: pointer; letter-spacing: .2px; transition: background .15s; }
+    .btn-chat-signup:hover { background: #f3f0ff; }
+
+    /* ── MODAL ── */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 200; align-items: center; justify-content: center; }
+    .modal-overlay.open { display: flex; }
+    .modal { background: #fff; border-radius: 20px; padding: 36px 32px; max-width: 440px; width: 90%; position: relative; }
+    /* wider + scrollable for the detail view */
+    .modal-overlay.wide .modal { max-width: 540px; max-height: 90vh; overflow-y: auto; }
+    .modal h2 { font-size: 1.4rem; font-weight: 800; margin-bottom: 6px; color: #1a1a2e; }
+    .modal > div > p { color: #666; font-size: .9rem; margin-bottom: 22px; }
+    .modal-close { position: absolute; top: 14px; right: 16px; background: none; border: none; font-size: 1.4rem; cursor: pointer; color: #888; z-index: 1; }
+    .form-row { display: flex; gap: 12px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; flex: 1; }
+    .form-group label { font-size: .82rem; font-weight: 600; color: #444; }
+    .form-group input { border: 2px solid #e8e3ff; border-radius: 10px; padding: 10px 14px; font-size: .95rem; outline: none; transition: border-color .2s; }
+    .form-group input:focus { border-color: #5c3dc4; }
+    .secure-note { font-size: .75rem; color: #aaa; text-align: center; margin-top: 10px; }
+
+    /* confirm + success views */
+    #signup-confirm-view,
+    #success-view { display: none; text-align: center; padding: 12px 0; }
+    #signup-confirm-view .big-emoji,
+    #success-view .big-emoji { font-size: 3rem; margin-bottom: 14px; }
+    #success-view .queue-number { font-size: 3.5rem; font-weight: 900; color: #5c3dc4; margin: 8px 0; }
+
+    /* ── MISC ── */
+    footer { text-align: center; padding: 32px 24px; color: #bbb; font-size: .8rem; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">🌟 Companion</div>
+  <div class="nav-actions">
+    <button class="btn btn-outline btn-sm" onclick="showSignup()">Log in</button>
+    <button class="btn btn-primary btn-sm" onclick="showSignup()">Sign up</button>
+  </div>
+</nav>
+
+<!-- LANDING PAGE -->
+<div id="landing">
+  <section class="hero">
+    <h1>AI Friends for<br><span>Little Minds</span></h1>
+    <p>Safe, joyful AI companions that talk, listen, and grow with your child — one conversation at a time.</p>
+  </section>
+
+  <section class="cards-section">
+    <h2>Meet the Companions</h2>
+    <div class="cards" id="persona-cards"></div>
+  </section>
+
+  <footer>© 2025 Companion. All rights reserved.</footer>
+</div>
+
+<!-- CHAT SCREEN -->
+<div id="chat-screen">
+  <div class="chat-header" id="chat-header"></div>
+  <div class="messages" id="messages"></div>
+</div>
+
+<!-- CHAT INPUT BAR -->
+<div class="chat-input-bar" id="chat-input-bar">
+  <div class="chat-input-inner">
+    <button id="mic-btn" title="Speak">🎤</button>
+    <input id="chat-input" type="text" placeholder="Type a message…" autocomplete="off" />
+    <button id="send-btn">➤</button>
+  </div>
+  <div class="chat-signup-row">
+    <button class="btn-chat-signup" onclick="showSignup()">Sign up free</button>
+  </div>
+</div>
+
+<!-- SHARED MODAL OVERLAY -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+
+    <!-- Persona detail (card click) -->
+    <div id="detail-view" style="display:none"></div>
+
+    <!-- Step 1: Sign-up -->
+    <div id="signup-view" style="display:none">
+      <h2>Create your free account</h2>
+      <p>Join thousands of families — free forever, no card needed.</p>
+      <div class="form-group">
+        <label>Your name</label>
+        <input type="text" id="signup-name" placeholder="Jane" />
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="signup-email" placeholder="you@example.com" />
+      </div>
+      <button class="btn btn-primary" style="width:100%;padding:14px;border-radius:12px" onclick="submitSignup()">Create free account</button>
+      <div class="secure-note">No credit card required · Free forever</div>
+    </div>
+
+    <!-- Step 2: Welcome + reserve offer -->
+    <div id="signup-confirm-view">
+      <div class="big-emoji">🎉</div>
+      <h2>Welcome, <span id="confirm-name"></span>!</h2>
+      <p>Your free account is all set. Lock in early access for just $1 before we launch — or explore free first.</p>
+      <button class="btn btn-primary" style="width:100%;padding:14px;border-radius:12px;margin-bottom:10px" onclick="showPaymentView()">Reserve early access — $1</button>
+      <button class="btn btn-outline" style="width:100%;padding:12px;border-radius:12px" onclick="closeModal()">Maybe later</button>
+    </div>
+
+    <!-- Step 3: Card payment -->
+    <div id="payment-view" style="display:none">
+      <h2>Reserve your spot</h2>
+      <p>Just $1 to lock in early access. No charge until launch.</p>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" placeholder="you@example.com" id="pay-email" />
+      </div>
+      <div class="form-group">
+        <label>Card number</label>
+        <input type="text" placeholder="4242 4242 4242 4242" maxlength="19" id="pay-card" oninput="fmtCard(this)" />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Expiry</label>
+          <input type="text" placeholder="MM/YY" maxlength="5" id="pay-exp" oninput="fmtExp(this)" />
+        </div>
+        <div class="form-group">
+          <label>CVC</label>
+          <input type="text" placeholder="123" maxlength="3" id="pay-cvc" />
+        </div>
+      </div>
+      <button class="btn btn-primary" style="width:100%;padding:14px;border-radius:12px;margin-top:4px" onclick="submitPayment()">Pay $1 &amp; Reserve</button>
+      <div class="secure-note">🔒 Secured by Stripe · We never store your card details</div>
+    </div>
+
+    <!-- Step 4: Queue confirmation -->
+    <div id="success-view">
+      <div class="big-emoji">🎊</div>
+      <h2>You're on the queue!</h2>
+      <div class="queue-number" id="queue-number">#—</div>
+      <p>We'll email you at <strong id="queue-email"></strong> when it's your turn.<br>Thank you for believing in us early!</p>
+      <button class="btn btn-primary" style="margin-top:20px;width:100%" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── PERSONA DATA ──
+const PERSONAS = {
+  pip: {
+    id:"pip", name:"Maya & Ember the Fox", emoji:"🦊", photo:"images/fox.jpg",
+    vibe:"Curious & Adventurous", domain:"Early Math & Counting",
+    best_for:"🧭 Best for curious explorers",
+    desc:"Maya and Ember turn outdoor moments into mini adventures — counting flowers, naming colors, and exploring nature together.",
+    body:"#F4A261", accent:"#C1440E", belly:"#FFE8CC", tag_color:"#FFF4EF",
+    usps:["Turns outdoor walks into counting games","Teaches numbers, shapes & comparison words","Short energetic sessions — 3 to 5 minutes","Perfect for ages 3–6"],
+    starters:["How do you teach counting?","What age is Pip best for?","Show me an example","How many minutes a day?"]
+  },
+  luna: {
+    id:"luna", name:"Grandma Rose & Sage the Owl", emoji:"🦉", photo:"images/owl.jpg",
+    vibe:"Calm & Watchful", domain:"Gentle Check-Ins & Calm Play",
+    best_for:"🦉 Best for calm, watchful care",
+    desc:"Grandma Rose and Sage keep things calm and cozy, with gentle check-ins so you know your little one is doing okay.",
+    body:"#7C6FCE", accent:"#4B3F9E", belly:"#E3DCFF", tag_color:"#F3F0FF",
+    usps:["Calm soothing check-ins any time of day","Helps children wind down at bedtime","Simple breathing exercises when needed","Gentle emotional support, age-appropriate"],
+    starters:["How do check-ins work?","Good for bedtime?","What's quiet play like?","Can you help with anxiety?"]
+  },
+  bongo: {
+    id:"bongo", name:"Alex & Whiskers the Kitten", emoji:"🐱", photo:"images/kitten.jpg",
+    vibe:"Playful & Energetic", domain:"Movement & Active Play",
+    best_for:"🏃 Best for high-energy kids",
+    desc:"Alex and Whiskers turn screen breaks into movement games — jumping, dancing, and silly energy-burning fun.",
+    body:"#A9744F", accent:"#6E4527", belly:"#F8D9B8", tag_color:"#FFF7F0",
+    usps:["Short movement breaks — 2 to 5 minutes","Safe indoor jumping & dancing games","Burns energy without more screen time","Boosts focus after sitting too long"],
+    starters:["What games does Bongo do?","How long are breaks?","Good for indoors?","How do you know when to prompt?"]
+  },
+  coco: {
+    id:"coco", name:"Elena & Truffle the Piglet", emoji:"🐷", photo:"images/piglet.jpg",
+    vibe:"Sweet & Imaginative", domain:"Pretend Play & Vocabulary",
+    best_for:"🎨 Best for little dreamers",
+    desc:"Elena and Truffle love pretend cooking, color hunts, and imaginative play that sparks creativity.",
+    body:"#F2B6C6", accent:"#C2607D", belly:"#FFDCE8", tag_color:"#FFF0F4",
+    usps:["Builds vocabulary through pretend play","Introduces vivid, descriptive words","Sparks storytelling and imagination","Great for shy or creative kids"],
+    starters:["How do you build vocabulary?","Typical session?","Good for shy kids?","What age range?"]
+  },
+};
+
+// ── STATE ──
+let activePersonaId = null;
+let signedUpName = null;
+let signedUpEmail = null;
+let ws = null;
+let isStreaming = false;
+let currentAssistantEl = null;
+let currentAssistantText = "";
+let audioQueue = [];
+let audioPlaying = false;
+let recognition = null;
+let micListening = false;
+let previewTimer = null;
+
+const WS_URL = "ws://localhost:8000/ws/chat";
+
+// ── SCREEN ROUTER (landing ↔ chat only; detail lives in the modal) ──
+function showScreen(id) {
+  ["landing", "chat-screen"].forEach(s =>
+    document.getElementById(s).style.display = "none"
+  );
+  document.getElementById("chat-input-bar").style.display = "none";
+  document.getElementById(id).style.display = "block";
+  window.scrollTo(0, 0);
+}
+
+// ── PERSONA CARDS ──
+function renderCards() {
+  const container = document.getElementById("persona-cards");
+  container.innerHTML = "";
+  Object.values(PERSONAS).forEach(p => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.dataset.id = p.id;
+    card.innerHTML = `
+      <div class="card-avatar" style="background:${p.belly}">
+        <img src="${p.photo}" alt="${p.name}" onerror="this.style.display='none'" />
+      </div>
+      <h3 style="color:${p.body}">${p.name}</h3>
+      <div class="vibe">${p.vibe}</div>
+      <div class="tag" style="background:${p.tag_color};color:${p.body}">${p.best_for}</div>
+    `;
+    card.addEventListener("click", () => openDetail(p.id));
+    container.appendChild(card);
+  });
+}
+
+function startFromDetail(personaId, idx) {
+  closeModal();
+  openChat(personaId, PERSONAS[personaId].starters[idx]);
+}
+
+// ── DETAIL MODAL ──
+function openDetail(personaId) {
+  activePersonaId = personaId;
+  const p = PERSONAS[personaId];
+  const firstName = p.name.split(" ")[0];
+  const barColors = [p.body, p.accent, p.belly, p.body, p.accent];
+
+  document.getElementById("detail-view").innerHTML = `
+    <div style="text-align:center;padding-top:6px;margin-bottom:18px">
+      <div class="detail-avatar" style="background:${p.belly}">
+        <img src="${p.photo}" alt="${p.name}" onerror="this.style.display='none'" />
+      </div>
+      <div class="detail-name" style="color:${p.body}">${p.name}</div>
+      <div><span class="detail-tag" style="background:${p.tag_color};color:${p.body}">${p.best_for}</span></div>
+      <p class="detail-desc" style="margin-top:10px">${p.desc}</p>
+    </div>
+
+    <div class="preview-box" onclick="togglePreview('${personaId}')">
+      <span class="preview-label">Watch a preview</span>
+      <div class="preview-idle" id="preview-idle-${personaId}">
+        <div class="play-btn">▶</div>
+        <span>See ${firstName} in action</span>
+      </div>
+      <div class="preview-playing" id="preview-playing-${personaId}">
+        <div class="preview-bars">
+          ${barColors.map(c => `<div class="preview-bar" style="background:${c}"></div>`).join("")}
+        </div>
+        <p>Demo playing… ✨</p>
+      </div>
+    </div>
+
+    <div class="detail-usps">
+      <h4>What ${firstName} actually does</h4>
+      ${p.usps.map(u => `
+        <div class="usp-item">
+          <span class="usp-check" style="color:${p.body}">✓</span>${u}
+        </div>`).join("")}
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:7px;margin-bottom:20px">
+      <p style="font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#bbb;margin-bottom:4px">Ask to get started</p>
+      ${p.starters.map((s, i) => `<button class="starter-btn" onclick="startFromDetail('${personaId}',${i})">${s}</button>`).join("")}
+    </div>
+
+    <button class="btn btn-primary btn-choose" onclick="chatFromDetail('${personaId}')">
+      Chat with ${firstName} →
+    </button>
+  `;
+
+  document.getElementById("modal-overlay").classList.add("wide");
+  setModalView("detail-view");
+  document.getElementById("modal-overlay").classList.add("open");
+}
+
+function chatFromDetail(personaId) {
+  closeModal();
+  openChat(personaId, null);
+}
+
+function togglePreview(personaId) {
+  const idle    = document.getElementById(`preview-idle-${personaId}`);
+  const playing = document.getElementById(`preview-playing-${personaId}`);
+  if (!idle || !playing) return;
+  const isPlaying = playing.classList.contains("active");
+  if (isPlaying) {
+    playing.classList.remove("active");
+    idle.style.display = "flex";
+    clearTimeout(previewTimer);
+  } else {
+    idle.style.display = "none";
+    playing.classList.add("active");
+    previewTimer = setTimeout(() => {
+      playing.classList.remove("active");
+      idle.style.display = "flex";
+    }, 6000);
+  }
+}
+
+// ── CHAT ──
+function openChat(personaId, initialMessage) {
+  activePersonaId = personaId;
+  const p = PERSONAS[personaId];
+
+  showScreen("chat-screen");
+  document.getElementById("chat-input-bar").style.display = "block";
+
+  document.getElementById("chat-header").innerHTML = `
+    <div class="chat-avatar" style="background:${p.belly}">${p.emoji}</div>
+    <div class="chat-header-info">
+      <h3 style="color:${p.body}">${p.name}</h3>
+      <p>${p.domain}</p>
+    </div>
+    <button class="back-btn" onclick="goBackFromChat()">← Back</button>
+  `;
+
+  document.getElementById("messages").innerHTML = "";
+  audioQueue = [];
+  audioPlaying = false;
+
+  connectWS();
+  setupMic();
+
+  if (initialMessage) {
+    document.getElementById("chat-input").value = initialMessage;
+    sendMessage();
+  } else {
+    document.getElementById("chat-input").focus();
+  }
+}
+
+function goBackFromChat() {
+  if (ws) { try { ws.close(); } catch(e){} ws = null; }
+  audioQueue = [];
+  audioPlaying = false;
+  isStreaming = false;
+  showScreen("landing");
+}
+
+// ── WEBSOCKET ──
+function connectWS() {
+  if (ws) { try { ws.close(); } catch(e){} }
+  ws = new WebSocket(WS_URL);
+  ws.onopen = () => console.log("WS connected");
+  ws.onmessage = e => {
+    const msg = JSON.parse(e.data);
+    if (msg.type === "text_chunk") appendAssistantChunk(msg.text);
+    else if (msg.type === "audio_chunk") enqueueAudio(msg.audio_base64);
+    else if (msg.type === "done") finalizeAssistantMessage();
+  };
+  ws.onerror = () => showAssistantError("Couldn't connect to the server. Make sure the backend is running.");
+  ws.onclose = () => {
+    if (isStreaming) showAssistantError("Connection lost.");
+    isStreaming = false;
+    setInputEnabled(true);
+  };
+}
+
+// ── SEND ──
+function sendMessage() {
+  const input = document.getElementById("chat-input");
+  const text = input.value.trim();
+  if (!text || isStreaming) return;
+  input.value = "";
+  appendUserMessage(text);
+  removeTypingIndicator();
+  showTypingIndicator();
+  isStreaming = true;
+  currentAssistantEl = null;
+  setInputEnabled(false);
+
+  if (!ws || ws.readyState !== WebSocket.OPEN) {
+    connectWS();
+    ws.addEventListener("open", () =>
+      ws.send(JSON.stringify({ persona_id: activePersonaId, message: text }))
+    , { once: true });
+  } else {
+    ws.send(JSON.stringify({ persona_id: activePersonaId, message: text }));
+  }
+}
+
+// ── MARKDOWN RENDERER ──
+// Escape HTML first (XSS safety), then apply bold/italic patterns.
+function renderMarkdown(raw) {
+  const safe = raw
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+  return safe
+    .replace(/\*\*(.+?)\*\*/gs, "<strong>$1</strong>")
+    .replace(/\*(.+?)\*/gs,     "<em>$1</em>")
+    .replace(/\n/g, "<br>");
+}
+
+// ── MESSAGES ──
+function appendUserMessage(text) {
+  const el = document.createElement("div");
+  el.className = "msg user";
+  el.textContent = text;
+  document.getElementById("messages").appendChild(el);
+  scrollBottom();
+}
+
+function showTypingIndicator() {
+  const el = document.createElement("div");
+  el.className = "typing-indicator";
+  el.id = "typing";
+  el.innerHTML = `<div class="dot"></div><div class="dot"></div><div class="dot"></div>`;
+  document.getElementById("messages").appendChild(el);
+  scrollBottom();
+}
+
+function removeTypingIndicator() {
+  document.getElementById("typing")?.remove();
+}
+
+function appendAssistantChunk(text) {
+  removeTypingIndicator();
+  if (!currentAssistantEl) {
+    currentAssistantEl = document.createElement("div");
+    currentAssistantEl.className = "msg assistant";
+    document.getElementById("messages").appendChild(currentAssistantEl);
+    currentAssistantText = "";
+  }
+  currentAssistantText += text;
+  currentAssistantEl.innerHTML = renderMarkdown(currentAssistantText);
+  scrollBottom();
+}
+
+function finalizeAssistantMessage() {
+  isStreaming = false;
+  currentAssistantEl = null;
+  currentAssistantText = "";
+  removeTypingIndicator();
+  setInputEnabled(true);
+  document.getElementById("chat-input").focus();
+}
+
+function showAssistantError(msg) {
+  removeTypingIndicator();
+  const el = document.createElement("div");
+  el.className = "msg assistant";
+  el.textContent = msg;
+  document.getElementById("messages").appendChild(el);
+  scrollBottom();
+  isStreaming = false;
+  setInputEnabled(true);
+}
+
+function setInputEnabled(enabled) {
+  document.getElementById("chat-input").disabled = !enabled;
+  document.getElementById("send-btn").disabled = !enabled;
+}
+
+function scrollBottom() {
+  window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+}
+
+// ── AUDIO ──
+function enqueueAudio(base64) {
+  audioQueue.push(base64);
+  if (!audioPlaying) playNext();
+}
+
+function playNext() {
+  if (!audioQueue.length) { audioPlaying = false; return; }
+  audioPlaying = true;
+  const audio = new Audio("data:audio/mpeg;base64," + audioQueue.shift());
+  audio.onended = () => playNext();
+  audio.onerror = () => playNext();
+  audio.play().catch(() => playNext());
+}
+
+// ── MIC ──
+function setupMic() {
+  const micBtn = document.getElementById("mic-btn");
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) { micBtn.style.display = "none"; return; }
+  recognition = new SR();
+  recognition.lang = "en-US";
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+  recognition.onresult = e => {
+    document.getElementById("chat-input").value = e.results[0][0].transcript;
+    stopMic();
+    sendMessage();
+  };
+  recognition.onerror = () => stopMic();
+  recognition.onend   = () => stopMic();
+  micBtn.onclick = () => micListening ? stopMic() : startMic();
+}
+
+function startMic() {
+  micListening = true;
+  document.getElementById("mic-btn").classList.add("listening");
+  document.getElementById("mic-btn").title = "Stop listening";
+  recognition.start();
+}
+
+function stopMic() {
+  micListening = false;
+  document.getElementById("mic-btn").classList.remove("listening");
+  document.getElementById("mic-btn").title = "Speak";
+  try { recognition.stop(); } catch(e) {}
+}
+
+// ── MODAL ──
+function setModalView(id) {
+  ["detail-view","signup-view","signup-confirm-view","payment-view","success-view"].forEach(v =>
+    document.getElementById(v).style.display = "none"
+  );
+  document.getElementById(id).style.display = "block";
+  // strip wide class when switching away from detail
+  if (id !== "detail-view") {
+    document.getElementById("modal-overlay").classList.remove("wide");
+  }
+}
+
+function showSignup() {
+  setModalView("signup-view");
+  document.getElementById("modal-overlay").classList.add("open");
+}
+
+function closeModal() {
+  document.getElementById("modal-overlay").classList.remove("open", "wide");
+  clearTimeout(previewTimer);
+}
+
+function submitSignup() {
+  const name  = document.getElementById("signup-name").value.trim();
+  const email = document.getElementById("signup-email").value.trim();
+  if (!name || !email) { alert("Please enter your name and email."); return; }
+  signedUpName = name;
+  signedUpEmail = email;
+  document.getElementById("confirm-name").textContent = name;
+  document.getElementById("pay-email").value = email;
+  setModalView("signup-confirm-view");
+}
+
+function showPaymentView() {
+  setModalView("payment-view");
+}
+
+function submitPayment() {
+  const email = document.getElementById("pay-email").value.trim();
+  const card  = document.getElementById("pay-card").value.trim();
+  if (!email || !card) { alert("Please fill in your email and card number."); return; }
+  const queueNum = Math.floor(Math.random() * 747) + 147;
+  document.getElementById("queue-number").textContent = "#" + queueNum;
+  document.getElementById("queue-email").textContent = email;
+  setModalView("success-view");
+}
+
+function fmtCard(el) {
+  let v = el.value.replace(/\D/g, "").slice(0, 16);
+  el.value = v.match(/.{1,4}/g)?.join(" ") ?? v;
+}
+
+function fmtExp(el) {
+  let v = el.value.replace(/\D/g, "").slice(0, 4);
+  if (v.length >= 3) v = v.slice(0,2) + "/" + v.slice(2);
+  el.value = v;
+}
+
+// ── INIT ──
+document.addEventListener("DOMContentLoaded", () => {
+  renderCards();
+  document.getElementById("send-btn").addEventListener("click", sendMessage);
+  document.getElementById("chat-input").addEventListener("keydown", e => {
+    if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+  });
+  document.getElementById("modal-overlay").addEventListener("click", e => {
+    if (e.target === document.getElementById("modal-overlay")) closeModal();
+  });
+});
+</script>
+</body>
+</html>
