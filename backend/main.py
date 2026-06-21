@@ -12,6 +12,7 @@ from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 import edge_tts
+import emoji
 from groq import AsyncGroq, BadRequestError
 from tavily import TavilyClient
 
@@ -63,6 +64,24 @@ SEARCH_TOOL = [
 
 SENTENCE_RE = re.compile(r'(?<=[.!?])\s+')
 
+# Order matters: strip ** before * so a stray single * isn't left behind.
+_MD_STRIP = [
+    (re.compile(r'\*\*(.+?)\*\*', re.DOTALL), r'\1'),  # **bold**
+    (re.compile(r'\*(.+?)\*',     re.DOTALL), r'\1'),  # *italic*
+    (re.compile(r'__(.+?)__',     re.DOTALL), r'\1'),  # __bold__
+    (re.compile(r'_(.+?)_',       re.DOTALL), r'\1'),  # _italic_
+    (re.compile(r'`(.+?)`',       re.DOTALL), r'\1'),  # `code`
+    (re.compile(r'^#+\s+',    re.MULTILINE), ''),       # # Heading
+    (re.compile(r'^[*\-]\s+', re.MULTILINE), ''),       # * / - bullet
+    (re.compile(r'^>\s?',     re.MULTILINE), ''),       # > blockquote
+]
+
+
+def strip_markdown_for_tts(text: str) -> str:
+    for pattern, repl in _MD_STRIP:
+        text = pattern.sub(repl, text)
+    return emoji.replace_emoji(text, replace="")
+
 
 def split_into_sentences(text: str) -> list[str]:
     parts = SENTENCE_RE.split(text.strip())
@@ -70,6 +89,7 @@ def split_into_sentences(text: str) -> list[str]:
 
 
 async def synthesize_chunk(text: str, voice: str, rate: str, pitch: str) -> bytes | None:
+    text = strip_markdown_for_tts(text)
     try:
         communicate = edge_tts.Communicate(text, voice=voice, rate=rate, pitch=pitch)
         with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as tmp:
