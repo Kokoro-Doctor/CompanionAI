@@ -303,7 +303,8 @@ let recognition = null;
 let micListening = false;
 let previewTimer = null;
 
-const WS_URL = "ws://localhost:8000/ws/chat";
+const WS_URL = (window.location.protocol === "https:" ? "wss:" : "ws:")
+  + "//" + window.location.host + "/ws/chat";
 
 // ── SCREEN ROUTER (landing ↔ chat only; detail lives in the modal) ──
 function showScreen(id) {
