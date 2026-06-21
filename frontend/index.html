@@ -132,7 +132,6 @@
 <nav>
   <div class="logo">🌟 Companion</div>
   <div class="nav-actions">
-    <button class="btn btn-outline btn-sm" onclick="showSignup()">Log in</button>
     <button class="btn btn-primary btn-sm" onclick="showSignup()">Sign up</button>
   </div>
 </nav>
@@ -680,7 +679,7 @@ async function submitSignup() {
     const res = await fetch("/api/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, persona: activePersonaId || "pip" }),
+      body: JSON.stringify({ name, email, persona: PERSONAS[activePersonaId || "pip"].name }),
     });
     const data = await res.json();
     position = data.waitlist_position;
