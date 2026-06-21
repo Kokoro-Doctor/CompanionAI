@@ -11,9 +11,11 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+import sqlite3
 import edge_tts
 import emoji
 from groq import AsyncGroq, BadRequestError
+from pydantic import BaseModel
 from tavily import TavilyClient
 
 from personas import get_persona
@@ -31,6 +33,27 @@ app.add_middleware(
 
 groq_client = AsyncGroq(api_key=os.getenv("GROQ_API_KEY"))
 tavily_client = TavilyClient(api_key=os.getenv("TAVILY_API_KEY"))
+
+DB_PATH = os.path.join(os.path.dirname(__file__), "waitlist.db")
+
+
+def init_db():
+    con = sqlite3.connect(DB_PATH)
+    con.execute("""
+        CREATE TABLE IF NOT EXISTS signups (
+            id                INTEGER  PRIMARY KEY AUTOINCREMENT,
+            name              TEXT     NOT NULL,
+            email             TEXT     NOT NULL,
+            persona           TEXT     NOT NULL,
+            timestamp         DATETIME DEFAULT CURRENT_TIMESTAMP,
+            waitlist_position INTEGER  NOT NULL
+        )
+    """)
+    con.commit()
+    con.close()
+
+
+init_db()
 
 MODEL = "openai/gpt-oss-120b"
 
@@ -138,6 +161,31 @@ async def stream_and_tts(aiter, websocket: WebSocket, voice: str, rate: str, pit
             })
 
     return full_text
+
+
+class SignupPayload(BaseModel):
+    name: str
+    email: str
+    persona: str
+
+
+@app.post("/api/signup")
+async def api_signup(payload: SignupPayload):
+    def _insert():
+        con = sqlite3.connect(DB_PATH)
+        try:
+            count = con.execute("SELECT COUNT(*) FROM signups").fetchone()[0]
+            position = 120 + count
+            con.execute(
+                "INSERT INTO signups (name, email, persona, waitlist_position) VALUES (?, ?, ?, ?)",
+                (payload.name, payload.email, payload.persona, position),
+            )
+            con.commit()
+            return position
+        finally:
+            con.close()
+    position = await asyncio.to_thread(_insert)
+    return {"waitlist_position": position}
 
 
 @app.websocket("/ws/chat")

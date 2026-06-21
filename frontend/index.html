@@ -48,23 +48,13 @@
     .detail-tag { display: inline-block; font-size: .74rem; font-weight: 600; padding: 3px 12px; border-radius: 20px; margin-bottom: 12px; }
     .detail-desc { font-size: .88rem; color: #555; line-height: 1.55; text-align: center; margin-bottom: 20px; }
 
-    /* Video preview placeholder */
+    /* Video preview */
     .preview-box { position: relative; background: #1a1a2e; border-radius: 14px; overflow: hidden; aspect-ratio: 16/9; cursor: pointer; margin-bottom: 20px; }
-    .preview-label { position: absolute; top: 10px; left: 12px; font-size: .64rem; font-weight: 700; letter-spacing: 1.2px; color: rgba(255,255,255,.45); text-transform: uppercase; }
-    .preview-idle { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 9px; }
+    .preview-label { position: absolute; top: 10px; left: 12px; font-size: .64rem; font-weight: 700; letter-spacing: 1.2px; color: rgba(255,255,255,.45); text-transform: uppercase; z-index: 2; pointer-events: none; }
     .play-btn { width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,.12); border: 2px solid rgba(255,255,255,.35); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; transition: background .2s, transform .2s; backdrop-filter: blur(4px); }
+    .preview-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 9px; background: rgba(26,26,46,.4); z-index: 1; transition: opacity .2s; }
+    .preview-overlay > span { color: rgba(255,255,255,.8); font-size: .76rem; font-weight: 600; }
     .preview-box:hover .play-btn { background: rgba(255,255,255,.22); transform: scale(1.08); }
-    .preview-idle > span { color: rgba(255,255,255,.7); font-size: .76rem; font-weight: 600; }
-    .preview-playing { position: absolute; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 14px; background: #1a1a2e; }
-    .preview-playing.active { display: flex; }
-    .preview-bars { display: flex; gap: 6px; align-items: flex-end; height: 40px; }
-    .preview-bar { width: 6px; border-radius: 3px; animation: bar-bounce 1s ease-in-out infinite; }
-    @keyframes bar-bounce { 0%,100% { height: 8px; opacity: .6; } 50% { height: 38px; opacity: 1; } }
-    .preview-bar:nth-child(2) { animation-delay: .12s; }
-    .preview-bar:nth-child(3) { animation-delay: .24s; }
-    .preview-bar:nth-child(4) { animation-delay: .36s; }
-    .preview-bar:nth-child(5) { animation-delay: .48s; }
-    .preview-playing > p { color: rgba(255,255,255,.65); font-size: .78rem; }
 
     /* USP list */
     .detail-usps { background: #f5f3ff; border-radius: 14px; padding: 18px 20px; margin-bottom: 20px; }
@@ -123,12 +113,14 @@
     .form-group input:focus { border-color: #5c3dc4; }
     .secure-note { font-size: .75rem; color: #aaa; text-align: center; margin-top: 10px; }
 
-    /* confirm + success views */
-    #signup-confirm-view,
-    #success-view { display: none; text-align: center; padding: 12px 0; }
-    #signup-confirm-view .big-emoji,
-    #success-view .big-emoji { font-size: 3rem; margin-bottom: 14px; }
-    #success-view .queue-number { font-size: 3.5rem; font-weight: 900; color: #5c3dc4; margin: 8px 0; }
+    /* ── WAITLIST CONFIRMATION ── */
+    #success-view { display: none; }
+    .wl-badge { display: inline-block; background: linear-gradient(135deg, #5c3dc4, #9b59b6); color: #fff; font-size: .68rem; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; padding: 4px 14px; border-radius: 20px; }
+    .wl-card-item { flex: 1; background: #f5f3ff; border-radius: 12px; padding: 12px 6px; text-align: center; font-size: .72rem; color: #444; line-height: 1.4; }
+    .wl-card-icon { font-size: 1.25rem; display: block; margin-bottom: 5px; }
+    .wl-position-box { background: linear-gradient(135deg, #5c3dc4, #7c5cbf); border-radius: 14px; padding: 22px 20px; text-align: center; color: #fff; margin: 16px 0; }
+    .btn-copy-link { background: #fff; border: 2px solid #5c3dc4; color: #5c3dc4; padding: 11px 20px; border-radius: 10px; font-size: .88rem; font-weight: 700; cursor: pointer; width: 100%; transition: background .15s; }
+    .btn-copy-link:hover { background: #f3f0ff; }
 
     /* ── MISC ── */
     footer { text-align: center; padding: 32px 24px; color: #bbb; font-size: .8rem; }
@@ -202,48 +194,25 @@
       <div class="secure-note">No credit card required · Free forever</div>
     </div>
 
-    <!-- Step 2: Welcome + reserve offer -->
-    <div id="signup-confirm-view">
-      <div class="big-emoji">🎉</div>
-      <h2>Welcome, <span id="confirm-name"></span>!</h2>
-      <p>Your free account is all set. Lock in early access for just $1 before we launch — or explore free first.</p>
-      <button class="btn btn-primary" style="width:100%;padding:14px;border-radius:12px;margin-bottom:10px" onclick="showPaymentView()">Reserve early access — $1</button>
-      <button class="btn btn-outline" style="width:100%;padding:12px;border-radius:12px" onclick="closeModal()">Maybe later</button>
-    </div>
-
-    <!-- Step 3: Card payment -->
-    <div id="payment-view" style="display:none">
-      <h2>Reserve your spot</h2>
-      <p>Just $1 to lock in early access. No charge until launch.</p>
-      <div class="form-group">
-        <label>Email</label>
-        <input type="email" placeholder="you@example.com" id="pay-email" />
-      </div>
-      <div class="form-group">
-        <label>Card number</label>
-        <input type="text" placeholder="4242 4242 4242 4242" maxlength="19" id="pay-card" oninput="fmtCard(this)" />
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Expiry</label>
-          <input type="text" placeholder="MM/YY" maxlength="5" id="pay-exp" oninput="fmtExp(this)" />
-        </div>
-        <div class="form-group">
-          <label>CVC</label>
-          <input type="text" placeholder="123" maxlength="3" id="pay-cvc" />
-        </div>
-      </div>
-      <button class="btn btn-primary" style="width:100%;padding:14px;border-radius:12px;margin-top:4px" onclick="submitPayment()">Pay $1 &amp; Reserve</button>
-      <div class="secure-note">🔒 Secured by Stripe · We never store your card details</div>
-    </div>
-
-    <!-- Step 4: Queue confirmation -->
+    <!-- Waitlist confirmation -->
     <div id="success-view">
-      <div class="big-emoji">🎊</div>
-      <h2>You're on the queue!</h2>
-      <div class="queue-number" id="queue-number">#—</div>
-      <p>We'll email you at <strong id="queue-email"></strong> when it's your turn.<br>Thank you for believing in us early!</p>
-      <button class="btn btn-primary" style="margin-top:20px;width:100%" onclick="closeModal()">Close</button>
+      <div style="text-align:center;padding:8px 0 16px">
+        <div id="wl-emoji" style="font-size:3.2rem;margin-bottom:10px"></div>
+        <span class="wl-badge">Official Waitlist Member</span>
+        <h2 id="wl-headline" style="font-size:1.4rem;font-weight:800;color:#1a1a2e;margin:12px 0 5px"></h2>
+        <p id="wl-animal-saved" style="font-size:.87rem;color:#555;margin-bottom:3px"></p>
+        <p id="wl-email-confirm" style="font-size:.83rem;color:#999"></p>
+      </div>
+      <div id="wl-cards" style="display:flex;gap:8px;margin:14px 0"></div>
+      <div class="wl-position-box">
+        <div style="font-size:.62rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;opacity:.75;margin-bottom:6px">Your Waitlist Position</div>
+        <div id="wl-position-num" style="font-size:3rem;font-weight:900;line-height:1;margin-bottom:5px">#—</div>
+        <div style="font-size:.78rem;opacity:.85">of a very small founding group 🌟</div>
+      </div>
+      <div style="text-align:center;margin-top:14px">
+        <p id="wl-share-text" style="font-size:.82rem;color:#666;margin-bottom:10px"></p>
+        <button class="btn-copy-link" onclick="copyInviteLink(this)">🔗 Copy invite link</button>
+      </div>
     </div>
   </div>
 </div>
@@ -252,7 +221,7 @@
 // ── PERSONA DATA ──
 const PERSONAS = {
   pip: {
-    id:"pip", name:"Maya & Ember the Fox", emoji:"🦊", photo:"images/fox.jpg",
+    id:"pip", name:"Maya & Ember the Fox", emoji:"🦊", photo:"images/fox.jpg", animal:"Ember", video:"videos/fox.mp4",
     vibe:"Curious & Adventurous", domain:"Early Math & Counting",
     best_for:"🧭 Best for curious explorers",
     desc:"Maya and Ember turn outdoor moments into mini adventures — counting flowers, naming colors, and exploring nature together.",
@@ -261,7 +230,7 @@ const PERSONAS = {
     starters:["How do you teach counting?","What age is Pip best for?","Show me an example","How many minutes a day?"]
   },
   luna: {
-    id:"luna", name:"Grandma Rose & Sage the Owl", emoji:"🦉", photo:"images/owl.jpg",
+    id:"luna", name:"Grandma Rose & Sage the Owl", emoji:"🦉", photo:"images/owl.jpg", animal:"Sage", video:"videos/owl.mp4",
     vibe:"Calm & Watchful", domain:"Gentle Check-Ins & Calm Play",
     best_for:"🦉 Best for calm, watchful care",
     desc:"Grandma Rose and Sage keep things calm and cozy, with gentle check-ins so you know your little one is doing okay.",
@@ -270,7 +239,7 @@ const PERSONAS = {
     starters:["How do check-ins work?","Good for bedtime?","What's quiet play like?","Can you help with anxiety?"]
   },
   bongo: {
-    id:"bongo", name:"Alex & Whiskers the Kitten", emoji:"🐱", photo:"images/kitten.jpg",
+    id:"bongo", name:"Alex & Whiskers the Kitten", emoji:"🐱", photo:"images/kitten.jpg", animal:"Whiskers", video:"videos/kitten.mp4",
     vibe:"Playful & Energetic", domain:"Movement & Active Play",
     best_for:"🏃 Best for high-energy kids",
     desc:"Alex and Whiskers turn screen breaks into movement games — jumping, dancing, and silly energy-burning fun.",
@@ -279,7 +248,7 @@ const PERSONAS = {
     starters:["What games does Bongo do?","How long are breaks?","Good for indoors?","How do you know when to prompt?"]
   },
   coco: {
-    id:"coco", name:"Elena & Truffle the Piglet", emoji:"🐷", photo:"images/piglet.jpg",
+    id:"coco", name:"Elena & Truffle the Piglet", emoji:"🐷", photo:"images/piglet.jpg", animal:"Truffle", video:"videos/piglet.mp4",
     vibe:"Sweet & Imaginative", domain:"Pretend Play & Vocabulary",
     best_for:"🎨 Best for little dreamers",
     desc:"Elena and Truffle love pretend cooking, color hunts, and imaginative play that sparks creativity.",
@@ -348,7 +317,6 @@ function openDetail(personaId) {
   activePersonaId = personaId;
   const p = PERSONAS[personaId];
   const firstName = p.name.split(" ")[0];
-  const barColors = [p.body, p.accent, p.belly, p.body, p.accent];
 
   document.getElementById("detail-view").innerHTML = `
     <div style="text-align:center;padding-top:6px;margin-bottom:18px">
@@ -360,17 +328,18 @@ function openDetail(personaId) {
       <p class="detail-desc" style="margin-top:10px">${p.desc}</p>
     </div>
 
-    <div class="preview-box" onclick="togglePreview('${personaId}')">
+    <div class="preview-box" id="preview-box-${personaId}" onclick="togglePreview('${personaId}')">
       <span class="preview-label">Watch a preview</span>
-      <div class="preview-idle" id="preview-idle-${personaId}">
+      <video id="preview-video-${personaId}"
+             src="${p.video}"
+             preload="none"
+             playsinline
+             webkit-playsinline
+             style="width:100%;height:100%;object-fit:cover;display:block;pointer-events:none">
+      </video>
+      <div class="preview-overlay" id="preview-overlay-${personaId}">
         <div class="play-btn">▶</div>
         <span>See ${firstName} in action</span>
-      </div>
-      <div class="preview-playing" id="preview-playing-${personaId}">
-        <div class="preview-bars">
-          ${barColors.map(c => `<div class="preview-bar" style="background:${c}"></div>`).join("")}
-        </div>
-        <p>Demo playing… ✨</p>
       </div>
     </div>
 
@@ -403,21 +372,16 @@ function chatFromDetail(personaId) {
 }
 
 function togglePreview(personaId) {
-  const idle    = document.getElementById(`preview-idle-${personaId}`);
-  const playing = document.getElementById(`preview-playing-${personaId}`);
-  if (!idle || !playing) return;
-  const isPlaying = playing.classList.contains("active");
-  if (isPlaying) {
-    playing.classList.remove("active");
-    idle.style.display = "flex";
-    clearTimeout(previewTimer);
+  const video   = document.getElementById(`preview-video-${personaId}`);
+  const overlay = document.getElementById(`preview-overlay-${personaId}`);
+  if (!video || !overlay) return;
+  if (video.paused) {
+    video.play().catch(() => {});
+    overlay.style.display = "none";
+    video.onended = () => { overlay.style.display = "flex"; };
   } else {
-    idle.style.display = "none";
-    playing.classList.add("active");
-    previewTimer = setTimeout(() => {
-      playing.classList.remove("active");
-      idle.style.display = "flex";
-    }, 6000);
+    video.pause();
+    overlay.style.display = "flex";
   }
 }
 
@@ -680,11 +644,10 @@ function stopMic() {
 
 // ── MODAL ──
 function setModalView(id) {
-  ["detail-view","signup-view","signup-confirm-view","payment-view","success-view"].forEach(v =>
+  ["detail-view","signup-view","success-view"].forEach(v =>
     document.getElementById(v).style.display = "none"
   );
   document.getElementById(id).style.display = "block";
-  // strip wide class when switching away from detail
   if (id !== "detail-view") {
     document.getElementById("modal-overlay").classList.remove("wide");
   }
@@ -698,42 +661,62 @@ function showSignup() {
 function closeModal() {
   document.getElementById("modal-overlay").classList.remove("open", "wide");
   clearTimeout(previewTimer);
+  document.querySelectorAll(".preview-box video").forEach(v => { v.pause(); v.currentTime = 0; });
 }
 
-function submitSignup() {
+async function submitSignup() {
   const name  = document.getElementById("signup-name").value.trim();
   const email = document.getElementById("signup-email").value.trim();
   if (!name || !email) { alert("Please enter your name and email."); return; }
   signedUpName = name;
   signedUpEmail = email;
-  document.getElementById("confirm-name").textContent = name;
-  document.getElementById("pay-email").value = email;
-  setModalView("signup-confirm-view");
+
+  const btn = document.querySelector("#signup-view .btn-primary");
+  btn.disabled = true;
+  btn.textContent = "Joining…";
+
+  let position;
+  try {
+    const res = await fetch("/api/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, persona: activePersonaId || "pip" }),
+    });
+    const data = await res.json();
+    position = data.waitlist_position;
+  } catch (_) {
+    position = 120 + Math.floor(Math.random() * 20);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Create free account";
+  }
+
+  showWaitlistConfirmation(name, email, activePersonaId || "pip", position);
 }
 
-function showPaymentView() {
-  setModalView("payment-view");
-}
-
-function submitPayment() {
-  const email = document.getElementById("pay-email").value.trim();
-  const card  = document.getElementById("pay-card").value.trim();
-  if (!email || !card) { alert("Please fill in your email and card number."); return; }
-  const queueNum = Math.floor(Math.random() * 747) + 147;
-  document.getElementById("queue-number").textContent = "#" + queueNum;
-  document.getElementById("queue-email").textContent = email;
+function showWaitlistConfirmation(name, email, personaId, position) {
+  const p = PERSONAS[personaId];
+  const animal = p.animal;
+  document.getElementById("wl-emoji").textContent = p.emoji;
+  document.getElementById("wl-headline").textContent = `You're in, ${name}! 🎉`;
+  document.getElementById("wl-animal-saved").textContent = `${animal} is saved especially for your little one.`;
+  document.getElementById("wl-email-confirm").textContent = `Confirmation winging its way to ${email}`;
+  document.getElementById("wl-cards").innerHTML =
+    `<div class="wl-card-item"><span class="wl-card-icon">🔔</span>First to know when ${animal} launches</div>` +
+    `<div class="wl-card-item"><span class="wl-card-icon">🎁</span>Exclusive early-access perks just for you</div>` +
+    `<div class="wl-card-item"><span class="wl-card-icon">💜</span>Your child's ${animal} spot is reserved</div>`;
+  document.getElementById("wl-position-num").textContent = `#${position}`;
+  document.getElementById("wl-share-text").textContent = `Share with a friend who'd love ${animal} too`;
   setModalView("success-view");
 }
 
-function fmtCard(el) {
-  let v = el.value.replace(/\D/g, "").slice(0, 16);
-  el.value = v.match(/.{1,4}/g)?.join(" ") ?? v;
-}
-
-function fmtExp(el) {
-  let v = el.value.replace(/\D/g, "").slice(0, 4);
-  if (v.length >= 3) v = v.slice(0,2) + "/" + v.slice(2);
-  el.value = v;
+function copyInviteLink(btn) {
+  navigator.clipboard.writeText(window.location.href).then(() => {
+    btn.textContent = "Copied! ✓";
+    setTimeout(() => { btn.textContent = "🔗 Copy invite link"; }, 2000);
+  }).catch(() => {
+    prompt("Copy this link:", window.location.href);
+  });
 }
 
 // ── INIT ──
