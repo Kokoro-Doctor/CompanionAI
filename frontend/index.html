@@ -363,6 +363,15 @@ function openDetail(personaId) {
   document.getElementById("modal-overlay").classList.add("wide");
   setModalView("detail-view");
   document.getElementById("modal-overlay").classList.add("open");
+
+  // Synchronous play() inside the card-click gesture handler — browser allows audio.
+  const _vid = document.getElementById(`preview-video-${personaId}`);
+  const _ovr = document.getElementById(`preview-overlay-${personaId}`);
+  if (_vid) {
+    _ovr.style.display = "none";
+    _vid.play().catch(() => { _ovr.style.display = "flex"; });
+    _vid.onended = () => { _ovr.style.display = "flex"; };
+  }
 }
 
 function chatFromDetail(personaId) {
