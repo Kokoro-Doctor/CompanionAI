@@ -127,56 +127,94 @@
 
     /* ── MOBILE DETAIL MODAL (≤768px only) ── */
     @media (max-width: 768px) {
-      /* Full-screen overlay — no backdrop, no centering */
-      .modal-overlay.wide { background: #000; align-items: stretch; justify-content: stretch; }
-
-      /* Modal fills the viewport, no rounding, no padding */
-      .modal-overlay.wide .modal {
-        width: 100%; max-width: 100%;
-        height: 100%; max-height: 100%;
-        border-radius: 0; padding: 0;
-        display: flex; flex-direction: column; overflow: hidden;
+      /* Overlay: full-screen, no backdrop tint, no centering box */
+      .modal-overlay.wide {
+        background: #000;
+        align-items: stretch;
+        justify-content: stretch;
       }
 
-      /* Close button: fixed so it floats above the video regardless of scroll */
+      /* Modal: full viewport, flex column, zero padding/rounding */
+      .modal-overlay.wide .modal {
+        width: 100%;
+        max-width: 100%;
+        height: 100%;
+        max-height: 100%;
+        border-radius: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
+      /* Close (✕): fixed circle always visible above video */
       .modal-overlay.wide .modal-close {
         position: fixed;
         top: max(14px, env(safe-area-inset-top));
         right: 14px;
-        background: rgba(0,0,0,.55); color: #fff;
-        border-radius: 50%; width: 34px; height: 34px;
-        display: flex; align-items: center; justify-content: center;
-        font-size: .85rem; z-index: 400;
+        background: rgba(0, 0, 0, .55);
+        color: #fff;
+        border-radius: 50%;
+        width: 34px;
+        height: 34px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: .85rem;
+        z-index: 400;
       }
 
-      /* Detail view: flex column, fills modal, is the scroll container */
+      /* detail-view fills the modal */
       .modal-overlay.wide #detail-view {
-        flex: 1; display: flex; flex-direction: column;
-        overflow-y: auto; -webkit-overflow-scrolling: touch;
-        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        overflow: hidden;
       }
 
-      /* Video: pulled to top via order:-1, sticky so it never scrolls away,
-         55vh height replaces the 16/9 aspect-ratio */
+      /* Video: fixed 55vh at the top — no scroll, no aspect-ratio, no rounding */
       .modal-overlay.wide .preview-box {
-        order: -1; flex-shrink: 0;
-        height: 55vh; aspect-ratio: auto;
-        border-radius: 0; margin: 0;
-        position: sticky; top: 0; z-index: 1;
+        flex-shrink: 0;
+        width: 100%;
+        height: 55vh;
+        aspect-ratio: auto;
+        border-radius: 0;
+        margin: 0;
       }
 
-      /* Top-info section (flows after video via default order 0,
-         which is greater than the video's order:-1) */
-      .modal-overlay.wide .detail-top-info { padding: 16px 20px 4px; margin: 0; text-align: left; }
-      .modal-overlay.wide .detail-name { text-align: left; }
-      .modal-overlay.wide .detail-desc { text-align: left; margin-bottom: 4px; }
-      /* Circular avatar photo is redundant alongside the full-screen video */
-      .modal-overlay.wide .detail-avatar { display: none; }
+      /* Scrollable content area: takes the remaining 45vh */
+      .modal-overlay.wide .detail-scroll {
+        flex: 1;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        background: #fff;
+        padding: 20px 20px calc(20px + env(safe-area-inset-bottom));
+      }
 
-      /* Scrollable content below video */
-      .modal-overlay.wide .detail-content {
-        padding: 0 20px;
-        padding-bottom: calc(20px + env(safe-area-inset-bottom));
+      /* Typography hierarchy inside the scroll area */
+      .modal-overlay.wide .detail-scroll .detail-name {
+        font-size: 1.3rem;
+        font-weight: 800;
+        margin-bottom: 4px;
+      }
+      .modal-overlay.wide .detail-scroll .detail-desc {
+        font-size: .88rem;
+        color: #555;
+        line-height: 1.55;
+        margin-bottom: 16px;
+      }
+      .modal-overlay.wide .detail-scroll .detail-usps {
+        border-radius: 10px;
+        margin-bottom: 20px;
+      }
+
+      /* CTA: full-width, large, at the bottom of scroll content */
+      .modal-overlay.wide .detail-scroll .btn-choose {
+        width: 100%;
+        padding: 15px;
+        font-size: 1rem;
+        border-radius: 12px;
+        margin-top: 4px;
       }
     }
   </style>
@@ -367,21 +405,8 @@ function startFromDetail(personaId, idx) {
 }
 
 // ── DETAIL MODAL ──
-function openDetail(personaId) {
-  activePersonaId = personaId;
-  const p = PERSONAS[personaId];
-  const firstName = p.name.split(" ")[0];
-
-  document.getElementById("detail-view").innerHTML = `
-    <div class="detail-top-info" style="text-align:center;padding-top:6px;margin-bottom:18px">
-      <div class="detail-avatar" style="background:${p.belly}">
-        <img src="${p.photo}" alt="${p.name}" onerror="this.style.display='none'" />
-      </div>
-      <div class="detail-name" style="color:${p.body}">${p.name}</div>
-      <div><span class="detail-tag" style="background:${p.tag_color};color:${p.body}">${p.best_for}</span></div>
-      <p class="detail-desc" style="margin-top:10px">${p.desc}</p>
-    </div>
-
+function videoHTML(personaId, p, firstName) {
+  return `
     <div class="preview-box" id="preview-box-${personaId}" onclick="togglePreview('${personaId}')">
       <span class="preview-label">Watch a preview</span>
       <video id="preview-video-${personaId}"
@@ -395,27 +420,63 @@ function openDetail(personaId) {
         <div class="play-btn">▶</div>
         <span>See ${firstName} in action</span>
       </div>
-    </div>
+    </div>`;
+}
 
-    <div class="detail-content">
-      <div class="detail-usps">
-        <h4>What ${firstName} actually does</h4>
-        ${p.usps.map(u => `
-          <div class="usp-item">
-            <span class="usp-check" style="color:${p.body}">✓</span>${u}
-          </div>`).join("")}
+function openDetail(personaId) {
+  activePersonaId = personaId;
+  const p = PERSONAS[personaId];
+  const firstName = p.name.split(" ")[0];
+  const isMobile = window.innerWidth <= 768;
+
+  if (isMobile) {
+    // Mobile: video first in DOM so no CSS ordering needed; single scroll wrapper below
+    document.getElementById("detail-view").innerHTML =
+      videoHTML(personaId, p, firstName) + `
+      <div class="detail-scroll">
+        <div class="detail-name" style="color:${p.body}">${p.name}</div>
+        <span class="detail-tag" style="background:${p.tag_color};color:${p.body};display:inline-block;margin-bottom:10px">${p.best_for}</span>
+        <p class="detail-desc" style="text-align:left;margin-bottom:16px">${p.desc}</p>
+        <div class="detail-usps">
+          <h4>What ${firstName} actually does</h4>
+          ${p.usps.map(u => `
+            <div class="usp-item">
+              <span class="usp-check" style="color:${p.body}">✓</span>${u}
+            </div>`).join("")}
+        </div>
+        <button class="btn btn-primary btn-choose" style="background:${p.body};border:none" onclick="chatFromDetail('${personaId}')">
+          Chat with ${firstName} →
+        </button>
+      </div>`;
+  } else {
+    // Desktop: existing layout unchanged — avatar+info above video, usps below
+    document.getElementById("detail-view").innerHTML = `
+      <div class="detail-top-info" style="text-align:center;padding-top:6px;margin-bottom:18px">
+        <div class="detail-avatar" style="background:${p.belly}">
+          <img src="${p.photo}" alt="${p.name}" onerror="this.style.display='none'" />
+        </div>
+        <div class="detail-name" style="color:${p.body}">${p.name}</div>
+        <div><span class="detail-tag" style="background:${p.tag_color};color:${p.body}">${p.best_for}</span></div>
+        <p class="detail-desc" style="margin-top:10px">${p.desc}</p>
       </div>
-
-      <div style="display:flex;flex-direction:column;gap:7px;margin-bottom:20px">
-        <p style="font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#bbb;margin-bottom:4px">Ask to get started</p>
-        ${p.starters.map((s, i) => `<button class="starter-btn" onclick="startFromDetail('${personaId}',${i})">${s}</button>`).join("")}
-      </div>
-
-      <button class="btn btn-primary btn-choose" onclick="chatFromDetail('${personaId}')">
-        Chat with ${firstName} →
-      </button>
-    </div>
-  `;
+      ${videoHTML(personaId, p, firstName)}
+      <div class="detail-content">
+        <div class="detail-usps">
+          <h4>What ${firstName} actually does</h4>
+          ${p.usps.map(u => `
+            <div class="usp-item">
+              <span class="usp-check" style="color:${p.body}">✓</span>${u}
+            </div>`).join("")}
+        </div>
+        <div style="display:flex;flex-direction:column;gap:7px;margin-bottom:20px">
+          <p style="font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#bbb;margin-bottom:4px">Ask to get started</p>
+          ${p.starters.map((s, i) => `<button class="starter-btn" onclick="startFromDetail('${personaId}',${i})">${s}</button>`).join("")}
+        </div>
+        <button class="btn btn-primary btn-choose" onclick="chatFromDetail('${personaId}')">
+          Chat with ${firstName} →
+        </button>
+      </div>`;
+  }
 
   document.getElementById("modal-overlay").classList.add("wide");
   setModalView("detail-view");
