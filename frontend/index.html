@@ -124,6 +124,61 @@
 
     /* ── MISC ── */
     footer { text-align: center; padding: 32px 24px; color: #bbb; font-size: .8rem; }
+
+    /* ── MOBILE DETAIL MODAL (≤768px only) ── */
+    @media (max-width: 768px) {
+      /* Full-screen overlay — no backdrop, no centering */
+      .modal-overlay.wide { background: #000; align-items: stretch; justify-content: stretch; }
+
+      /* Modal fills the viewport, no rounding, no padding */
+      .modal-overlay.wide .modal {
+        width: 100%; max-width: 100%;
+        height: 100%; max-height: 100%;
+        border-radius: 0; padding: 0;
+        display: flex; flex-direction: column; overflow: hidden;
+      }
+
+      /* Close button: fixed so it floats above the video regardless of scroll */
+      .modal-overlay.wide .modal-close {
+        position: fixed;
+        top: max(14px, env(safe-area-inset-top));
+        right: 14px;
+        background: rgba(0,0,0,.55); color: #fff;
+        border-radius: 50%; width: 34px; height: 34px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: .85rem; z-index: 400;
+      }
+
+      /* Detail view: flex column, fills modal, is the scroll container */
+      .modal-overlay.wide #detail-view {
+        flex: 1; display: flex; flex-direction: column;
+        overflow-y: auto; -webkit-overflow-scrolling: touch;
+        min-height: 0;
+      }
+
+      /* Video: pulled to top via order:-1, sticky so it never scrolls away,
+         55vh height replaces the 16/9 aspect-ratio */
+      .modal-overlay.wide .preview-box {
+        order: -1; flex-shrink: 0;
+        height: 55vh; aspect-ratio: auto;
+        border-radius: 0; margin: 0;
+        position: sticky; top: 0; z-index: 1;
+      }
+
+      /* Top-info section (flows after video via default order 0,
+         which is greater than the video's order:-1) */
+      .modal-overlay.wide .detail-top-info { padding: 16px 20px 4px; margin: 0; text-align: left; }
+      .modal-overlay.wide .detail-name { text-align: left; }
+      .modal-overlay.wide .detail-desc { text-align: left; margin-bottom: 4px; }
+      /* Circular avatar photo is redundant alongside the full-screen video */
+      .modal-overlay.wide .detail-avatar { display: none; }
+
+      /* Scrollable content below video */
+      .modal-overlay.wide .detail-content {
+        padding: 0 20px;
+        padding-bottom: calc(20px + env(safe-area-inset-bottom));
+      }
+    }
   </style>
 </head>
 <body>
@@ -318,7 +373,7 @@ function openDetail(personaId) {
   const firstName = p.name.split(" ")[0];
 
   document.getElementById("detail-view").innerHTML = `
-    <div style="text-align:center;padding-top:6px;margin-bottom:18px">
+    <div class="detail-top-info" style="text-align:center;padding-top:6px;margin-bottom:18px">
       <div class="detail-avatar" style="background:${p.belly}">
         <img src="${p.photo}" alt="${p.name}" onerror="this.style.display='none'" />
       </div>
@@ -342,22 +397,24 @@ function openDetail(personaId) {
       </div>
     </div>
 
-    <div class="detail-usps">
-      <h4>What ${firstName} actually does</h4>
-      ${p.usps.map(u => `
-        <div class="usp-item">
-          <span class="usp-check" style="color:${p.body}">✓</span>${u}
-        </div>`).join("")}
-    </div>
+    <div class="detail-content">
+      <div class="detail-usps">
+        <h4>What ${firstName} actually does</h4>
+        ${p.usps.map(u => `
+          <div class="usp-item">
+            <span class="usp-check" style="color:${p.body}">✓</span>${u}
+          </div>`).join("")}
+      </div>
 
-    <div style="display:flex;flex-direction:column;gap:7px;margin-bottom:20px">
-      <p style="font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#bbb;margin-bottom:4px">Ask to get started</p>
-      ${p.starters.map((s, i) => `<button class="starter-btn" onclick="startFromDetail('${personaId}',${i})">${s}</button>`).join("")}
-    </div>
+      <div style="display:flex;flex-direction:column;gap:7px;margin-bottom:20px">
+        <p style="font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#bbb;margin-bottom:4px">Ask to get started</p>
+        ${p.starters.map((s, i) => `<button class="starter-btn" onclick="startFromDetail('${personaId}',${i})">${s}</button>`).join("")}
+      </div>
 
-    <button class="btn btn-primary btn-choose" onclick="chatFromDetail('${personaId}')">
-      Chat with ${firstName} →
-    </button>
+      <button class="btn btn-primary btn-choose" onclick="chatFromDetail('${personaId}')">
+        Chat with ${firstName} →
+      </button>
+    </div>
   `;
 
   document.getElementById("modal-overlay").classList.add("wide");
