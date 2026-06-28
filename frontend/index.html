@@ -127,6 +127,7 @@
     .popup-caret { width: 0; height: 0; border-left: 8px solid transparent; border-right: 8px solid transparent; border-top: 8px solid #1a1a2e; margin: 0 auto; }
 
     @media (max-width: 960px) {
+      .card-hover-popup { display: none !important; }
       .card-grid { grid-template-columns: 1fr 1fr; }
       .expanded-layout { grid-template-columns: 1fr; }
       .exp-col:not(:last-child) { border-right: none; border-bottom: 1px solid #f0f0f0; }
@@ -1383,6 +1384,7 @@ function _destroyPopup() {
 }
 
 function setupCardHovers() {
+  if ('ontouchstart' in window || navigator.maxTouchPoints > 0) return;
   Object.keys(CARD_VIDEO_SRC).forEach(cardId => {
     const cardTop = document.querySelector("#card-" + cardId + " .card-top");
     if (!cardTop) return;
