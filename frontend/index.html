@@ -6,7 +6,7 @@
   <title>Companion — AI Friends for Little Minds</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f9f7ff; color: #2d2d2d; min-height: 100vh; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: #F5F4FF; color: #1a1a2e; min-height: 100vh; }
 
     /* ── NAV ── */
     nav { display: flex; justify-content: space-between; align-items: center; padding: 16px 32px; background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,.07); position: sticky; top: 0; z-index: 100; }
@@ -19,27 +19,119 @@
     .btn-sm { padding: 7px 16px; font-size: .82rem; }
 
     /* ── HERO ── */
-    .hero { text-align: center; padding: 64px 24px 32px; }
-    .hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; color: #1a1a2e; line-height: 1.2; }
-    .hero h1 span { color: #5c3dc4; }
-    .hero p { margin-top: 16px; font-size: 1.1rem; color: #555; max-width: 560px; margin-inline: auto; }
+    .hero { text-align: center; padding: 72px 24px 60px; max-width: 700px; margin: 0 auto; position: relative; z-index: 10; }
+    .hero-heading { display: flex; flex-direction: column; align-items: center; gap: 6px; margin-bottom: 20px; }
+    .hero-line { font-size: clamp(30px, 5.2vw, 50px); font-weight: 800; line-height: 1.15; letter-spacing: -.6px; color: #0f0b1e; opacity: 0; transform: translateY(20px); animation: heroIn .7s ease forwards; }
+    .hero-line:nth-child(1) { animation-delay: .1s; }
+    .hero-line:nth-child(2) { animation-delay: .35s; }
+    .hero-line:nth-child(3) { animation-delay: .6s; }
+    .hero-accent { color: #6c2eff; }
+    .hero > p { font-size: 17px; color: #666; line-height: 1.65; max-width: 480px; margin: 0 auto; opacity: 0; transform: translateY(15px); animation: heroIn .7s ease forwards; animation-delay: .95s; }
+    @keyframes heroIn { to { opacity: 1; transform: translateY(0); } }
 
-    /* ── PERSONA CARDS ── */
-    .cards-section { padding: 40px 24px 64px; }
-    .cards-section h2 { text-align: center; font-size: 1.5rem; font-weight: 700; margin-bottom: 28px; color: #1a1a2e; }
-    .cards { display: flex; flex-wrap: wrap; gap: 24px; justify-content: center; max-width: 1200px; margin: 0 auto; }
-    .card { background: #fff; border-radius: 20px; padding: 28px 24px; width: 280px; cursor: pointer; box-shadow: 0 2px 12px rgba(0,0,0,.07); border: 2px solid transparent; transition: transform .2s, border-color .2s, box-shadow .2s; text-align: center; }
-    .card:hover { transform: translateY(-5px); box-shadow: 0 10px 28px rgba(0,0,0,.12); }
-    .card.selected { border-color: #5c3dc4; box-shadow: 0 0 0 3px rgba(92,61,196,.2); }
-    .card-avatar { width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 18px; overflow: hidden; }
-    .card-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 5px; }
-    .card .vibe { font-size: .8rem; color: #888; margin-bottom: 12px; }
-    .tag { display: inline-block; font-size: .72rem; font-weight: 600; padding: 3px 10px; border-radius: 20px; margin-bottom: 10px; }
-    .card p { font-size: .85rem; color: #666; line-height: 1.45; }
-    .starters { margin-top: 14px; display: flex; flex-direction: column; gap: 6px; }
-    .starter-btn { background: #f3f0ff; border: none; border-radius: 8px; padding: 6px 9px; font-size: .74rem; color: #5c3dc4; cursor: pointer; text-align: left; transition: background .15s; }
-    .starter-btn:hover { background: #e4ddff; }
+    /* ── SECTION HEADER ── */
+    .section { max-width: 1160px; margin: 0 auto; padding: 0 24px 80px; }
+    .section-title { text-align: center; font-size: 22px; font-weight: 700; color: #0f0b1e; margin-bottom: 10px; }
+    .section-header-wrap { position: relative; text-align: center; }
+    .header-spark { position: absolute; width: 7px; height: 7px; border-radius: 50%; background: #FFD93D; animation: sparkFloat 2.6s ease-in-out infinite; }
+    .header-spark.s1 { top: -6px; left: 38%; }
+    .header-spark.s2 { top: 10px; right: 30%; animation-delay: .8s; background: #a78bfa; }
+    @keyframes sparkFloat { 0%,100% { opacity: .3; transform: translateY(0) scale(.8); } 50% { opacity: 1; transform: translateY(-6px) scale(1.15); } }
+    .section-underline { width: 60px; height: 4px; background: linear-gradient(90deg, #6c2eff, #a78bfa); border-radius: 4px; margin: 0 auto 14px; transform: scaleX(0); transition: transform .6s ease .3s; }
+    .section-underline.in-view { transform: scaleX(1); }
+    .section-tagline { font-size: 17px; font-weight: 700; color: #1a1a2e; margin-bottom: 6px; opacity: 0; transform: translateY(14px); transition: opacity .6s ease, transform .6s ease; }
+    .section-hint { font-size: 14px; color: #888; margin-bottom: 36px; opacity: 0; transform: translateY(14px); transition: opacity .6s ease .15s, transform .6s ease .15s; }
+    .section-tagline.in-view, .section-hint.in-view { opacity: 1; transform: translateY(0); }
+
+    /* ── EXPANDABLE PERSONA CARDS ── */
+    .card-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; align-items: start; }
+
+    .persona-card { background: #fff; border-radius: 20px; border: 2px solid transparent; overflow: hidden; position: relative; transition: border-color .2s, box-shadow .2s, transform .2s; }
+    .persona-card:not(.expanded):hover { box-shadow: 0 10px 28px rgba(0,0,0,.1); cursor: pointer; transform: translateY(-3px); }
+    .persona-card.expanded { border-color: var(--accent); box-shadow: 0 8px 32px rgba(0,0,0,.11); grid-column: 1/-1; }
+
+    .card-top { padding: 24px 20px 20px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; cursor: pointer; }
+    .persona-card.expanded .card-top { flex-direction: row; text-align: left; gap: 20px; align-items: center; padding: 22px 28px 20px; border-bottom: 1px solid #f0f0f0; }
+
+    .card-avatar-img { width: 88px; height: 88px; border-radius: 50%; border: 3px solid var(--accent); overflow: hidden; flex-shrink: 0; transition: transform .2s, box-shadow .2s; }
+    .card-avatar-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .persona-card.expanded .card-avatar-img { width: 66px; height: 66px; }
+
+    .card-text { flex: 1; min-width: 0; }
+    .card-name { font-size: 15px; font-weight: 700; color: var(--accent); margin: 0 0 3px; }
+    .card-vibe { font-size: 13px; color: #888; margin: 0 0 8px; }
+    .best-for { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; color: var(--accent); background: var(--accent-light); padding: 4px 10px; border-radius: 20px; }
+
+    .card-chevron { width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid #e8e8e8; display: flex; align-items: center; justify-content: center; color: #bbb; font-size: 13px; flex-shrink: 0; transition: transform .3s, border-color .2s, color .2s; }
+    .persona-card.expanded .card-chevron { transform: rotate(180deg); border-color: var(--accent); color: var(--accent); }
+
+    .hover-peek { max-height: 0; overflow: hidden; opacity: 0; transition: max-height .3s ease, opacity .25s ease; padding: 0 22px; }
+    .persona-card:not(.expanded):hover .hover-peek { max-height: 150px; opacity: 1; padding: 0 22px 18px; }
+    .hover-peek ul { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+    .hover-peek li { font-size: 12px; color: #555; padding-left: 15px; position: relative; line-height: 1.4; opacity: 0; }
+    .hover-peek li::before { content: ''; position: absolute; left: 0; top: 6px; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+    .hover-peek .peek-label { font-size: 10px; font-weight: 700; color: #bbb; text-transform: uppercase; letter-spacing: .6px; margin-bottom: 8px; }
+    .persona-card:not(.expanded):hover .hover-peek li { animation: peekSlide .3s ease forwards; }
+    .persona-card:not(.expanded):hover .hover-peek li:nth-child(2) { animation-delay: .05s; }
+    .persona-card:not(.expanded):hover .hover-peek li:nth-child(3) { animation-delay: .15s; }
+    .persona-card:not(.expanded):hover .hover-peek li:nth-child(4) { animation-delay: .25s; }
+    @keyframes peekSlide { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: translateX(0); } }
+    .persona-card:not(.expanded):hover .card-avatar-img { animation: avatarBounce .6s ease; box-shadow: 0 0 0 8px var(--accent-light); }
+    @keyframes avatarBounce { 0%,100% { transform: scale(1) rotate(0deg); } 30% { transform: scale(1.12) rotate(-6deg); } 60% { transform: scale(1.05) rotate(4deg); } }
+    .persona-card:not(.expanded):hover .card-chevron { animation: chevronBounce .6s ease; }
+    @keyframes chevronBounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(3px); } }
+
+    .card-body { max-height: 0; overflow: hidden; transition: max-height .38s ease; }
+    .persona-card.expanded .card-body { max-height: 1900px; }
+
+    .hook { padding: 28px 32px 24px; border-bottom: 1px solid #f0f0f0; background: #fafafa; }
+    .hook-questions { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+    .hook-q { font-size: 17px; font-weight: 700; color: #1a1a2e; line-height: 1.35; }
+    .hook-resolution { font-size: 17px; font-weight: 800; color: var(--accent); margin-top: 6px; line-height: 1.35; }
+
+    .card-video-block { padding: 20px 32px; border-bottom: 1px solid #f0f0f0; }
+    .card-video-wrap { position: relative; width: 100%; padding-top: 56.25%; border-radius: 14px; overflow: hidden; background: #15132a; box-shadow: 0 6px 18px rgba(0,0,0,.12); }
+    .card-video-wrap video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+    .video-caption { text-align: center; color: var(--accent); font-size: 13px; font-weight: 700; margin-top: 10px; opacity: 0; transform: translateY(6px); transition: opacity .4s ease, transform .4s ease; }
+    .video-caption.show { opacity: 1; transform: translateY(0); }
+
+    .expanded-layout { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; }
+    .exp-col { padding: 24px 28px 28px; }
+    .exp-col:not(:last-child) { border-right: 1px solid #f0f0f0; }
+    .col-title { font-size: 10px; font-weight: 700; color: #aaa; text-transform: uppercase; letter-spacing: .7px; margin: 0 0 16px; }
+
+    .checklist { list-style: none; display: flex; flex-direction: column; gap: 11px; }
+    .checklist li { display: flex; align-items: flex-start; gap: 10px; font-size: 13.5px; color: #2d2d2d; line-height: 1.45; }
+    .check-icon { width: 20px; height: 20px; border-radius: 50%; background: var(--accent-light); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+    .check-icon svg { width: 10px; height: 10px; }
+    .bridge { font-size: 13px; color: #666; font-style: italic; margin-top: 16px; line-height: 1.5; padding-top: 14px; border-top: 1px solid #f0f0f0; }
+
+    .faq-list { display: flex; flex-direction: column; gap: 0; }
+    .faq-item { border-bottom: 1px solid #efefef; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-btn { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 0; background: none; border: none; cursor: pointer; font-family: inherit; text-align: left; font-size: 13px; font-weight: 600; color: var(--accent); line-height: 1.35; transition: opacity .15s, transform .15s; }
+    .faq-btn:hover { opacity: .8; transform: translateX(2px); }
+
+    .interview-cta { padding: 22px 32px 30px; text-align: center; background: #fafafa; border-top: 1px solid #f0f0f0; }
+    .interview-hint { font-size: 12px; color: #999; margin-bottom: 10px; }
+    .interview-btn { background: var(--accent); color: #fff; border: none; padding: 13px 28px; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; transition: transform .15s, box-shadow .15s; }
+    .interview-btn:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 10px 22px rgba(0,0,0,.16); }
+
+    /* ── HOVER VIDEO POPUP ── */
+    .card-hover-popup { position: fixed; width: 280px; z-index: 500; opacity: 0; pointer-events: auto; transition: opacity .2s ease, transform .2s ease; }
+    .card-hover-popup.visible { opacity: 1; }
+    .popup-inner { border-radius: 14px; overflow: hidden; background: #1a1a2e; box-shadow: 0 8px 32px rgba(0,0,0,.3); position: relative; }
+    .popup-inner video { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
+    .popup-mute-btn { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,.55); color: #fff; border: none; border-radius: 50%; width: 30px; height: 30px; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10; }
+    .popup-label { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,.55); color: #fff; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; white-space: nowrap; pointer-events: none; }
+    .popup-caret { width: 0; height: 0; border-left: 8px solid transparent; border-right: 8px solid transparent; border-top: 8px solid #1a1a2e; margin: 0 auto; }
+
+    @media (max-width: 960px) {
+      .card-grid { grid-template-columns: 1fr 1fr; }
+      .expanded-layout { grid-template-columns: 1fr; }
+      .exp-col:not(:last-child) { border-right: none; border-bottom: 1px solid #f0f0f0; }
+    }
+    @media (max-width: 540px) { .card-grid { grid-template-columns: 1fr; } }
 
     /* ── PERSONA DETAIL (lives inside the modal) ── */
     .detail-avatar { width: 100px; height: 100px; border-radius: 50%; overflow: hidden; margin: 0 auto 16px; box-shadow: 0 4px 16px rgba(0,0,0,.13); }
@@ -240,15 +332,302 @@
 
 <!-- LANDING PAGE -->
 <div id="landing">
-  <section class="hero">
-    <h1>AI Friends for<br><span>Little Minds</span></h1>
-    <p>Safe, joyful AI companions that talk, listen, and grow with your child — one conversation at a time.</p>
-  </section>
 
-  <section class="cards-section">
-    <h2>Meet the Companions</h2>
-    <div class="cards" id="persona-cards"></div>
-  </section>
+  <div class="hero">
+    <h1 class="hero-heading">
+      <span class="hero-line">Not just a screen.</span>
+      <span class="hero-line">Not just a show.</span>
+      <span class="hero-line hero-accent">A friend who helps your little one grow.</span>
+    </h1>
+    <p>Every companion is a specialist. Not a generalist. Built for one skill, obsessed with one outcome — and ready to show your child what that looks like up close.</p>
+  </div>
+
+  <div class="section">
+    <div class="section-header-wrap">
+      <span class="header-spark s1"></span>
+      <span class="header-spark s2"></span>
+      <p class="section-title">Meet the Companions</p>
+      <div class="section-underline" id="sectionUnderline"></div>
+      <p class="section-tagline" id="sectionTagline">Every companion. One superpower. One less thing to worry about.</p>
+      <p class="section-hint" id="sectionHint">Hover to see what they do. Click to see them in action.</p>
+    </div>
+
+    <div class="card-grid">
+
+      <!-- ── MAYA (pip) ── -->
+      <div class="persona-card" id="card-maya" style="--accent:#C1440E;--accent-light:#FFF4EF">
+        <div class="card-top" onclick="toggleCard('maya')">
+          <div class="card-avatar-img"><img src="images/fox.jpg" alt="Maya & Ember the Fox" /></div>
+          <div class="card-text">
+            <p class="card-name">Maya &amp; Ember the Fox</p>
+            <p class="card-vibe">Curious &amp; Adventurous</p>
+            <span class="best-for">🧭 Best for curious explorers</span>
+          </div>
+          <div class="card-chevron">&#8964;</div>
+        </div>
+        <div class="hover-peek">
+          <p class="peek-label">Quick peek</p>
+          <ul>
+            <li>Closes the #1 kindergarten readiness gap</li>
+            <li>Turns daily walks into counting practice</li>
+            <li>Just 3–5 minutes, zero worksheets</li>
+          </ul>
+        </div>
+        <div class="card-body">
+          <div class="hook">
+            <div class="hook-questions">
+              <p class="hook-q">Can your child count to 10 but freeze when you ask "how many"?</p>
+              <p class="hook-q">Are you scared he'll start school already behind?</p>
+              <p class="hook-q">Tired of flashcards he forgets in five minutes?</p>
+            </div>
+            <p class="hook-resolution">The wait is over. Maya &amp; Ember are here.</p>
+          </div>
+          <div class="card-video-block" id="cvb-maya">
+            <div class="card-video-wrap" id="cvw-maya"></div>
+            <p class="video-caption" id="vcap-maya">✨ That's a real counting adventure! ✨</p>
+          </div>
+          <div class="expanded-layout">
+            <div class="exp-col">
+              <p class="col-title">Sound familiar?</p>
+              <ul class="checklist">
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#C1440E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>He counts to 10 perfectly — then freezes when you ask "how many is this?"</li>
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#C1440E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Flashcards bore him in under two minutes</li>
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#C1440E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Kindergarten's getting closer, and so is the worry</li>
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#C1440E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>You don't have 30 minutes a day — just a few</li>
+              </ul>
+              <p class="bridge">Maya &amp; Ember turn those exact moments into real progress — one short walk at a time.</p>
+            </div>
+            <div class="exp-col">
+              <p class="col-title">What Maya actually does</p>
+              <ul class="checklist">
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#C1440E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Closes the #1 kindergarten readiness gap: real number sense</li>
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#C1440E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Turns daily walks into counting practice</li>
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#C1440E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Just 3–5 minutes, zero worksheets</li>
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#C1440E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Built for ages 3–6</li>
+              </ul>
+            </div>
+            <div class="exp-col">
+              <p class="col-title">Ask yourself this</p>
+              <div class="faq-list">
+                <div class="faq-item"><button class="faq-btn" onclick="openFaqToChat('maya',this)">"Is my child actually behind, or just not interested?" <span>💬</span></button></div>
+                <div class="faq-item"><button class="faq-btn" onclick="openFaqToChat('maya',this)">"What's the difference between counting and 'getting' numbers?" <span>💬</span></button></div>
+                <div class="faq-item"><button class="faq-btn" onclick="openFaqToChat('maya',this)">"How fast will I really see a difference?" <span>💬</span></button></div>
+              </div>
+            </div>
+          </div>
+          <div class="interview-cta">
+            <p class="interview-hint">Ready to see it for yourself?</p>
+            <button class="interview-btn" onclick="startInterview('maya')">Start talking to Maya &amp; Ember →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── GRANDMA ROSE (luna) ── -->
+      <div class="persona-card" id="card-rose" style="--accent:#7C6FCE;--accent-light:#F3F0FF">
+        <div class="card-top" onclick="toggleCard('rose')">
+          <div class="card-avatar-img"><img src="images/owl.jpg" alt="Grandma Rose & Sage the Owl" /></div>
+          <div class="card-text">
+            <p class="card-name">Grandma Rose &amp; Sage the Owl</p>
+            <p class="card-vibe">Calm &amp; Watchful</p>
+            <span class="best-for">🦉 Best for calm, watchful care</span>
+          </div>
+          <div class="card-chevron">&#8964;</div>
+        </div>
+        <div class="hover-peek">
+          <p class="peek-label">Quick peek</p>
+          <ul>
+            <li>Steps in at the #1 tantrum trigger: bedtime</li>
+            <li>Calmly reinforces what you've already asked</li>
+            <li>Simple breathing exercises for big feelings</li>
+          </ul>
+        </div>
+        <div class="card-body">
+          <div class="hook">
+            <div class="hook-questions">
+              <p class="hook-q">Is your child struggling to wind down at night?</p>
+              <p class="hook-q">Feeling disconnected from what they're actually feeling?</p>
+              <p class="hook-q">Wishing someone could just gently check in?</p>
+            </div>
+            <p class="hook-resolution">Grandma Rose &amp; Sage are always watching over.</p>
+          </div>
+          <div class="card-video-block" id="cvb-rose">
+            <div class="card-video-wrap" id="cvw-rose"></div>
+            <p class="video-caption" id="vcap-rose">✨ Calm achieved, crisis averted ✨</p>
+          </div>
+          <div class="expanded-layout">
+            <div class="exp-col">
+              <p class="col-title">Sound familiar?</p>
+              <ul class="checklist">
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#7C6FCE" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Bedtime turns into a battle, every single night</li>
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#7C6FCE" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Emotional outbursts and you don't know how to help</li>
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#7C6FCE" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>No time to sit down and really check in</li>
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#7C6FCE" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>You don't always know how they're really feeling</li>
+              </ul>
+              <p class="bridge">Grandma Rose &amp; Sage step in for exactly these moments — calm, steady, right when you need it.</p>
+            </div>
+            <div class="exp-col">
+              <p class="col-title">What Grandma Rose actually does</p>
+              <ul class="checklist">
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#7C6FCE" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Gentle daily check-ins your child actually looks forward to</li>
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#7C6FCE" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Calm wind-down routines for bedtime</li>
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#7C6FCE" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Builds emotional vocabulary — helping kids say what they feel</li>
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#7C6FCE" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Built for ages 3–6</li>
+              </ul>
+            </div>
+            <div class="exp-col">
+              <p class="col-title">Ask yourself this</p>
+              <div class="faq-list">
+                <div class="faq-item"><button class="faq-btn" onclick="openFaqToChat('rose',this)">"How do check-ins actually work?" <span>💬</span></button></div>
+                <div class="faq-item"><button class="faq-btn" onclick="openFaqToChat('rose',this)">"Is this good for bedtime?" <span>💬</span></button></div>
+                <div class="faq-item"><button class="faq-btn" onclick="openFaqToChat('rose',this)">"What if my child won't talk?" <span>💬</span></button></div>
+              </div>
+            </div>
+          </div>
+          <div class="interview-cta">
+            <p class="interview-hint">Ready to see it for yourself?</p>
+            <button class="interview-btn" onclick="startInterview('rose')">Start talking to Grandma Rose →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── ALEX (bongo) ── -->
+      <div class="persona-card" id="card-alex" style="--accent:#A9744F;--accent-light:#FFF7F0">
+        <div class="card-top" onclick="toggleCard('alex')">
+          <div class="card-avatar-img"><img src="images/kitten.jpg" alt="Alex & Whiskers the Kitten" /></div>
+          <div class="card-text">
+            <p class="card-name">Alex &amp; Whiskers the Kitten</p>
+            <p class="card-vibe">Playful &amp; Energetic</p>
+            <span class="best-for">🏃 Best for high-energy kids</span>
+          </div>
+          <div class="card-chevron">&#8964;</div>
+        </div>
+        <div class="hover-peek">
+          <p class="peek-label">Quick peek</p>
+          <ul>
+            <li>Fixes the top screen-time fear: too much sitting</li>
+            <li>2–5 min jumping &amp; dancing games</li>
+            <li>Builds focus back after sitting too long</li>
+          </ul>
+        </div>
+        <div class="card-body">
+          <div class="hook">
+            <div class="hook-questions">
+              <p class="hook-q">Is your child glued to a screen for hours?</p>
+              <p class="hook-q">Bouncing off the walls with nowhere to put the energy?</p>
+              <p class="hook-q">Too wound up to focus?</p>
+            </div>
+            <p class="hook-resolution">Alex &amp; Whiskers are here to get them moving.</p>
+          </div>
+          <div class="card-video-block" id="cvb-alex">
+            <div class="card-video-wrap" id="cvw-alex"></div>
+            <p class="video-caption" id="vcap-alex">✨ Energy: officially burned ✨</p>
+          </div>
+          <div class="expanded-layout">
+            <div class="exp-col">
+              <p class="col-title">Sound familiar?</p>
+              <ul class="checklist">
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#A9744F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>He's been on the couch since breakfast</li>
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#A9744F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>He's wired with nowhere to put the energy</li>
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#A9744F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>He can't sit still even for five minutes</li>
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#A9744F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>You're exhausted just watching him</li>
+              </ul>
+              <p class="bridge">Alex &amp; Whiskers turn that energy into movement — no fight required.</p>
+            </div>
+            <div class="exp-col">
+              <p class="col-title">What Alex actually does</p>
+              <ul class="checklist">
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#A9744F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Screen breaks that actually move little bodies</li>
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#A9744F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Jumping, dancing, spinning games he loves</li>
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#A9744F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Short 3–5 minute bursts of real fun</li>
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#A9744F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Built for ages 3–6</li>
+              </ul>
+            </div>
+            <div class="exp-col">
+              <p class="col-title">Ask yourself this</p>
+              <div class="faq-list">
+                <div class="faq-item"><button class="faq-btn" onclick="openFaqToChat('alex',this)">"What movement games does Alex do?" <span>💬</span></button></div>
+                <div class="faq-item"><button class="faq-btn" onclick="openFaqToChat('alex',this)">"Good for small spaces/indoors?" <span>💬</span></button></div>
+                <div class="faq-item"><button class="faq-btn" onclick="openFaqToChat('alex',this)">"How long are the breaks?" <span>💬</span></button></div>
+              </div>
+            </div>
+          </div>
+          <div class="interview-cta">
+            <p class="interview-hint">Ready to see it for yourself?</p>
+            <button class="interview-btn" onclick="startInterview('alex')">Start talking to Alex &amp; Whiskers →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── ELENA (coco) ── -->
+      <div class="persona-card" id="card-elena" style="--accent:#C2607D;--accent-light:#FFF0F4">
+        <div class="card-top" onclick="toggleCard('elena')">
+          <div class="card-avatar-img"><img src="images/piglet.jpg" alt="Elena & Truffle the Piglet" /></div>
+          <div class="card-text">
+            <p class="card-name">Elena &amp; Truffle the Piglet</p>
+            <p class="card-vibe">Sweet &amp; Imaginative</p>
+            <span class="best-for">🎨 Best for little dreamers</span>
+          </div>
+          <div class="card-chevron">&#8964;</div>
+        </div>
+        <div class="hover-peek">
+          <p class="peek-label">Quick peek</p>
+          <ul>
+            <li>More screen time means fewer words — this flips that</li>
+            <li>Real back-and-forth talk, not passive watching</li>
+            <li>Builds vocabulary through pretend play</li>
+          </ul>
+        </div>
+        <div class="card-body">
+          <div class="hook">
+            <div class="hook-questions">
+              <p class="hook-q">Is your child's vocabulary smaller than their classmates'?</p>
+              <p class="hook-q">Do they struggle to express what they mean?</p>
+              <p class="hook-q">Pretend play feeling flat and repetitive?</p>
+            </div>
+            <p class="hook-resolution">Elena &amp; Truffle are ready to play.</p>
+          </div>
+          <div class="card-video-block" id="cvb-elena">
+            <div class="card-video-wrap" id="cvw-elena"></div>
+            <p class="video-caption" id="vcap-elena">✨ Vocabulary: leveled up ✨</p>
+          </div>
+          <div class="expanded-layout">
+            <div class="exp-col">
+              <p class="col-title">Sound familiar?</p>
+              <ul class="checklist">
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#C2607D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>His vocabulary feels limited compared to other kids</li>
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#C2607D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>He struggles to find words for what he means</li>
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#C2607D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Pretend play runs out of ideas quickly</li>
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#C2607D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Screen time is filling the gap, and you know it</li>
+              </ul>
+              <p class="bridge">Elena &amp; Truffle turn pretend play into the back-and-forth talk he's missing.</p>
+            </div>
+            <div class="exp-col">
+              <p class="col-title">What Elena actually does</p>
+              <ul class="checklist">
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#C2607D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Pretend cooking, color hunts, imaginative play he loves</li>
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#C2607D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Introduces new descriptive words every session</li>
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#C2607D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Sparks creativity and storytelling</li>
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#C2607D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Built for ages 3–6</li>
+              </ul>
+            </div>
+            <div class="exp-col">
+              <p class="col-title">Ask yourself this</p>
+              <div class="faq-list">
+                <div class="faq-item"><button class="faq-btn" onclick="openFaqToChat('elena',this)">"How do you build vocabulary through play?" <span>💬</span></button></div>
+                <div class="faq-item"><button class="faq-btn" onclick="openFaqToChat('elena',this)">"What does a typical session look like?" <span>💬</span></button></div>
+                <div class="faq-item"><button class="faq-btn" onclick="openFaqToChat('elena',this)">"Good for shy or quiet kids?" <span>💬</span></button></div>
+              </div>
+            </div>
+          </div>
+          <div class="interview-cta">
+            <p class="interview-hint">Ready to see it for yourself?</p>
+            <button class="interview-btn" onclick="startInterview('elena')">Start talking to Elena &amp; Truffle →</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- .card-grid -->
+  </div><!-- .section -->
 
   <footer>© 2025 Companion. All rights reserved.</footer>
 </div>
@@ -378,7 +757,7 @@ let previewObserver = null;
 const WS_URL = (window.location.protocol === "https:" ? "wss:" : "ws:")
   + "//" + window.location.host + "/ws/chat";
 
-// ── SCREEN ROUTER (landing ↔ chat only; detail lives in the modal) ──
+// ── SCREEN ROUTER ──
 function showScreen(id) {
   ["landing", "chat-screen"].forEach(s =>
     document.getElementById(s).style.display = "none"
@@ -388,26 +767,91 @@ function showScreen(id) {
   window.scrollTo(0, 0);
 }
 
-// ── PERSONA CARDS ──
-function renderCards() {
-  const container = document.getElementById("persona-cards");
-  container.innerHTML = "";
-  Object.values(PERSONAS).forEach(p => {
-    const card = document.createElement("div");
-    card.className = "card";
-    card.dataset.id = p.id;
-    card.innerHTML = `
-      <div class="card-avatar" style="background:${p.belly}">
-        <img src="${p.photo}" alt="${p.name}" onerror="this.style.display='none'" />
-      </div>
-      <h3 style="color:${p.body}">${p.name}</h3>
-      <div class="vibe">${p.vibe}</div>
-      <div class="tag" style="background:${p.tag_color};color:${p.body}">${p.best_for}</div>
-    `;
-    card.addEventListener("click", () => openDetail(p.id));
-    container.appendChild(card);
-  });
+// ── EXPANDABLE CARDS ──
+const CARD_TO_PERSONA = { maya: "pip", rose: "luna", alex: "bongo", elena: "coco" };
+const CARD_VIDEO_SRC  = { maya: "videos/fox.mp4", rose: "videos/owl.mp4", alex: "videos/kitten.mp4", elena: "videos/piglet.mp4" };
+let openCardId = null;
+
+function toggleCard(id) {
+  if (openCardId === id) { collapseCard(id); openCardId = null; return; }
+  if (openCardId) collapseCard(openCardId);
+  expandCard(id);
+  openCardId = id;
 }
+function expandCard(id) {
+  document.getElementById("card-" + id).classList.add("expanded");
+  playCardVideo(id);
+  setTimeout(() => document.getElementById("card-" + id).scrollIntoView({ behavior: "smooth", block: "nearest" }), 60);
+}
+function collapseCard(id) {
+  document.getElementById("card-" + id).classList.remove("expanded");
+  resetCardVideo(id);
+}
+function resetCardVideo(id) {
+  const wrap = document.getElementById("cvw-" + id);
+  if (!wrap) return;
+  const vid = wrap.querySelector("video");
+  if (vid) { vid.pause(); vid.src = ""; }
+  wrap.innerHTML = "";
+  const cap = document.getElementById("vcap-" + id);
+  if (cap) cap.classList.remove("show");
+}
+function playCardVideo(id) {
+  const wrap = document.getElementById("cvw-" + id);
+  if (!wrap || wrap.querySelector("video")) return;
+  const vid = document.createElement("video");
+  vid.src = CARD_VIDEO_SRC[id];
+  vid.autoplay = true;
+  vid.playsinline = true;
+  vid.setAttribute("webkit-playsinline", "");
+  vid.onended = () => {
+    const cap = document.getElementById("vcap-" + id);
+    if (cap) cap.classList.add("show");
+    spawnSparks(document.getElementById("cvb-" + id));
+  };
+  wrap.appendChild(vid);
+  vid.play().catch(() => {});
+}
+function spawnSparks(container) {
+  if (!container) return;
+  for (let i = 0; i < 10; i++) {
+    const s = document.createElement("span");
+    s.style.cssText = "position:absolute;border-radius:50%;pointer-events:none;";
+    const angle = (Math.PI * 2 * i) / 10;
+    const dist  = 40 + Math.random() * 30;
+    s.style.left = "50%"; s.style.top = "50%";
+    s.style.width = s.style.height = (4 + Math.random() * 4) + "px";
+    s.style.background = ["#FFD93D","#6EE7B7","#93C5FD","#FCA5A5"][i % 4];
+    s.style.transition = "transform .8s ease-out, opacity .8s ease-out";
+    container.style.position = "relative";
+    container.appendChild(s);
+    requestAnimationFrame(() => {
+      s.style.transform = `translate(calc(-50% + ${Math.cos(angle)*dist}px), calc(-50% + ${Math.sin(angle)*dist}px)) scale(.3)`;
+      s.style.opacity = "0";
+    });
+    setTimeout(() => s.remove(), 850);
+  }
+}
+function openFaqToChat(cardId, btn) {
+  stopAllCardVideos();
+  const personaId = CARD_TO_PERSONA[cardId];
+  const question  = btn.childNodes[0].textContent.trim().replace(/^"|"$/g, "");
+  openChat(personaId, question);
+}
+function startInterview(cardId) {
+  chatFromDetail(CARD_TO_PERSONA[cardId]);
+}
+
+// ── SECTION HEADER OBSERVER ──
+const _sectionObserver = new IntersectionObserver((entries) => {
+  if (entries[0].isIntersecting) {
+    document.getElementById("sectionUnderline").classList.add("in-view");
+    document.getElementById("sectionTagline").classList.add("in-view");
+    document.getElementById("sectionHint").classList.add("in-view");
+    _sectionObserver.disconnect();
+  }
+}, { threshold: 0.3 });
+_sectionObserver.observe(document.querySelector(".section-title"));
 
 function startFromDetail(personaId, idx) {
   closeModal();
@@ -515,7 +959,12 @@ function openDetail(personaId) {
   }
 }
 
+function stopAllCardVideos() {
+  document.querySelectorAll(".card-video-wrap video").forEach(v => { v.pause(); v.currentTime = 0; });
+}
+
 function chatFromDetail(personaId) {
+  stopAllCardVideos();
   closeModal();
   openChat(personaId, null);
 }
@@ -869,9 +1318,81 @@ function copyInviteLink(btn) {
   });
 }
 
+// ── CARD HOVER POPUP ──
+let hoverPopup = null;
+let hoverTimer  = null;
+
+function showCardHoverPopup(cardId, cardTopEl) {
+  clearTimeout(hoverTimer);
+  if (document.getElementById("card-" + cardId).classList.contains("expanded")) return;
+  _destroyPopup();
+  const rect = cardTopEl.getBoundingClientRect();
+  const popup = document.createElement("div");
+  popup.className = "card-hover-popup";
+  popup.style.left      = (rect.left + rect.width / 2) + "px";
+  popup.style.bottom    = (window.innerHeight - rect.top + 10) + "px";
+  popup.style.transform = "translateX(-50%) translateY(6px)";
+  const inner = document.createElement("div");
+  inner.className = "popup-inner";
+  const vid = document.createElement("video");
+  vid.src = CARD_VIDEO_SRC[cardId];
+  vid.muted = true;
+  vid.autoplay = true;
+  vid.loop = true;
+  vid.playsinline = true;
+  vid.setAttribute("webkit-playsinline", "");
+  const muteBtn = document.createElement("button");
+  muteBtn.className = "popup-mute-btn";
+  muteBtn.textContent = "🔇";
+  muteBtn.onclick = e => {
+    e.stopPropagation();
+    vid.muted = !vid.muted;
+    muteBtn.textContent = vid.muted ? "🔇" : "🔊";
+  };
+  const label = document.createElement("span");
+  label.className = "popup-label";
+  label.textContent = "▶ Watch preview";
+  const caret = document.createElement("div");
+  caret.className = "popup-caret";
+  inner.appendChild(vid);
+  inner.appendChild(muteBtn);
+  inner.appendChild(label);
+  popup.appendChild(inner);
+  popup.appendChild(caret);
+  document.body.appendChild(popup);
+  hoverPopup = popup;
+  popup.addEventListener("mouseenter", () => clearTimeout(hoverTimer));
+  popup.addEventListener("mouseleave", () => { hoverTimer = setTimeout(_destroyPopup, 120); });
+  vid.play().catch(() => {});
+  requestAnimationFrame(() => {
+    popup.style.transform = "translateX(-50%) translateY(0)";
+    popup.classList.add("visible");
+  });
+}
+
+function hideCardHoverPopup() {
+  hoverTimer = setTimeout(_destroyPopup, 120);
+}
+
+function _destroyPopup() {
+  if (!hoverPopup) return;
+  const vid = hoverPopup.querySelector("video");
+  if (vid) { vid.pause(); vid.src = ""; }
+  hoverPopup.remove();
+  hoverPopup = null;
+}
+
+function setupCardHovers() {
+  Object.keys(CARD_VIDEO_SRC).forEach(cardId => {
+    const cardTop = document.querySelector("#card-" + cardId + " .card-top");
+    if (!cardTop) return;
+    cardTop.addEventListener("mouseenter", () => showCardHoverPopup(cardId, cardTop));
+    cardTop.addEventListener("mouseleave", hideCardHoverPopup);
+  });
+}
+
 // ── INIT ──
 document.addEventListener("DOMContentLoaded", () => {
-  renderCards();
   document.getElementById("send-btn").addEventListener("click", () => { unlockAudio(); sendMessage(); });
   document.getElementById("chat-input").addEventListener("keydown", e => {
     if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); }
@@ -879,6 +1400,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("modal-overlay").addEventListener("click", e => {
     if (e.target === document.getElementById("modal-overlay")) closeModal();
   });
+  setupCardHovers();
 });
 </script>
 </body>
