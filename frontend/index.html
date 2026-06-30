@@ -315,6 +315,10 @@
       }
     }
   </style>
+<script>
+(function(f,b){if(!b.__SV){var e,g,i,h;window.mixpanel=b;b._i=[];b.init=function(e,f,c){function g(a,d){var b=d.split(".");2==b.length&&(a=a[b[0]],d=b[1]);a[d]=function(){a.push([d].concat(Array.prototype.slice.call(arguments,0)))}}var a=b;"undefined"!==typeof c?a=b[c]=[]:c="mixpanel";a.people=a.people||[];a.toString=function(a){var d="mixpanel";"mixpanel"!==c&&(d+="."+c);a||(d+=" (stub)");return d};a.people.toString=function(){return a.toString(1)+".people (stub)"};i="disable time_event track track_pageview track_links track_forms track_with_groups add_group set_group remove_group register register_once alias unregister identify name_tag set_config reset opt_in_tracking opt_out_tracking has_opted_in_tracking has_opted_out_tracking clear_opt_in_out_tracking start_batch_senders people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user people.remove".split(" ");for(h=0;h<i.length;h++)g(a,i[h]);var j="set set_once union unset remove delete".split(" ");a.get_group=function(){function b(a){c[a]=function(){a=function(a,b){return function(){b.push([a].concat(Array.prototype.slice.call(arguments,0)));return b}}(a,d);return a}}for(var d=[],c=a.get_group.apply(a,arguments),e=0;e<j.length;e++)b(j[e]);return c};b._i.push([e,f,c])};b.__SV=1.2;e=f.createElement("script");e.type="text/javascript";e.async=!0;e.src="https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";g=f.getElementsByTagName("script")[0];g.parentNode.insertBefore(e,g)}})(document,window.mixpanel||[]);
+mixpanel.init("00e84c30d371d206e2e1df32f9c48c1a", { track_pageview: true, persistence: "localStorage", autocapture: true });
+</script>
 </head>
 <body>
 
@@ -322,7 +326,7 @@
 <nav>
   <div class="logo">🌟 Companion</div>
   <div class="nav-actions">
-    <button class="btn btn-primary btn-sm" onclick="showSignup()">Sign up</button>
+    <button class="btn btn-primary btn-sm" onclick="showSignup('nav')">Sign up</button>
   </div>
 </nav>
 
@@ -337,6 +341,7 @@
     </h1>
     <p>Every companion is a specialist. Not a generalist. Built for one skill, obsessed with one outcome — and ready to show your child what that looks like up close.</p>
   </div>
+  <div class="mp-depth-sentinel" data-pct="25" style="height:0;overflow:hidden;pointer-events:none" aria-hidden="true"></div>
 
   <div class="section">
     <div class="section-header-wrap">
@@ -383,7 +388,7 @@
             <p class="video-caption" id="vcap-maya">✨ That's a real counting adventure! ✨</p>
           </div>
           <div class="expanded-layout">
-            <div class="exp-col">
+            <div class="exp-col" data-mp-section="sound_familiar">
               <p class="col-title">Sound familiar?</p>
               <ul class="checklist">
                 <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#C1440E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>He counts to 10 perfectly — then freezes when you ask "how many is this?"</li>
@@ -393,7 +398,7 @@
               </ul>
               <p class="bridge">Maya &amp; Ember turn those exact moments into real progress — one short walk at a time.</p>
             </div>
-            <div class="exp-col">
+            <div class="exp-col" data-mp-section="what_actually_does">
               <p class="col-title">What Maya actually does</p>
               <ul class="checklist">
                 <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#C1440E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Closes the #1 kindergarten readiness gap: real number sense</li>
@@ -417,6 +422,7 @@
           </div>
         </div>
       </div>
+      <div class="mp-depth-sentinel" data-pct="50" style="height:0;overflow:hidden;pointer-events:none" aria-hidden="true"></div>
 
       <!-- ── GRANDMA ROSE (luna) ── -->
       <div class="persona-card" id="card-rose" style="--accent:#7C6FCE;--accent-light:#F3F0FF">
@@ -451,7 +457,7 @@
             <p class="video-caption" id="vcap-rose">✨ Calm achieved, crisis averted ✨</p>
           </div>
           <div class="expanded-layout">
-            <div class="exp-col">
+            <div class="exp-col" data-mp-section="sound_familiar">
               <p class="col-title">Sound familiar?</p>
               <ul class="checklist">
                 <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#7C6FCE" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Bedtime turns into a battle, every single night</li>
@@ -461,7 +467,7 @@
               </ul>
               <p class="bridge">Grandma Rose &amp; Sage step in for exactly these moments — calm, steady, right when you need it.</p>
             </div>
-            <div class="exp-col">
+            <div class="exp-col" data-mp-section="what_actually_does">
               <p class="col-title">What Grandma Rose actually does</p>
               <ul class="checklist">
                 <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#7C6FCE" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Gentle daily check-ins your child actually looks forward to</li>
@@ -519,7 +525,7 @@
             <p class="video-caption" id="vcap-alex">✨ Energy: officially burned ✨</p>
           </div>
           <div class="expanded-layout">
-            <div class="exp-col">
+            <div class="exp-col" data-mp-section="sound_familiar">
               <p class="col-title">Sound familiar?</p>
               <ul class="checklist">
                 <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#A9744F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>He's been on the couch since breakfast</li>
@@ -529,7 +535,7 @@
               </ul>
               <p class="bridge">Alex &amp; Whiskers turn that energy into movement — no fight required.</p>
             </div>
-            <div class="exp-col">
+            <div class="exp-col" data-mp-section="what_actually_does">
               <p class="col-title">What Alex actually does</p>
               <ul class="checklist">
                 <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#A9744F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Screen breaks that actually move little bodies</li>
@@ -553,6 +559,7 @@
           </div>
         </div>
       </div>
+      <div class="mp-depth-sentinel" data-pct="75" style="height:0;overflow:hidden;pointer-events:none" aria-hidden="true"></div>
 
       <!-- ── ELENA (coco) ── -->
       <div class="persona-card" id="card-elena" style="--accent:#C2607D;--accent-light:#FFF0F4">
@@ -587,7 +594,7 @@
             <p class="video-caption" id="vcap-elena">✨ Vocabulary: leveled up ✨</p>
           </div>
           <div class="expanded-layout">
-            <div class="exp-col">
+            <div class="exp-col" data-mp-section="sound_familiar">
               <p class="col-title">Sound familiar?</p>
               <ul class="checklist">
                 <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#C2607D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>His vocabulary feels limited compared to other kids</li>
@@ -597,7 +604,7 @@
               </ul>
               <p class="bridge">Elena &amp; Truffle turn pretend play into the back-and-forth talk he's missing.</p>
             </div>
-            <div class="exp-col">
+            <div class="exp-col" data-mp-section="what_actually_does">
               <p class="col-title">What Elena actually does</p>
               <ul class="checklist">
                 <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#C2607D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Pretend cooking, color hunts, imaginative play he loves</li>
@@ -625,6 +632,7 @@
     </div><!-- .card-grid -->
   </div><!-- .section -->
 
+  <div class="mp-depth-sentinel" data-pct="100" style="height:0;overflow:hidden;pointer-events:none" aria-hidden="true"></div>
   <footer>© 2025 Companion. All rights reserved.</footer>
 </div>
 
@@ -640,7 +648,7 @@
       <button id="send-btn">➤</button>
     </div>
     <div class="chat-signup-row">
-      <button class="btn-chat-signup" onclick="showSignup()">Sign up free</button>
+      <button class="btn-chat-signup" onclick="showSignup('chat_sticky_button')">Sign up free</button>
     </div>
   </div>
 </div>
@@ -767,6 +775,36 @@ const CARD_TO_PERSONA = { maya: "pip", rose: "luna", alex: "bongo", elena: "coco
 const CARD_VIDEO_SRC  = { maya: "videos/fox.mp4", rose: "videos/owl.mp4", alex: "videos/kitten.mp4", elena: "videos/piglet.mp4" };
 let openCardId = null;
 
+// ── ANALYTICS ──
+let chatEntryPoint    = null;
+let chatStartTime     = null;
+let chatMessageCount  = 0;
+let chatHadPrefilled  = false;
+let signupSource      = "other";
+let _chatSessionFired = false;
+const _cardHoverTimers = {};
+
+function mp(event, props) {
+  try {
+    if (typeof mixpanel !== "undefined") mixpanel.track(event, props || {});
+  } catch(e) {}
+}
+
+function _fireChatSessionEnded() {
+  if (!activePersonaId || !chatStartTime || _chatSessionFired) return;
+  _chatSessionFired = true;
+  const dur = Math.round((Date.now() - chatStartTime) / 1000);
+  try {
+    if (typeof mixpanel !== "undefined") {
+      mixpanel.track("chat_session_ended", {
+        persona:          activePersonaId,
+        duration_seconds: dur,
+        message_count:    chatMessageCount
+      }, { transport: "sendBeacon" });
+    }
+  } catch(e) {}
+}
+
 function toggleCard(id) {
   if (openCardId === id) { collapseCard(id); openCardId = null; return; }
   if (openCardId) collapseCard(openCardId);
@@ -775,7 +813,20 @@ function toggleCard(id) {
 }
 function expandCard(id) {
   document.getElementById("card-" + id).classList.add("expanded");
+  const _pid = CARD_TO_PERSONA[id] || id;
+  mp("persona_card_expanded", { persona: _pid });
+  mp("persona_detail_viewed", { persona: _pid });
   playCardVideo(id);
+  const _card = document.getElementById("card-" + id);
+  const _secIO = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        mp("persona_checklist_viewed", { persona: _pid, section: entry.target.dataset.mpSection });
+        _secIO.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  _card.querySelectorAll("[data-mp-section]").forEach(el => _secIO.observe(el));
   setTimeout(() => document.getElementById("card-" + id).scrollIntoView({ behavior: "smooth", block: "nearest" }), 60);
 }
 function collapseCard(id) {
@@ -799,7 +850,11 @@ function playCardVideo(id) {
   vid.autoplay = true;
   vid.playsinline = true;
   vid.setAttribute("webkit-playsinline", "");
+  vid.addEventListener("play", () => {
+    mp("persona_video_played", { persona: CARD_TO_PERSONA[id] || id });
+  }, { once: true });
   vid.onended = () => {
+    mp("persona_video_completed", { persona: CARD_TO_PERSONA[id] || id });
     const cap = document.getElementById("vcap-" + id);
     if (cap) cap.classList.add("show");
     spawnSparks(document.getElementById("cvb-" + id));
@@ -831,10 +886,15 @@ function openFaqToChat(cardId, btn) {
   stopAllCardVideos();
   const personaId = CARD_TO_PERSONA[cardId];
   const question  = btn.childNodes[0].textContent.trim().replace(/^"|"$/g, "");
+  mp("faq_question_clicked", { persona: personaId });
+  chatEntryPoint = "faq_question";
   openChat(personaId, question);
 }
 function startInterview(cardId) {
-  chatFromDetail(CARD_TO_PERSONA[cardId]);
+  const personaId = CARD_TO_PERSONA[cardId];
+  mp("interview_now_clicked", { persona: personaId });
+  chatEntryPoint = "main_cta";
+  chatFromDetail(personaId);
 }
 
 // ── SECTION HEADER OBSERVER ──
@@ -961,6 +1021,7 @@ function stopAllCardVideos() {
 function chatFromDetail(personaId) {
   stopAllCardVideos();
   closeModal();
+  if (!chatEntryPoint) chatEntryPoint = "detail_modal";
   openChat(personaId, null);
 }
 
@@ -1039,7 +1100,17 @@ function setChatAvatarIdle() {
 // ── CHAT ──
 function openChat(personaId, initialMessage) {
   unlockAudio();
-  activePersonaId = personaId;
+  activePersonaId   = personaId;
+  chatStartTime     = Date.now();
+  chatMessageCount  = 0;
+  chatHadPrefilled  = !!initialMessage;
+  _chatSessionFired = false;
+  mp("chat_screen_loaded", {
+    persona:       personaId,
+    entry_point:   chatEntryPoint || "direct",
+    had_prefilled: !!initialMessage
+  });
+  chatEntryPoint = null;
   const p = PERSONAS[personaId];
 
   showScreen("chat-screen");
@@ -1072,10 +1143,13 @@ function openChat(personaId, initialMessage) {
 }
 
 function goBackFromChat() {
+  _fireChatSessionEnded();
+  mp("chat_back_clicked", { persona: activePersonaId });
+  chatStartTime = null;
   if (ws) { try { ws.close(); } catch(e){} ws = null; }
-  audioQueue = [];
+  audioQueue   = [];
   audioPlaying = false;
-  isStreaming = false;
+  isStreaming  = false;
   showScreen("landing");
 }
 
@@ -1103,6 +1177,8 @@ function sendMessage() {
   const input = document.getElementById("chat-input");
   const text = input.value.trim();
   if (!text || isStreaming) return;
+  chatMessageCount++;
+  mp("chat_message_sent", { persona: activePersonaId, message_count: chatMessageCount, had_prefilled: chatHadPrefilled });
   input.value = "";
   appendUserMessage(text);
   removeTypingIndicator();
@@ -1310,7 +1386,9 @@ function setModalView(id) {
   }
 }
 
-function showSignup() {
+function showSignup(source) {
+  signupSource = source || "other";
+  mp("waitlist_form_opened", { source: signupSource, persona: activePersonaId });
   setModalView("signup-view");
   document.getElementById("modal-overlay").classList.add("open");
 }
@@ -1349,6 +1427,13 @@ async function submitSignup() {
     btn.textContent = "Create free account";
   }
 
+  try {
+    if (typeof mixpanel !== "undefined") {
+      mixpanel.track("waitlist_form_submitted", { source: signupSource || "other", persona: activePersonaId || "pip" });
+      mixpanel.identify(email);
+      mixpanel.people.set({ "$email": email, "persona_interested": activePersonaId || "pip", "waitlist_position": position, "signup_source": signupSource || "other" });
+    }
+  } catch(e) {}
   showWaitlistConfirmation(name, email, activePersonaId || "pip", position);
 }
 
@@ -1379,12 +1464,57 @@ function copyInviteLink(btn) {
 
 // ── INIT ──
 document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("send-btn").addEventListener("click", () => { unlockAudio(); sendMessage(); });
+  document.getElementById("send-btn").addEventListener("click", () => {
+    unlockAudio();
+    mp("chat_send_button_clicked", { persona: activePersonaId });
+    sendMessage();
+  });
   document.getElementById("chat-input").addEventListener("keydown", e => {
     if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); }
   });
+  document.getElementById("chat-input").addEventListener("focus", () => {
+    mp("chat_input_focused", { persona: activePersonaId });
+  });
   document.getElementById("modal-overlay").addEventListener("click", e => {
     if (e.target === document.getElementById("modal-overlay")) closeModal();
+  });
+
+  // card hover (desktop only, debounced 800ms)
+  document.querySelectorAll(".persona-card").forEach(card => {
+    const cid = card.id.replace("card-", "");
+    card.addEventListener("mouseenter", () => {
+      if (window.matchMedia("(hover:hover)").matches) {
+        clearTimeout(_cardHoverTimers[cid]);
+        _cardHoverTimers[cid] = setTimeout(() => {
+          mp("persona_card_hovered", { persona: CARD_TO_PERSONA[cid] || cid });
+        }, 800);
+      }
+    });
+    card.addEventListener("mouseleave", () => { clearTimeout(_cardHoverTimers[cid]); });
+  });
+
+  // scroll depth via IntersectionObserver on sentinel divs
+  const _depthFired = new Set();
+  const _depthIO = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const pct = parseInt(entry.target.dataset.pct, 10);
+        if (!_depthFired.has(pct)) {
+          _depthFired.add(pct);
+          mp("scroll_depth", { percent: pct });
+        }
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll(".mp-depth-sentinel").forEach(el => _depthIO.observe(el));
+
+  // hero viewed on first load
+  mp("hero_viewed");
+
+  // page unload — fire session_ended for any open chat
+  window.addEventListener("beforeunload", _fireChatSessionEnded);
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") _fireChatSessionEnded();
   });
 });
 </script>
