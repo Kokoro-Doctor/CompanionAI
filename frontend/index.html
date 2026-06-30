@@ -117,17 +117,7 @@
     .interview-btn { background: var(--accent); color: #fff; border: none; padding: 13px 28px; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; transition: transform .15s, box-shadow .15s; }
     .interview-btn:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 10px 22px rgba(0,0,0,.16); }
 
-    /* ── HOVER VIDEO POPUP ── */
-    .card-hover-popup { position: fixed; width: 280px; z-index: 500; opacity: 0; pointer-events: auto; transition: opacity .2s ease, transform .2s ease; }
-    .card-hover-popup.visible { opacity: 1; }
-    .popup-inner { border-radius: 14px; overflow: hidden; background: #1a1a2e; box-shadow: 0 8px 32px rgba(0,0,0,.3); position: relative; }
-    .popup-inner video { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
-    .popup-mute-btn { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,.55); color: #fff; border: none; border-radius: 50%; width: 30px; height: 30px; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10; }
-    .popup-label { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,.55); color: #fff; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; white-space: nowrap; pointer-events: none; }
-    .popup-caret { width: 0; height: 0; border-left: 8px solid transparent; border-right: 8px solid transparent; border-top: 8px solid #1a1a2e; margin: 0 auto; }
-
     @media (max-width: 960px) {
-      .card-hover-popup { display: none !important; }
       .card-grid { grid-template-columns: 1fr 1fr; }
       .expanded-layout { grid-template-columns: 1fr; }
       .exp-col:not(:last-child) { border-right: none; border-bottom: 1px solid #f0f0f0; }
@@ -168,7 +158,7 @@
     /* 200×200 rounded-square avatar video, centered below header */
     #chat-avatar-video { flex-shrink: 0; width: 200px; height: 200px; border-radius: 24px; margin: 16px auto 0; overflow: hidden; background: #e0e0e0; }
     #chat-avatar-video video,
-    #chat-avatar-video img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    #chat-avatar-video img { width: 100%; height: 100%; object-fit: cover; display: block; max-width: 200px; max-height: 200px; }
 
     .messages { flex: 1; overflow-y: auto; min-height: 0; display: flex; flex-direction: column; gap: 14px; padding: 12px 16px; }
     .msg { max-width: 80%; padding: 12px 16px; border-radius: 18px; font-size: .95rem; line-height: 1.55; animation: fadeIn .2s ease; }
@@ -1013,6 +1003,7 @@ function initChatAvatar(personaId) {
     vid.loop = true;
     vid.autoplay = true;
     vid.playsinline = true;
+    vid.setAttribute("playsinline", "");
     vid.setAttribute("webkit-playsinline", "");
     vid.preload = "none";
     leftCol.appendChild(vid);
@@ -1386,80 +1377,6 @@ function copyInviteLink(btn) {
   });
 }
 
-// ── CARD HOVER POPUP ──
-let hoverPopup = null;
-let hoverTimer  = null;
-
-function showCardHoverPopup(cardId, cardTopEl) {
-  clearTimeout(hoverTimer);
-  if (document.getElementById("card-" + cardId).classList.contains("expanded")) return;
-  _destroyPopup();
-  const rect = cardTopEl.getBoundingClientRect();
-  const popup = document.createElement("div");
-  popup.className = "card-hover-popup";
-  popup.style.left      = (rect.left + rect.width / 2) + "px";
-  popup.style.bottom    = (window.innerHeight - rect.top + 10) + "px";
-  popup.style.transform = "translateX(-50%) translateY(6px)";
-  const inner = document.createElement("div");
-  inner.className = "popup-inner";
-  const vid = document.createElement("video");
-  vid.src = CARD_VIDEO_SRC[cardId];
-  vid.muted = true;
-  vid.autoplay = true;
-  vid.loop = true;
-  vid.playsinline = true;
-  vid.setAttribute("webkit-playsinline", "");
-  const muteBtn = document.createElement("button");
-  muteBtn.className = "popup-mute-btn";
-  muteBtn.textContent = "🔇";
-  muteBtn.onclick = e => {
-    e.stopPropagation();
-    vid.muted = !vid.muted;
-    muteBtn.textContent = vid.muted ? "🔇" : "🔊";
-  };
-  const label = document.createElement("span");
-  label.className = "popup-label";
-  label.textContent = "▶ Watch preview";
-  const caret = document.createElement("div");
-  caret.className = "popup-caret";
-  inner.appendChild(vid);
-  inner.appendChild(muteBtn);
-  inner.appendChild(label);
-  popup.appendChild(inner);
-  popup.appendChild(caret);
-  document.body.appendChild(popup);
-  hoverPopup = popup;
-  popup.addEventListener("mouseenter", () => clearTimeout(hoverTimer));
-  popup.addEventListener("mouseleave", () => { hoverTimer = setTimeout(_destroyPopup, 120); });
-  vid.play().catch(() => {});
-  requestAnimationFrame(() => {
-    popup.style.transform = "translateX(-50%) translateY(0)";
-    popup.classList.add("visible");
-  });
-}
-
-function hideCardHoverPopup() {
-  hoverTimer = setTimeout(_destroyPopup, 120);
-}
-
-function _destroyPopup() {
-  if (!hoverPopup) return;
-  const vid = hoverPopup.querySelector("video");
-  if (vid) { vid.pause(); vid.src = ""; }
-  hoverPopup.remove();
-  hoverPopup = null;
-}
-
-function setupCardHovers() {
-  if ('ontouchstart' in window || navigator.maxTouchPoints > 0) return;
-  Object.keys(CARD_VIDEO_SRC).forEach(cardId => {
-    const cardTop = document.querySelector("#card-" + cardId + " .card-top");
-    if (!cardTop) return;
-    cardTop.addEventListener("mouseenter", () => showCardHoverPopup(cardId, cardTop));
-    cardTop.addEventListener("mouseleave", hideCardHoverPopup);
-  });
-}
-
 // ── INIT ──
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("send-btn").addEventListener("click", () => { unlockAudio(); sendMessage(); });
@@ -1469,7 +1386,6 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("modal-overlay").addEventListener("click", e => {
     if (e.target === document.getElementById("modal-overlay")) closeModal();
   });
-  setupCardHovers();
 });
 </script>
 </body>
