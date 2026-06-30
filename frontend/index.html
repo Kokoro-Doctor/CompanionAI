@@ -53,9 +53,9 @@
     .card-top { padding: 24px 20px 20px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; cursor: pointer; }
     .persona-card.expanded .card-top { flex-direction: row; text-align: left; gap: 20px; align-items: center; padding: 22px 28px 20px; border-bottom: 1px solid #f0f0f0; }
 
-    .card-avatar-img { width: 88px; height: 88px; border-radius: 50%; border: 3px solid var(--accent); overflow: hidden; flex-shrink: 0; transition: transform .2s, box-shadow .2s; }
-    .card-avatar-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .persona-card.expanded .card-avatar-img { width: 66px; height: 66px; }
+    .card-avatar-img { width: 150px; height: 150px; border-radius: 50%; border: 3px solid var(--accent); overflow: hidden; flex-shrink: 0; transition: transform .2s, box-shadow .2s; }
+    .card-avatar-img img, .card-avatar-img video { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .persona-card.expanded .card-avatar-img { width: 110px; height: 110px; }
 
     .card-text { flex: 1; min-width: 0; }
     .card-name { font-size: 15px; font-weight: 700; color: var(--accent); margin: 0 0 3px; }
@@ -158,14 +158,19 @@
     .btn-choose { width: 100%; padding: 14px; font-size: 1rem; border-radius: 12px; }
 
     /* ── CHAT SCREEN ── */
-    #chat-screen { display: none; max-width: 700px; margin: 0 auto; padding: 24px 16px 148px; }
-    .chat-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding: 14px 18px; background: #fff; border-radius: 16px; box-shadow: 0 2px 8px rgba(0,0,0,.07); }
+    #chat-screen { display: none; position: fixed; top: 64px; left: 0; right: 0; bottom: 0; z-index: 10; background: #f8f7ff; flex-direction: column; overflow: hidden; }
+    .chat-header { flex-shrink: 0; display: flex; align-items: center; gap: 12px; margin: 12px 12px 0; padding: 14px 18px; background: #fff; border-radius: 16px; box-shadow: 0 2px 8px rgba(0,0,0,.07); }
     .chat-avatar { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; flex-shrink: 0; }
     .chat-header-info h3 { font-size: 1rem; font-weight: 700; }
     .chat-header-info p { font-size: .8rem; color: #777; }
     .back-btn { margin-left: auto; background: #f3f0ff; border: none; color: #5c3dc4; padding: 7px 14px; border-radius: 8px; cursor: pointer; font-size: .82rem; font-weight: 600; }
 
-    .messages { display: flex; flex-direction: column; gap: 14px; min-height: 300px; }
+    /* 200×200 rounded-square avatar video, centered below header */
+    #chat-avatar-video { flex-shrink: 0; width: 200px; height: 200px; border-radius: 24px; margin: 16px auto 0; overflow: hidden; background: #e0e0e0; }
+    #chat-avatar-video video,
+    #chat-avatar-video img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .messages { flex: 1; overflow-y: auto; min-height: 0; display: flex; flex-direction: column; gap: 14px; padding: 12px 16px; }
     .msg { max-width: 80%; padding: 12px 16px; border-radius: 18px; font-size: .95rem; line-height: 1.55; animation: fadeIn .2s ease; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
     .msg.user { background: #5c3dc4; color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
@@ -176,8 +181,8 @@
     .dot:nth-child(3) { animation-delay: .3s; }
     @keyframes bounce { 0%,60%,100% { transform: translateY(0); } 30% { transform: translateY(-6px); } }
 
-    .chat-input-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; border-top: 1px solid #eee; padding: 12px 16px; display: none; }
-    .chat-input-inner { max-width: 700px; margin: 0 auto; display: flex; gap: 10px; align-items: center; }
+    .chat-input-bar { flex-shrink: 0; background: #fff; border-top: 1px solid #eee; padding: 12px 16px; display: none; }
+    .chat-input-inner { display: flex; gap: 10px; align-items: center; }
     #chat-input { flex: 1; border: 2px solid #e0d9ff; border-radius: 12px; padding: 11px 16px; font-size: .95rem; outline: none; transition: border-color .2s; }
     #chat-input:focus { border-color: #5c3dc4; }
     #chat-input:disabled { background: #f5f5f5; }
@@ -186,7 +191,7 @@
     @keyframes pulse-red { 0%,100% { box-shadow: 0 0 0 0 rgba(229,85,85,.4); } 50% { box-shadow: 0 0 0 7px rgba(229,85,85,0); } }
     #send-btn { width: 44px; height: 44px; border-radius: 50%; background: #5c3dc4; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.1rem; flex-shrink: 0; }
     #send-btn:disabled { background: #ccc; cursor: not-allowed; }
-    .chat-signup-row { max-width: 700px; margin: 8px auto 0; }
+    .chat-signup-row { margin: 8px 0 0; }
     .btn-chat-signup { width: 100%; padding: 13px; background: #fff; border: 2.5px solid #5c3dc4; border-radius: 12px; color: #5c3dc4; font-size: 1rem; font-weight: 700; cursor: pointer; letter-spacing: .2px; transition: background .15s; }
     .btn-chat-signup:hover { background: #f3f0ff; }
 
@@ -358,7 +363,7 @@
       <!-- ── MAYA (pip) ── -->
       <div class="persona-card" id="card-maya" style="--accent:#C1440E;--accent-light:#FFF4EF">
         <div class="card-top" onclick="toggleCard('maya')">
-          <div class="card-avatar-img"><img src="images/fox.jpg" alt="Maya & Ember the Fox" /></div>
+          <div class="card-avatar-img"><video src="videos/fox_frontcard.mp4" muted loop autoplay playsinline webkit-playsinline></video></div>
           <div class="card-text">
             <p class="card-name">Maya &amp; Ember the Fox</p>
             <p class="card-vibe">Curious &amp; Adventurous</p>
@@ -418,7 +423,7 @@
           </div>
           <div class="interview-cta">
             <p class="interview-hint">Ready to see it for yourself?</p>
-            <button class="interview-btn" onclick="startInterview('maya')">Start talking to Maya &amp; Ember →</button>
+            <button class="interview-btn" onclick="startInterview('maya')">Interview Maya now</button>
           </div>
         </div>
       </div>
@@ -426,7 +431,7 @@
       <!-- ── GRANDMA ROSE (luna) ── -->
       <div class="persona-card" id="card-rose" style="--accent:#7C6FCE;--accent-light:#F3F0FF">
         <div class="card-top" onclick="toggleCard('rose')">
-          <div class="card-avatar-img"><img src="images/owl.jpg" alt="Grandma Rose & Sage the Owl" /></div>
+          <div class="card-avatar-img"><video src="videos/owl_frontcard.mp4" muted loop autoplay playsinline webkit-playsinline></video></div>
           <div class="card-text">
             <p class="card-name">Grandma Rose &amp; Sage the Owl</p>
             <p class="card-vibe">Calm &amp; Watchful</p>
@@ -486,7 +491,7 @@
           </div>
           <div class="interview-cta">
             <p class="interview-hint">Ready to see it for yourself?</p>
-            <button class="interview-btn" onclick="startInterview('rose')">Start talking to Grandma Rose →</button>
+            <button class="interview-btn" onclick="startInterview('rose')">Interview Rose now</button>
           </div>
         </div>
       </div>
@@ -494,7 +499,7 @@
       <!-- ── ALEX (bongo) ── -->
       <div class="persona-card" id="card-alex" style="--accent:#A9744F;--accent-light:#FFF7F0">
         <div class="card-top" onclick="toggleCard('alex')">
-          <div class="card-avatar-img"><img src="images/kitten.jpg" alt="Alex & Whiskers the Kitten" /></div>
+          <div class="card-avatar-img"><video src="videos/kitten_frontcard.mp4" muted loop autoplay playsinline webkit-playsinline></video></div>
           <div class="card-text">
             <p class="card-name">Alex &amp; Whiskers the Kitten</p>
             <p class="card-vibe">Playful &amp; Energetic</p>
@@ -554,7 +559,7 @@
           </div>
           <div class="interview-cta">
             <p class="interview-hint">Ready to see it for yourself?</p>
-            <button class="interview-btn" onclick="startInterview('alex')">Start talking to Alex &amp; Whiskers →</button>
+            <button class="interview-btn" onclick="startInterview('alex')">Interview Alex now</button>
           </div>
         </div>
       </div>
@@ -562,7 +567,7 @@
       <!-- ── ELENA (coco) ── -->
       <div class="persona-card" id="card-elena" style="--accent:#C2607D;--accent-light:#FFF0F4">
         <div class="card-top" onclick="toggleCard('elena')">
-          <div class="card-avatar-img"><img src="images/piglet.jpg" alt="Elena & Truffle the Piglet" /></div>
+          <div class="card-avatar-img"><video src="videos/piglet_frontcard.mp4" muted loop autoplay playsinline webkit-playsinline></video></div>
           <div class="card-text">
             <p class="card-name">Elena &amp; Truffle the Piglet</p>
             <p class="card-vibe">Sweet &amp; Imaginative</p>
@@ -622,7 +627,7 @@
           </div>
           <div class="interview-cta">
             <p class="interview-hint">Ready to see it for yourself?</p>
-            <button class="interview-btn" onclick="startInterview('elena')">Start talking to Elena &amp; Truffle →</button>
+            <button class="interview-btn" onclick="startInterview('elena')">Interview Elena now</button>
           </div>
         </div>
       </div>
@@ -636,18 +641,17 @@
 <!-- CHAT SCREEN -->
 <div id="chat-screen">
   <div class="chat-header" id="chat-header"></div>
+  <div id="chat-avatar-video"></div>
   <div class="messages" id="messages"></div>
-</div>
-
-<!-- CHAT INPUT BAR -->
-<div class="chat-input-bar" id="chat-input-bar">
-  <div class="chat-input-inner">
-    <button id="mic-btn" title="Speak">🎤</button>
-    <input id="chat-input" type="text" placeholder="Type a message…" autocomplete="off" />
-    <button id="send-btn">➤</button>
-  </div>
-  <div class="chat-signup-row">
-    <button class="btn-chat-signup" onclick="showSignup()">Sign up free</button>
+  <div class="chat-input-bar" id="chat-input-bar">
+    <div class="chat-input-inner">
+      <button id="mic-btn" title="Speak">🎤</button>
+      <input id="chat-input" type="text" placeholder="Type a message…" autocomplete="off" />
+      <button id="send-btn">➤</button>
+    </div>
+    <div class="chat-signup-row">
+      <button class="btn-chat-signup" onclick="showSignup()">Sign up free</button>
+    </div>
   </div>
 </div>
 
@@ -984,6 +988,63 @@ function togglePreview(personaId) {
   }
 }
 
+// ── CHAT AVATAR VIDEO ──
+const PERSONA_VIDEOS = {
+  pip: { idle: '/videos/fox_idle.mp4', talking: '/videos/fox_talking.mp4' }
+};
+
+let chatAvatarVideoEl     = null;
+let chatAvatarIsTalking   = false;
+let chatAvatarDoneReceived = false;
+
+function initChatAvatar(personaId) {
+  const leftCol = document.getElementById("chat-avatar-video");
+  leftCol.innerHTML = "";
+  leftCol.style.background = "";
+  const videos = PERSONA_VIDEOS[personaId];
+  const p = PERSONAS[personaId];
+  chatAvatarVideoEl      = null;
+  chatAvatarIsTalking    = false;
+  chatAvatarDoneReceived = false;
+  if (videos) {
+    const vid = document.createElement("video");
+    vid.src = videos.idle;
+    vid.muted = true;
+    vid.loop = true;
+    vid.autoplay = true;
+    vid.playsinline = true;
+    vid.setAttribute("webkit-playsinline", "");
+    vid.preload = "none";
+    leftCol.appendChild(vid);
+    chatAvatarVideoEl = vid;
+    vid.play().catch(() => {});
+  } else {
+    leftCol.style.background = p.belly;
+    const img = document.createElement("img");
+    img.src = p.photo;
+    img.alt = p.name;
+    img.className = "chat-avatar-photo";
+    leftCol.appendChild(img);
+  }
+}
+
+function setChatAvatarTalking() {
+  const videos = PERSONA_VIDEOS[activePersonaId];
+  if (!chatAvatarVideoEl || !videos || chatAvatarIsTalking) return;
+  chatAvatarIsTalking    = true;
+  chatAvatarDoneReceived = false;
+  chatAvatarVideoEl.src  = videos.talking;
+  chatAvatarVideoEl.play().catch(() => {});
+}
+
+function setChatAvatarIdle() {
+  const videos = PERSONA_VIDEOS[activePersonaId];
+  if (!chatAvatarVideoEl || !videos || !chatAvatarIsTalking) return;
+  chatAvatarIsTalking   = false;
+  chatAvatarVideoEl.src = videos.idle;
+  chatAvatarVideoEl.play().catch(() => {});
+}
+
 // ── CHAT ──
 function openChat(personaId, initialMessage) {
   unlockAudio();
@@ -991,7 +1052,9 @@ function openChat(personaId, initialMessage) {
   const p = PERSONAS[personaId];
 
   showScreen("chat-screen");
+  document.getElementById("chat-screen").style.display = "flex";
   document.getElementById("chat-input-bar").style.display = "block";
+  initChatAvatar(personaId);
 
   document.getElementById("chat-header").innerHTML = `
     <div class="chat-avatar" style="background:${p.belly}">${p.emoji}</div>
@@ -1106,6 +1169,7 @@ function removeTypingIndicator() {
 function appendAssistantChunk(text) {
   removeTypingIndicator();
   if (!currentAssistantEl) {
+    setChatAvatarTalking();
     currentAssistantEl = document.createElement("div");
     currentAssistantEl.className = "msg assistant";
     document.getElementById("messages").appendChild(currentAssistantEl);
@@ -1123,6 +1187,8 @@ function finalizeAssistantMessage() {
   removeTypingIndicator();
   setInputEnabled(true);
   document.getElementById("chat-input").focus();
+  chatAvatarDoneReceived = true;
+  if (!audioPlaying && !audioQueue.length) setChatAvatarIdle();
 }
 
 function showAssistantError(msg) {
@@ -1142,7 +1208,8 @@ function setInputEnabled(enabled) {
 }
 
 function scrollBottom() {
-  window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+  const m = document.getElementById("messages");
+  if (m) m.scrollTop = m.scrollHeight;
 }
 
 // ── AUDIO ──
@@ -1180,7 +1247,7 @@ function enqueueAudio(base64) {
 }
 
 async function playNext() {
-  if (!audioQueue.length) { audioPlaying = false; return; }
+  if (!audioQueue.length) { audioPlaying = false; if (chatAvatarDoneReceived) setChatAvatarIdle(); return; }
   audioPlaying = true;
   const b64 = audioQueue.shift();
   try {
