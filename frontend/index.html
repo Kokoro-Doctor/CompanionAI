@@ -797,7 +797,8 @@ function _fireChatSessionEnded() {
   try {
     if (typeof mixpanel !== "undefined") {
       mixpanel.track("chat_session_ended", {
-        persona:          activePersonaId,
+        persona_id:       activePersonaId,
+        persona_name:     PERSONAS[activePersonaId]?.name,
         duration_seconds: dur,
         message_count:    chatMessageCount
       }, { transport: "sendBeacon" });
@@ -814,14 +815,14 @@ function toggleCard(id) {
 function expandCard(id) {
   document.getElementById("card-" + id).classList.add("expanded");
   const _pid = CARD_TO_PERSONA[id] || id;
-  mp("persona_card_expanded", { persona: _pid });
-  mp("persona_detail_viewed", { persona: _pid });
+  mp("persona_card_expanded", { persona_id: _pid, persona_name: PERSONAS[_pid]?.name });
+  mp("persona_detail_viewed", { persona_id: _pid, persona_name: PERSONAS[_pid]?.name });
   playCardVideo(id);
   const _card = document.getElementById("card-" + id);
   const _secIO = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        mp("persona_checklist_viewed", { persona: _pid, section: entry.target.dataset.mpSection });
+        mp("persona_checklist_viewed", { persona_id: _pid, persona_name: PERSONAS[_pid]?.name, section: entry.target.dataset.mpSection });
         _secIO.unobserve(entry.target);
       }
     });
@@ -851,10 +852,12 @@ function playCardVideo(id) {
   vid.playsinline = true;
   vid.setAttribute("webkit-playsinline", "");
   vid.addEventListener("play", () => {
-    mp("persona_video_played", { persona: CARD_TO_PERSONA[id] || id });
+    const _vpid = CARD_TO_PERSONA[id] || id;
+    mp("persona_video_played", { persona_id: _vpid, persona_name: PERSONAS[_vpid]?.name });
   }, { once: true });
   vid.onended = () => {
-    mp("persona_video_completed", { persona: CARD_TO_PERSONA[id] || id });
+    const _vpid = CARD_TO_PERSONA[id] || id;
+    mp("persona_video_completed", { persona_id: _vpid, persona_name: PERSONAS[_vpid]?.name });
     const cap = document.getElementById("vcap-" + id);
     if (cap) cap.classList.add("show");
     spawnSparks(document.getElementById("cvb-" + id));
@@ -886,13 +889,13 @@ function openFaqToChat(cardId, btn) {
   stopAllCardVideos();
   const personaId = CARD_TO_PERSONA[cardId];
   const question  = btn.childNodes[0].textContent.trim().replace(/^"|"$/g, "");
-  mp("faq_question_clicked", { persona: personaId });
+  mp("faq_question_clicked", { persona_id: personaId, persona_name: PERSONAS[personaId]?.name });
   chatEntryPoint = "faq_question";
   openChat(personaId, question);
 }
 function startInterview(cardId) {
   const personaId = CARD_TO_PERSONA[cardId];
-  mp("interview_now_clicked", { persona: personaId });
+  mp("interview_now_clicked", { persona_id: personaId, persona_name: PERSONAS[personaId]?.name });
   chatEntryPoint = "main_cta";
   chatFromDetail(personaId);
 }
@@ -1106,7 +1109,8 @@ function openChat(personaId, initialMessage) {
   chatHadPrefilled  = !!initialMessage;
   _chatSessionFired = false;
   mp("chat_screen_loaded", {
-    persona:       personaId,
+    persona_id:    personaId,
+    persona_name:  PERSONAS[personaId]?.name,
     entry_point:   chatEntryPoint || "direct",
     had_prefilled: !!initialMessage
   });
@@ -1144,7 +1148,7 @@ function openChat(personaId, initialMessage) {
 
 function goBackFromChat() {
   _fireChatSessionEnded();
-  mp("chat_back_clicked", { persona: activePersonaId });
+  mp("chat_back_clicked", { persona_id: activePersonaId, persona_name: PERSONAS[activePersonaId]?.name });
   chatStartTime = null;
   if (ws) { try { ws.close(); } catch(e){} ws = null; }
   audioQueue   = [];
@@ -1178,7 +1182,7 @@ function sendMessage() {
   const text = input.value.trim();
   if (!text || isStreaming) return;
   chatMessageCount++;
-  mp("chat_message_sent", { persona: activePersonaId, message_count: chatMessageCount, had_prefilled: chatHadPrefilled });
+  mp("chat_message_sent", { persona_id: activePersonaId, persona_name: PERSONAS[activePersonaId]?.name, message_count: chatMessageCount, had_prefilled: chatHadPrefilled });
   input.value = "";
   appendUserMessage(text);
   removeTypingIndicator();
@@ -1388,7 +1392,7 @@ function setModalView(id) {
 
 function showSignup(source) {
   signupSource = source || "other";
-  mp("waitlist_form_opened", { source: signupSource, persona: activePersonaId });
+  mp("waitlist_form_opened", { source: signupSource, persona_id: activePersonaId, persona_name: PERSONAS[activePersonaId]?.name });
   setModalView("signup-view");
   document.getElementById("modal-overlay").classList.add("open");
 }
@@ -1429,7 +1433,7 @@ async function submitSignup() {
 
   try {
     if (typeof mixpanel !== "undefined") {
-      mixpanel.track("waitlist_form_submitted", { source: signupSource || "other", persona: activePersonaId || "pip" });
+      mixpanel.track("waitlist_form_submitted", { source: signupSource || "other", persona_id: activePersonaId || "pip", persona_name: PERSONAS[activePersonaId || "pip"]?.name });
       mixpanel.identify(email);
       mixpanel.people.set({ "$email": email, "persona_interested": activePersonaId || "pip", "waitlist_position": position, "signup_source": signupSource || "other" });
     }
@@ -1466,14 +1470,14 @@ function copyInviteLink(btn) {
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("send-btn").addEventListener("click", () => {
     unlockAudio();
-    mp("chat_send_button_clicked", { persona: activePersonaId });
+    mp("chat_send_button_clicked", { persona_id: activePersonaId, persona_name: PERSONAS[activePersonaId]?.name });
     sendMessage();
   });
   document.getElementById("chat-input").addEventListener("keydown", e => {
     if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); }
   });
   document.getElementById("chat-input").addEventListener("focus", () => {
-    mp("chat_input_focused", { persona: activePersonaId });
+    mp("chat_input_focused", { persona_id: activePersonaId, persona_name: PERSONAS[activePersonaId]?.name });
   });
   document.getElementById("modal-overlay").addEventListener("click", e => {
     if (e.target === document.getElementById("modal-overlay")) closeModal();
@@ -1486,7 +1490,8 @@ document.addEventListener("DOMContentLoaded", () => {
       if (window.matchMedia("(hover:hover)").matches) {
         clearTimeout(_cardHoverTimers[cid]);
         _cardHoverTimers[cid] = setTimeout(() => {
-          mp("persona_card_hovered", { persona: CARD_TO_PERSONA[cid] || cid });
+          const _hpid = CARD_TO_PERSONA[cid] || cid;
+          mp("persona_card_hovered", { persona_id: _hpid, persona_name: PERSONAS[_hpid]?.name });
         }, 800);
       }
     });
