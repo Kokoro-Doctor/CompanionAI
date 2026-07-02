@@ -124,6 +124,42 @@
     }
     @media (max-width: 540px) { .card-grid { grid-template-columns: 1fr; } }
 
+    /* ── MOBILE SWIPE CAROUSEL (hidden on desktop) ── */
+    .swipe-carousel { display: none; }
+
+    /* trust badges + mobile hint: hidden on desktop */
+    .trust-badges { display: none; }
+    .section-hint-mobile { display: none; }
+    .trust-badge { font-size: .75rem; font-weight: 600; color: #444; background: #f5f4ff; border: 1px solid #e0deff; padding: 5px 12px; border-radius: 20px; white-space: nowrap; }
+
+    @media (max-width: 768px) {
+      .hero > p { display: none; }
+      #sectionHint { display: none; }
+      .trust-badges { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 16px; }
+      .section-hint-mobile { display: block; font-size: .82rem; color: #888; opacity: 0; transform: translateY(8px); animation: heroIn .6s ease forwards; animation-delay: .4s; }
+
+      .card-grid { display: none !important; }
+
+      .swipe-carousel { display: block; overflow: hidden; }
+      .swipe-track { display: flex; transition: transform .35s cubic-bezier(.25,.46,.45,.94); will-change: transform; }
+      .swipe-card { flex: 0 0 100%; padding: 0 8px; box-sizing: border-box; }
+      .swipe-card-inner { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,.09); }
+
+      .swipe-video-wrap { position: relative; width: 100%; padding-top: 56.25%; overflow: hidden; background: #15132a; }
+      .swipe-video-wrap video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+
+      .swipe-card-body { padding: 18px 18px 22px; display: flex; flex-direction: column; gap: 8px; }
+      .swipe-name { font-size: 1.1rem; font-weight: 800; color: #1a1a2e; line-height: 1.2; margin: 0; }
+      .swipe-tag { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; padding: 4px 12px; border-radius: 20px; align-self: flex-start; }
+      .swipe-desc { font-size: 13.5px; color: #555; line-height: 1.5; margin: 2px 0; }
+      .swipe-cta { width: 100%; padding: 14px; border: none; border-radius: 12px; color: #fff; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; margin-top: 6px; transition: transform .12s; }
+      .swipe-cta:active { transform: scale(.97); }
+
+      .swipe-dots { display: flex; justify-content: center; align-items: center; gap: 8px; padding: 16px 0 4px; }
+      .swipe-dot { width: 8px; height: 8px; border-radius: 4px; background: #ddd; cursor: pointer; transition: width .25s, background .25s; flex-shrink: 0; }
+      .swipe-dot.active { width: 24px; background: #5c3dc4; }
+    }
+
     /* ── PERSONA DETAIL (lives inside the modal) ── */
     .detail-avatar { width: 100px; height: 100px; border-radius: 50%; overflow: hidden; margin: 0 auto 16px; box-shadow: 0 4px 16px rgba(0,0,0,.13); }
     .detail-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -340,6 +376,11 @@ mixpanel.init("c19a390119d3f17a90d52c7ae87da26c", { track_pageview: true, persis
       <span class="hero-line hero-accent">A friend who helps your little one grow.</span>
     </h1>
     <p>Every companion is a specialist. Not a generalist. Built for one skill, obsessed with one outcome — and ready to show your child what that looks like up close.</p>
+    <div class="trust-badges">
+      <span class="trust-badge">✅ 100% Safe</span>
+      <span class="trust-badge">👥 US Parents</span>
+      <span class="trust-badge">🎯 Ages 3–6</span>
+    </div>
   </div>
   <div class="mp-depth-sentinel" data-pct="25" style="height:0;overflow:hidden;pointer-events:none" aria-hidden="true"></div>
 
@@ -351,6 +392,7 @@ mixpanel.init("c19a390119d3f17a90d52c7ae87da26c", { track_pageview: true, persis
       <div class="section-underline" id="sectionUnderline"></div>
       <p class="section-tagline" id="sectionTagline">Every companion. One superpower. One less thing to worry about.</p>
       <p class="section-hint" id="sectionHint">Hover to see what they do. Click to see them in action.</p>
+      <p class="section-hint-mobile">Swipe to explore. Tap Interview to try one.</p>
     </div>
 
     <div class="card-grid">
@@ -628,6 +670,76 @@ mixpanel.init("c19a390119d3f17a90d52c7ae87da26c", { track_pageview: true, persis
       </div>
 
     </div><!-- .card-grid -->
+
+    <!-- MOBILE SWIPE CAROUSEL (hidden on desktop via CSS) -->
+    <div class="swipe-carousel" id="swipe-carousel">
+      <div class="swipe-track" id="swipe-track">
+
+        <div class="swipe-card">
+          <div class="swipe-card-inner">
+            <div class="swipe-video-wrap">
+              <video src="videos/fox_frontcard.mp4" muted autoplay loop playsinline webkit-playsinline></video>
+            </div>
+            <div class="swipe-card-body">
+              <p class="swipe-name">Maya &amp; Ember the Fox</p>
+              <span class="swipe-tag" style="background:#FFF4EF;color:#C1440E">🧭 Best for curious explorers</span>
+              <p class="swipe-desc">Maya and Ember turn outdoor moments into mini adventures — counting flowers, naming colors, and exploring nature together.</p>
+              <button class="swipe-cta" style="background:#C1440E" onclick="startInterview('maya')">Interview Maya now</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="swipe-card">
+          <div class="swipe-card-inner">
+            <div class="swipe-video-wrap">
+              <video src="videos/owl_frontcard.mp4" muted autoplay loop playsinline webkit-playsinline></video>
+            </div>
+            <div class="swipe-card-body">
+              <p class="swipe-name">Grandma Rose &amp; Sage the Owl</p>
+              <span class="swipe-tag" style="background:#F3F0FF;color:#7C6FCE">🦉 Best for calm, watchful care</span>
+              <p class="swipe-desc">Grandma Rose and Sage keep things calm and cozy, with gentle check-ins so you know your little one is doing okay.</p>
+              <button class="swipe-cta" style="background:#7C6FCE" onclick="startInterview('rose')">Interview Rose now</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="swipe-card">
+          <div class="swipe-card-inner">
+            <div class="swipe-video-wrap">
+              <video src="videos/kitten_frontcard.mp4" muted autoplay loop playsinline webkit-playsinline></video>
+            </div>
+            <div class="swipe-card-body">
+              <p class="swipe-name">Alex &amp; Whiskers the Kitten</p>
+              <span class="swipe-tag" style="background:#FFF7F0;color:#A9744F">🏃 Best for high-energy kids</span>
+              <p class="swipe-desc">Alex and Whiskers turn screen breaks into movement games — jumping, dancing, and silly energy-burning fun.</p>
+              <button class="swipe-cta" style="background:#A9744F" onclick="startInterview('alex')">Interview Alex now</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="swipe-card">
+          <div class="swipe-card-inner">
+            <div class="swipe-video-wrap">
+              <video src="videos/piglet_frontcard.mp4" muted autoplay loop playsinline webkit-playsinline></video>
+            </div>
+            <div class="swipe-card-body">
+              <p class="swipe-name">Elena &amp; Truffle the Piglet</p>
+              <span class="swipe-tag" style="background:#FFF0F4;color:#C2607D">🎨 Best for little dreamers</span>
+              <p class="swipe-desc">Elena and Truffle love pretend cooking, color hunts, and imaginative play that sparks creativity.</p>
+              <button class="swipe-cta" style="background:#C2607D" onclick="startInterview('elena')">Interview Elena now</button>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- .swipe-track -->
+      <div class="swipe-dots" id="swipe-dots">
+        <span class="swipe-dot active"></span>
+        <span class="swipe-dot"></span>
+        <span class="swipe-dot"></span>
+        <span class="swipe-dot"></span>
+      </div>
+    </div><!-- .swipe-carousel -->
+
     <div class="mp-depth-sentinel" data-pct="50" style="height:0;overflow:hidden;pointer-events:none" aria-hidden="true"></div>
   </div><!-- .section -->
   <div class="mp-depth-sentinel" data-pct="75" style="height:0;overflow:hidden;pointer-events:none" aria-hidden="true"></div>
@@ -1469,6 +1581,55 @@ function copyInviteLink(btn) {
   });
 }
 
+// ── MOBILE SWIPE CAROUSEL ──
+function initSwipeCarousel() {
+  const carousel = document.getElementById("swipe-carousel");
+  const track    = document.getElementById("swipe-track");
+  const dots     = document.querySelectorAll(".swipe-dot");
+  if (!track || !carousel) return;
+  let current = 0;
+  const count = 4;
+
+  function goTo(idx) {
+    current = Math.max(0, Math.min(count - 1, idx));
+    track.style.transform = `translateX(-${current * carousel.offsetWidth}px)`;
+    dots.forEach((d, i) => d.classList.toggle("active", i === current));
+    track.querySelectorAll(".swipe-video-wrap video").forEach((v, i) => {
+      i === current ? v.play().catch(() => {}) : v.pause();
+    });
+  }
+
+  let tx = 0, ty = 0, touching = false;
+  track.addEventListener("touchstart", e => {
+    tx = e.touches[0].clientX; ty = e.touches[0].clientY; touching = true;
+  }, { passive: true });
+  track.addEventListener("touchend", e => {
+    if (!touching) return; touching = false;
+    const dx = e.changedTouches[0].clientX - tx;
+    const dy = e.changedTouches[0].clientY - ty;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 44) goTo(current + (dx < 0 ? 1 : -1));
+  }, { passive: true });
+  track.addEventListener("touchcancel", () => { touching = false; }, { passive: true });
+
+  dots.forEach((dot, i) => dot.addEventListener("click", () => goTo(i)));
+
+  window.addEventListener("resize", () => {
+    track.style.transition = "none";
+    track.style.transform = `translateX(-${current * carousel.offsetWidth}px)`;
+    requestAnimationFrame(() => { track.style.transition = ""; });
+  });
+
+  // ensure iOS video attributes
+  track.querySelectorAll(".swipe-video-wrap video").forEach(vid => {
+    vid.muted = true;
+    vid.setAttribute("muted", "");
+    vid.setAttribute("playsinline", "");
+    vid.setAttribute("webkit-playsinline", "");
+  });
+
+  goTo(0);
+}
+
 // ── INIT ──
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("send-btn").addEventListener("click", () => {
@@ -1515,6 +1676,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }, { threshold: 0.1 });
   document.querySelectorAll(".mp-depth-sentinel").forEach(el => _depthIO.observe(el));
+
+  // mobile carousel
+  initSwipeCarousel();
 
   // hero viewed on first load
   mp("hero_viewed");
