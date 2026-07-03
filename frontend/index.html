@@ -127,6 +127,27 @@
     /* ── MOBILE SWIPE CAROUSEL (hidden on desktop) ── */
     .swipe-carousel { display: none; }
 
+    /* ── MOBILE BOTTOM SHEET ── */
+    .mobile-sheet-backdrop { display:none; position:fixed; inset:0; background:rgba(0,0,0,.55); z-index:290; }
+    .mobile-sheet-backdrop.open { display:block; }
+    .mobile-sheet { position:fixed; bottom:0; left:0; right:0; height:85vh; background:#fff; border-radius:20px 20px 0 0; z-index:300; transform:translateY(100%); transition:transform .3s ease; overflow-y:auto; -webkit-overflow-scrolling:touch; }
+    .mobile-sheet.open { transform:translateY(0); }
+    .mobile-sheet-close { position:absolute; top:14px; right:16px; width:32px; height:32px; border-radius:50%; border:none; background:#f0f0f0; font-size:15px; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:1; }
+    .ms-video-wrap { position:relative; width:100%; padding-top:56.25%; background:#15132a; border-radius:14px; overflow:hidden; cursor:pointer; margin-bottom:20px; }
+    .ms-video-wrap video { position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; display:block; }
+    .ms-overlay { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; background:rgba(0,0,0,.25); }
+    .ms-play-btn { width:56px; height:56px; border-radius:50%; background:rgba(255,255,255,.15); border:2px solid rgba(255,255,255,.4); display:flex; align-items:center; justify-content:center; font-size:22px; backdrop-filter:blur(4px); }
+    .ms-play-label { font-size:12px; font-weight:600; color:rgba(255,255,255,.85); }
+    .ms-name { font-size:1.25rem; font-weight:800; line-height:1.2; margin:0 0 10px; }
+    .ms-tag { display:inline-flex; align-items:center; gap:4px; font-size:12px; font-weight:600; padding:5px 14px; border-radius:20px; margin-bottom:14px; }
+    .ms-desc { font-size:14px; color:#555; line-height:1.55; margin-bottom:24px; }
+    .ms-cta { display:block; width:100%; padding:16px; border:none; border-radius:14px; color:#fff; font-size:16px; font-weight:700; cursor:pointer; font-family:inherit; margin-bottom:14px; transition:transform .12s; }
+    .ms-cta:active { transform:scale(.98); }
+    .ms-notnow { display:block; width:100%; text-align:center; background:none; border:none; font-size:13px; color:#999; cursor:pointer; font-family:inherit; padding:4px; }
+    .ms-questions { display:flex; flex-direction:column; gap:8px; margin-bottom:20px; }
+    .ms-q { display:block; width:100%; text-align:left; background:#fafafa; border:1.5px solid; border-radius:10px; padding:10px 14px; font-size:.85rem; font-weight:500; cursor:pointer; font-family:inherit; line-height:1.35; transition:background .15s; }
+    .ms-q:active { background:#f0f0f0; }
+
     /* trust badges + mobile hint: hidden on desktop */
     .trust-badges { display: none; }
     .section-hint-mobile { display: none; }
@@ -158,6 +179,13 @@
       .swipe-dots { display: flex; justify-content: center; align-items: center; gap: 8px; padding: 16px 0 4px; }
       .swipe-dot { width: 8px; height: 8px; border-radius: 4px; background: #ddd; cursor: pointer; transition: width .25s, background .25s; flex-shrink: 0; }
       .swipe-dot.active { width: 24px; background: #5c3dc4; }
+      /* Compact vertical spacing for iPhone SE (375×667) */
+      .hero { padding: 32px 20px 20px; }
+      .section { padding: 0 16px 16px; }
+      .section-header-wrap { padding-bottom: 16px; }
+      .trust-badges { margin-top: 12px; }
+      .swipe-card-body { padding: 14px 14px 18px; }
+      .swipe-dots { padding: 10px 0 2px; }
     }
 
     /* ── PERSONA DETAIL (lives inside the modal) ── */
@@ -684,7 +712,7 @@ mixpanel.init("c19a390119d3f17a90d52c7ae87da26c", { track_pageview: true, persis
               <p class="swipe-name">Maya &amp; Ember the Fox</p>
               <span class="swipe-tag" style="background:#FFF4EF;color:#C1440E">🧭 Best for curious explorers</span>
               <p class="swipe-desc">Maya and Ember turn outdoor moments into mini adventures — counting flowers, naming colors, and exploring nature together.</p>
-              <button class="swipe-cta" style="background:#C1440E" onclick="startInterview('maya')">Interview Maya now</button>
+              <button class="swipe-cta" style="background:#C1440E" onclick="openMobileDetail('pip')">Interview Maya now</button>
             </div>
           </div>
         </div>
@@ -698,7 +726,7 @@ mixpanel.init("c19a390119d3f17a90d52c7ae87da26c", { track_pageview: true, persis
               <p class="swipe-name">Grandma Rose &amp; Sage the Owl</p>
               <span class="swipe-tag" style="background:#F3F0FF;color:#7C6FCE">🦉 Best for calm, watchful care</span>
               <p class="swipe-desc">Grandma Rose and Sage keep things calm and cozy, with gentle check-ins so you know your little one is doing okay.</p>
-              <button class="swipe-cta" style="background:#7C6FCE" onclick="startInterview('rose')">Interview Rose now</button>
+              <button class="swipe-cta" style="background:#7C6FCE" onclick="openMobileDetail('luna')">Interview Rose now</button>
             </div>
           </div>
         </div>
@@ -712,7 +740,7 @@ mixpanel.init("c19a390119d3f17a90d52c7ae87da26c", { track_pageview: true, persis
               <p class="swipe-name">Alex &amp; Whiskers the Kitten</p>
               <span class="swipe-tag" style="background:#FFF7F0;color:#A9744F">🏃 Best for high-energy kids</span>
               <p class="swipe-desc">Alex and Whiskers turn screen breaks into movement games — jumping, dancing, and silly energy-burning fun.</p>
-              <button class="swipe-cta" style="background:#A9744F" onclick="startInterview('alex')">Interview Alex now</button>
+              <button class="swipe-cta" style="background:#A9744F" onclick="openMobileDetail('bongo')">Interview Alex now</button>
             </div>
           </div>
         </div>
@@ -726,7 +754,7 @@ mixpanel.init("c19a390119d3f17a90d52c7ae87da26c", { track_pageview: true, persis
               <p class="swipe-name">Elena &amp; Truffle the Piglet</p>
               <span class="swipe-tag" style="background:#FFF0F4;color:#C2607D">🎨 Best for little dreamers</span>
               <p class="swipe-desc">Elena and Truffle love pretend cooking, color hunts, and imaginative play that sparks creativity.</p>
-              <button class="swipe-cta" style="background:#C2607D" onclick="startInterview('elena')">Interview Elena now</button>
+              <button class="swipe-cta" style="background:#C2607D" onclick="openMobileDetail('coco')">Interview Elena now</button>
             </div>
           </div>
         </div>
@@ -810,6 +838,12 @@ mixpanel.init("c19a390119d3f17a90d52c7ae87da26c", { track_pageview: true, persis
       </div>
     </div>
   </div>
+</div>
+
+<!-- MOBILE BOTTOM SHEET -->
+<div class="mobile-sheet-backdrop" id="ms-backdrop" onclick="closeMobileDetail('mobile_detail_sheet_dismissed')"></div>
+<div class="mobile-sheet" id="mobile-sheet">
+  <div id="ms-inner" style="padding:20px 20px 40px;position:relative"></div>
 </div>
 
 <script>
@@ -1579,6 +1613,98 @@ function copyInviteLink(btn) {
   }).catch(() => {
     prompt("Copy this link:", window.location.href);
   });
+}
+
+// ── MOBILE BOTTOM SHEET ──
+const MOBILE_QUESTIONS = {
+  pip:   ["Can Ember help my child count to 10?", "What makes Maya different from YouTube?", "Show me a math game example"],
+  luna:  ["How does Sage help with bedtime?", "What if my child won't talk?", "Can Rose help with anxiety?"],
+  bongo: ["What movement games does Whiskers do?", "Good for kids who can't sit still?", "How long are the activity breaks?"],
+  coco:  ["How does Truffle build vocabulary?", "What does a pretend play session look like?", "Good for shy or quiet kids?"]
+};
+let _msCurrentPersonaId = null;
+
+function openMobileDetail(personaId) {
+  if (window.innerWidth > 768) { chatEntryPoint = "main_cta"; openChat(personaId, null); return; }
+  _msCurrentPersonaId = personaId;
+  const p = PERSONAS[personaId];
+  const firstName = p.name.split(" ")[0];
+  const qs = MOBILE_QUESTIONS[personaId] || [];
+  const qHtml = qs.map(q => `<button class="ms-q" style="border-color:${p.accent};color:${p.accent}">${q}</button>`).join("");
+  document.getElementById("ms-inner").innerHTML = `
+    <button class="mobile-sheet-close" onclick="closeMobileDetail('mobile_detail_sheet_closed')">✕</button>
+    <div class="ms-video-wrap" onclick="toggleMobileSheetVideo()">
+      <video id="ms-video" src="${p.video}"></video>
+      <div class="ms-overlay" id="ms-overlay" style="display:none">
+        <div class="ms-play-btn">▶</div>
+        <span class="ms-play-label">See ${firstName} in action</span>
+      </div>
+    </div>
+    <p class="ms-name" style="color:${p.body}">${p.name}</p>
+    <span class="ms-tag" style="background:${p.tag_color};color:${p.accent}">${p.best_for}</span>
+    <div class="ms-questions">${qHtml}</div>
+    <button class="ms-cta" style="background:${p.accent}" onclick="closeMobileDetailAndChat('${personaId}')">Interview ${firstName} now</button>
+    <button class="ms-notnow" onclick="closeMobileDetail('mobile_detail_sheet_dismissed')">Not now</button>
+  `;
+  // Wire question buttons with event listeners to avoid string-escaping issues
+  document.querySelectorAll("#ms-inner .ms-q").forEach((btn, i) => {
+    btn.addEventListener("click", () => {
+      const q = MOBILE_QUESTIONS[personaId][i];
+      mp("mobile_faq_question_tapped", { persona_id: personaId, persona_name: p.name, question: q });
+      closeMobileDetail();
+      chatEntryPoint = "faq_question";
+      openChat(personaId, q);
+    });
+  });
+  document.getElementById("ms-backdrop").classList.add("open");
+  document.getElementById("mobile-sheet").classList.add("open");
+  document.body.style.overflow = "hidden";
+  mp("mobile_detail_sheet_opened", { persona_id: personaId, persona_name: p.name });
+  // Autoplay with audio — synchronous within user gesture so iOS allows it
+  const vid = document.getElementById("ms-video");
+  if (vid) {
+    vid.muted = false;
+    vid.setAttribute("playsinline", "");
+    vid.setAttribute("webkit-playsinline", "");
+    // { once: true } fires on autoplay success, or on first manual play if autoplay fails
+    vid.addEventListener("play", () => {
+      mp("mobile_preview_video_played", { persona_id: personaId, persona_name: p.name });
+    }, { once: true });
+    vid.onended = () => { const o = document.getElementById("ms-overlay"); if (o) o.style.display = "flex"; };
+    vid.play().catch(() => { const o = document.getElementById("ms-overlay"); if (o) o.style.display = "flex"; });
+  }
+}
+
+function closeMobileDetail(mpEvent) {
+  if (mpEvent && _msCurrentPersonaId) {
+    mp(mpEvent, { persona_id: _msCurrentPersonaId, persona_name: PERSONAS[_msCurrentPersonaId]?.name });
+  }
+  _msCurrentPersonaId = null;
+  const vid = document.getElementById("ms-video");
+  if (vid) { vid.pause(); vid.currentTime = 0; }
+  document.getElementById("mobile-sheet").classList.remove("open");
+  document.getElementById("ms-backdrop").classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+function closeMobileDetailAndChat(personaId) {
+  mp("mobile_interview_confirmed", { persona_id: personaId, persona_name: PERSONAS[personaId]?.name });
+  closeMobileDetail();
+  chatEntryPoint = "main_cta";
+  openChat(personaId, null);
+}
+
+function toggleMobileSheetVideo() {
+  const vid = document.getElementById("ms-video");
+  const overlay = document.getElementById("ms-overlay");
+  if (!vid) return;
+  if (vid.paused) {
+    vid.play().catch(() => {});
+    if (overlay) overlay.style.display = "none";
+  } else {
+    vid.pause();
+    if (overlay) overlay.style.display = "flex";
+  }
 }
 
 // ── MOBILE SWIPE CAROUSEL ──
