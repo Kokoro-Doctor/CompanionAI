@@ -154,11 +154,29 @@
     .trust-badge { font-size: .75rem; font-weight: 600; color: #444; background: #f5f4ff; border: 1px solid #e0deff; padding: 5px 12px; border-radius: 20px; white-space: nowrap; }
 
     @media (max-width: 768px) {
-      .hero > p { display: none; }
-      #sectionHint { display: none; }
-      .trust-badges { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 16px; }
-      .section-hint-mobile { display: block; font-size: .82rem; color: #888; opacity: 0; transform: translateY(8px); animation: heroIn .6s ease forwards; animation-delay: .4s; }
+      /* Nav compact */
+      nav { padding: 8px 16px; }
 
+      /* Hero compact */
+      .hero > p { display: none; }
+      .hero { padding: 16px 20px 8px; }
+      .hero-heading { margin-bottom: 0; }
+      .hero-line { font-size: 1.4rem; }
+
+      /* Trust badges compact */
+      .trust-badges { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 8px; }
+      .trust-badge { font-size: 0.7rem; padding: 3px 8px; }
+
+      /* Section header compact */
+      #sectionHint { display: none; }
+      .section { padding: 0 16px 16px; }
+      .section-header-wrap { padding-bottom: 4px; }
+      .section-underline { margin: 0 auto 6px; }
+      .section-title { font-size: 1rem; margin: 8px 0 4px; }
+      .section-tagline { font-size: 0.8rem; margin: 0 0 4px; }
+      .section-hint-mobile { display: block; font-size: 0.75rem; color: #888; margin: 0 0 8px; opacity: 0; transform: translateY(8px); animation: heroIn .6s ease forwards; animation-delay: .4s; }
+
+      /* Hide desktop card grid, show swipe carousel */
       .card-grid { display: none !important; }
 
       .swipe-carousel { display: block; overflow: hidden; }
@@ -166,26 +184,20 @@
       .swipe-card { flex: 0 0 100%; padding: 0 8px; box-sizing: border-box; }
       .swipe-card-inner { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,.09); }
 
-      .swipe-video-wrap { position: relative; width: 100%; padding-top: 56.25%; overflow: hidden; background: #15132a; }
+      /* Card video: 45vw keeps card compact so full card is visible ATF */
+      .swipe-video-wrap { position: relative; width: 100%; padding-top: 45vw; overflow: hidden; background: #15132a; }
       .swipe-video-wrap video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
 
-      .swipe-card-body { padding: 18px 18px 22px; display: flex; flex-direction: column; gap: 8px; }
+      .swipe-card-body { padding: 14px 14px 18px; display: flex; flex-direction: column; gap: 8px; }
       .swipe-name { font-size: 1.1rem; font-weight: 800; color: #1a1a2e; line-height: 1.2; margin: 0; }
       .swipe-tag { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; padding: 4px 12px; border-radius: 20px; align-self: flex-start; }
       .swipe-desc { font-size: 13.5px; color: #555; line-height: 1.5; margin: 2px 0; }
       .swipe-cta { width: 100%; padding: 14px; border: none; border-radius: 12px; color: #fff; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; margin-top: 6px; transition: transform .12s; }
       .swipe-cta:active { transform: scale(.97); }
 
-      .swipe-dots { display: flex; justify-content: center; align-items: center; gap: 8px; padding: 16px 0 4px; }
+      .swipe-dots { display: flex; justify-content: center; align-items: center; gap: 8px; padding: 10px 0 2px; }
       .swipe-dot { width: 8px; height: 8px; border-radius: 4px; background: #ddd; cursor: pointer; transition: width .25s, background .25s; flex-shrink: 0; }
       .swipe-dot.active { width: 24px; background: #5c3dc4; }
-      /* Compact vertical spacing for iPhone SE (375×667) */
-      .hero { padding: 32px 20px 20px; }
-      .section { padding: 0 16px 16px; }
-      .section-header-wrap { padding-bottom: 16px; }
-      .trust-badges { margin-top: 12px; }
-      .swipe-card-body { padding: 14px 14px 18px; }
-      .swipe-dots { padding: 10px 0 2px; }
     }
 
     /* ── PERSONA DETAIL (lives inside the modal) ── */
@@ -399,9 +411,7 @@ mixpanel.init("c19a390119d3f17a90d52c7ae87da26c", { track_pageview: true, persis
 
   <div class="hero">
     <h1 class="hero-heading">
-      <span class="hero-line">Not just a screen.</span>
-      <span class="hero-line">Not just a show.</span>
-      <span class="hero-line hero-accent">A friend who helps your little one grow.</span>
+      <span class="hero-line">Because Parenting doesn't come with a pause button.</span>
     </h1>
     <p>Every companion is a specialist. Not a generalist. Built for one skill, obsessed with one outcome — and ready to show your child what that looks like up close.</p>
     <div class="trust-badges">
@@ -425,70 +435,70 @@ mixpanel.init("c19a390119d3f17a90d52c7ae87da26c", { track_pageview: true, persis
 
     <div class="card-grid">
 
-      <!-- ── MAYA (pip) ── -->
-      <div class="persona-card" id="card-maya" style="--accent:#C1440E;--accent-light:#FFF4EF">
-        <div class="card-top" onclick="toggleCard('maya')">
-          <div class="card-avatar-img"><video src="videos/fox_frontcard.mp4" muted loop autoplay playsinline webkit-playsinline></video></div>
+      <!-- ── ALEX (bongo) ── -->
+      <div class="persona-card" id="card-alex" style="--accent:#A9744F;--accent-light:#FFF7F0">
+        <div class="card-top" onclick="toggleCard('alex')">
+          <div class="card-avatar-img"><video src="videos/kitten_frontcard.mp4" muted loop autoplay playsinline webkit-playsinline></video></div>
           <div class="card-text">
-            <p class="card-name">Maya &amp; Ember the Fox</p>
-            <p class="card-vibe">Curious &amp; Adventurous</p>
-            <span class="best-for">🧭 Best for curious explorers</span>
+            <p class="card-name">Alex &amp; Whiskers the Kitten</p>
+            <p class="card-vibe">Playful &amp; Energetic</p>
+            <span class="best-for">🏃 Best for high-energy kids</span>
           </div>
           <div class="card-chevron">&#8964;</div>
         </div>
         <div class="hover-peek">
           <p class="peek-label">Quick peek</p>
           <ul>
-            <li>Closes the #1 kindergarten readiness gap</li>
-            <li>Turns daily walks into counting practice</li>
-            <li>Just 3–5 minutes, zero worksheets</li>
+            <li>Fixes the top screen-time fear: too much sitting</li>
+            <li>2–5 min jumping &amp; dancing games</li>
+            <li>Builds focus back after sitting too long</li>
           </ul>
         </div>
         <div class="card-body">
           <div class="hook">
             <div class="hook-questions">
-              <p class="hook-q">Can your child count to 10 but freeze when you ask "how many"?</p>
-              <p class="hook-q">Are you scared he'll start school already behind?</p>
-              <p class="hook-q">Tired of flashcards he forgets in five minutes?</p>
+              <p class="hook-q">Is your child glued to a screen for hours?</p>
+              <p class="hook-q">Bouncing off the walls with nowhere to put the energy?</p>
+              <p class="hook-q">Too wound up to focus?</p>
             </div>
-            <p class="hook-resolution">The wait is over. Maya &amp; Ember are here.</p>
+            <p class="hook-resolution">Alex &amp; Whiskers are here to get them moving.</p>
           </div>
-          <div class="card-video-block" id="cvb-maya">
-            <div class="card-video-wrap" id="cvw-maya"></div>
-            <p class="video-caption" id="vcap-maya">✨ That's a real counting adventure! ✨</p>
+          <div class="card-video-block" id="cvb-alex">
+            <div class="card-video-wrap" id="cvw-alex"></div>
+            <p class="video-caption" id="vcap-alex">✨ Energy: officially burned ✨</p>
           </div>
           <div class="expanded-layout">
             <div class="exp-col" data-mp-section="sound_familiar">
               <p class="col-title">Sound familiar?</p>
               <ul class="checklist">
-                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#C1440E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>He counts to 10 perfectly — then freezes when you ask "how many is this?"</li>
-                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#C1440E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Flashcards bore him in under two minutes</li>
-                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#C1440E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Kindergarten's getting closer, and so is the worry</li>
-                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#C1440E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>You don't have 30 minutes a day — just a few</li>
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#A9744F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>He's been on the couch since breakfast</li>
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#A9744F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>He's wired with nowhere to put the energy</li>
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#A9744F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>He can't sit still even for five minutes</li>
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#A9744F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>You're exhausted just watching him</li>
               </ul>
-              <p class="bridge">Maya &amp; Ember turn those exact moments into real progress — one short walk at a time.</p>
+              <p class="bridge">Alex &amp; Whiskers turn that energy into movement — no fight required.</p>
             </div>
             <div class="exp-col" data-mp-section="what_actually_does">
-              <p class="col-title">What Maya actually does</p>
+              <p class="col-title">What Alex actually does</p>
               <ul class="checklist">
-                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#C1440E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Closes the #1 kindergarten readiness gap: real number sense</li>
-                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#C1440E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Turns daily walks into counting practice</li>
-                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#C1440E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Just 3–5 minutes, zero worksheets</li>
-                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#C1440E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Built for ages 3–6</li>
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#A9744F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Screen breaks that actually move little bodies</li>
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#A9744F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Jumping, dancing, spinning games he loves</li>
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#A9744F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Short 3–5 minute bursts of real fun</li>
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#A9744F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Built for ages 3–6</li>
               </ul>
             </div>
             <div class="exp-col">
               <p class="col-title">Ask yourself this</p>
               <div class="faq-list">
-                <div class="faq-item"><button class="faq-btn" onclick="openFaqToChat('maya',this)">"Is my child actually behind, or just not interested?" <span>💬</span></button></div>
-                <div class="faq-item"><button class="faq-btn" onclick="openFaqToChat('maya',this)">"What's the difference between counting and 'getting' numbers?" <span>💬</span></button></div>
-                <div class="faq-item"><button class="faq-btn" onclick="openFaqToChat('maya',this)">"How fast will I really see a difference?" <span>💬</span></button></div>
+                <div class="faq-item"><button class="faq-btn" onclick="openFaqToChat('alex',this)">"What movement games does Alex do?" <span>💬</span></button></div>
+                <div class="faq-item"><button class="faq-btn" onclick="openFaqToChat('alex',this)">"Good for small spaces/indoors?" <span>💬</span></button></div>
+                <div class="faq-item"><button class="faq-btn" onclick="openFaqToChat('alex',this)">"How long are the breaks?" <span>💬</span></button></div>
               </div>
             </div>
           </div>
           <div class="interview-cta">
             <p class="interview-hint">Ready to see it for yourself?</p>
-            <button class="interview-btn" onclick="startInterview('maya')">Interview Maya now</button>
+            <button class="interview-btn" onclick="startInterview('alex')">Interview Alex now</button>
           </div>
         </div>
       </div>
@@ -561,70 +571,70 @@ mixpanel.init("c19a390119d3f17a90d52c7ae87da26c", { track_pageview: true, persis
         </div>
       </div>
 
-      <!-- ── ALEX (bongo) ── -->
-      <div class="persona-card" id="card-alex" style="--accent:#A9744F;--accent-light:#FFF7F0">
-        <div class="card-top" onclick="toggleCard('alex')">
-          <div class="card-avatar-img"><video src="videos/kitten_frontcard.mp4" muted loop autoplay playsinline webkit-playsinline></video></div>
+      <!-- ── MAYA (pip) ── -->
+      <div class="persona-card" id="card-maya" style="--accent:#C1440E;--accent-light:#FFF4EF">
+        <div class="card-top" onclick="toggleCard('maya')">
+          <div class="card-avatar-img"><video src="videos/fox_frontcard.mp4" muted loop autoplay playsinline webkit-playsinline></video></div>
           <div class="card-text">
-            <p class="card-name">Alex &amp; Whiskers the Kitten</p>
-            <p class="card-vibe">Playful &amp; Energetic</p>
-            <span class="best-for">🏃 Best for high-energy kids</span>
+            <p class="card-name">Maya &amp; Ember the Fox</p>
+            <p class="card-vibe">Curious &amp; Adventurous</p>
+            <span class="best-for">🧭 Best for curious explorers</span>
           </div>
           <div class="card-chevron">&#8964;</div>
         </div>
         <div class="hover-peek">
           <p class="peek-label">Quick peek</p>
           <ul>
-            <li>Fixes the top screen-time fear: too much sitting</li>
-            <li>2–5 min jumping &amp; dancing games</li>
-            <li>Builds focus back after sitting too long</li>
+            <li>Closes the #1 kindergarten readiness gap</li>
+            <li>Turns daily walks into counting practice</li>
+            <li>Just 3–5 minutes, zero worksheets</li>
           </ul>
         </div>
         <div class="card-body">
           <div class="hook">
             <div class="hook-questions">
-              <p class="hook-q">Is your child glued to a screen for hours?</p>
-              <p class="hook-q">Bouncing off the walls with nowhere to put the energy?</p>
-              <p class="hook-q">Too wound up to focus?</p>
+              <p class="hook-q">Can your child count to 10 but freeze when you ask "how many"?</p>
+              <p class="hook-q">Are you scared he'll start school already behind?</p>
+              <p class="hook-q">Tired of flashcards he forgets in five minutes?</p>
             </div>
-            <p class="hook-resolution">Alex &amp; Whiskers are here to get them moving.</p>
+            <p class="hook-resolution">The wait is over. Maya &amp; Ember are here.</p>
           </div>
-          <div class="card-video-block" id="cvb-alex">
-            <div class="card-video-wrap" id="cvw-alex"></div>
-            <p class="video-caption" id="vcap-alex">✨ Energy: officially burned ✨</p>
+          <div class="card-video-block" id="cvb-maya">
+            <div class="card-video-wrap" id="cvw-maya"></div>
+            <p class="video-caption" id="vcap-maya">✨ That's a real counting adventure! ✨</p>
           </div>
           <div class="expanded-layout">
             <div class="exp-col" data-mp-section="sound_familiar">
               <p class="col-title">Sound familiar?</p>
               <ul class="checklist">
-                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#A9744F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>He's been on the couch since breakfast</li>
-                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#A9744F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>He's wired with nowhere to put the energy</li>
-                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#A9744F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>He can't sit still even for five minutes</li>
-                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#A9744F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>You're exhausted just watching him</li>
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#C1440E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>He counts to 10 perfectly — then freezes when you ask "how many is this?"</li>
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#C1440E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Flashcards bore him in under two minutes</li>
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#C1440E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Kindergarten's getting closer, and so is the worry</li>
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#C1440E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>You don't have 30 minutes a day — just a few</li>
               </ul>
-              <p class="bridge">Alex &amp; Whiskers turn that energy into movement — no fight required.</p>
+              <p class="bridge">Maya &amp; Ember turn those exact moments into real progress — one short walk at a time.</p>
             </div>
             <div class="exp-col" data-mp-section="what_actually_does">
-              <p class="col-title">What Alex actually does</p>
+              <p class="col-title">What Maya actually does</p>
               <ul class="checklist">
-                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#A9744F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Screen breaks that actually move little bodies</li>
-                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#A9744F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Jumping, dancing, spinning games he loves</li>
-                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#A9744F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Short 3–5 minute bursts of real fun</li>
-                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#A9744F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Built for ages 3–6</li>
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#C1440E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Closes the #1 kindergarten readiness gap: real number sense</li>
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#C1440E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Turns daily walks into counting practice</li>
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#C1440E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Just 3–5 minutes, zero worksheets</li>
+                <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#C1440E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Built for ages 3–6</li>
               </ul>
             </div>
             <div class="exp-col">
               <p class="col-title">Ask yourself this</p>
               <div class="faq-list">
-                <div class="faq-item"><button class="faq-btn" onclick="openFaqToChat('alex',this)">"What movement games does Alex do?" <span>💬</span></button></div>
-                <div class="faq-item"><button class="faq-btn" onclick="openFaqToChat('alex',this)">"Good for small spaces/indoors?" <span>💬</span></button></div>
-                <div class="faq-item"><button class="faq-btn" onclick="openFaqToChat('alex',this)">"How long are the breaks?" <span>💬</span></button></div>
+                <div class="faq-item"><button class="faq-btn" onclick="openFaqToChat('maya',this)">"Is my child actually behind, or just not interested?" <span>💬</span></button></div>
+                <div class="faq-item"><button class="faq-btn" onclick="openFaqToChat('maya',this)">"What's the difference between counting and 'getting' numbers?" <span>💬</span></button></div>
+                <div class="faq-item"><button class="faq-btn" onclick="openFaqToChat('maya',this)">"How fast will I really see a difference?" <span>💬</span></button></div>
               </div>
             </div>
           </div>
           <div class="interview-cta">
             <p class="interview-hint">Ready to see it for yourself?</p>
-            <button class="interview-btn" onclick="startInterview('alex')">Interview Alex now</button>
+            <button class="interview-btn" onclick="startInterview('maya')">Interview Maya now</button>
           </div>
         </div>
       </div>
@@ -706,13 +716,13 @@ mixpanel.init("c19a390119d3f17a90d52c7ae87da26c", { track_pageview: true, persis
         <div class="swipe-card">
           <div class="swipe-card-inner">
             <div class="swipe-video-wrap">
-              <video src="videos/fox_frontcard.mp4" muted autoplay loop playsinline webkit-playsinline></video>
+              <video src="videos/kitten_frontcard.mp4" muted autoplay loop playsinline webkit-playsinline></video>
             </div>
             <div class="swipe-card-body">
-              <p class="swipe-name">Maya &amp; Ember the Fox</p>
-              <span class="swipe-tag" style="background:#FFF4EF;color:#C1440E">🧭 Best for curious explorers</span>
-              <p class="swipe-desc">Maya and Ember turn outdoor moments into mini adventures — counting flowers, naming colors, and exploring nature together.</p>
-              <button class="swipe-cta" style="background:#C1440E" onclick="openMobileDetail('pip')">Interview Maya now</button>
+              <p class="swipe-name">Alex &amp; Whiskers the Kitten</p>
+              <span class="swipe-tag" style="background:#FFF7F0;color:#A9744F">🏃 Best for high-energy kids</span>
+              <p class="swipe-desc">Alex and Whiskers turn screen breaks into movement games — jumping, dancing, and silly energy-burning fun.</p>
+              <button class="swipe-cta" style="background:#A9744F" onclick="openMobileDetail('bongo')">Interview Alex now</button>
             </div>
           </div>
         </div>
@@ -734,13 +744,13 @@ mixpanel.init("c19a390119d3f17a90d52c7ae87da26c", { track_pageview: true, persis
         <div class="swipe-card">
           <div class="swipe-card-inner">
             <div class="swipe-video-wrap">
-              <video src="videos/kitten_frontcard.mp4" muted autoplay loop playsinline webkit-playsinline></video>
+              <video src="videos/fox_frontcard.mp4" muted autoplay loop playsinline webkit-playsinline></video>
             </div>
             <div class="swipe-card-body">
-              <p class="swipe-name">Alex &amp; Whiskers the Kitten</p>
-              <span class="swipe-tag" style="background:#FFF7F0;color:#A9744F">🏃 Best for high-energy kids</span>
-              <p class="swipe-desc">Alex and Whiskers turn screen breaks into movement games — jumping, dancing, and silly energy-burning fun.</p>
-              <button class="swipe-cta" style="background:#A9744F" onclick="openMobileDetail('bongo')">Interview Alex now</button>
+              <p class="swipe-name">Maya &amp; Ember the Fox</p>
+              <span class="swipe-tag" style="background:#FFF4EF;color:#C1440E">🧭 Best for curious explorers</span>
+              <p class="swipe-desc">Maya and Ember turn outdoor moments into mini adventures — counting flowers, naming colors, and exploring nature together.</p>
+              <button class="swipe-cta" style="background:#C1440E" onclick="openMobileDetail('pip')">Interview Maya now</button>
             </div>
           </div>
         </div>
