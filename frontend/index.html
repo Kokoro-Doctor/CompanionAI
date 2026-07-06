@@ -4,42 +4,44 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Companion — AI Friends for Little Minds</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: #F5F4FF; color: #1a1a2e; min-height: 100vh; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: #FAF6F1; color: #1a1a2e; min-height: 100vh; }
 
     /* ── NAV ── */
-    nav { display: flex; justify-content: space-between; align-items: center; padding: 16px 32px; background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,.07); position: sticky; top: 0; z-index: 100; }
-    .logo { font-size: 1.3rem; font-weight: 700; color: #5c3dc4; letter-spacing: -.5px; }
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 16px 32px; background: #FAF6F1; box-shadow: 0 1px 4px rgba(0,0,0,.07); position: sticky; top: 0; z-index: 100; }
+    .logo { font-size: 1.3rem; font-weight: 700; color: #1C3D35; letter-spacing: -.5px; font-family: 'Lora', Georgia, serif; display: flex; align-items: center; gap: 10px; }
     .nav-actions { display: flex; gap: 12px; align-items: center; }
-    .btn { padding: 9px 20px; border-radius: 8px; font-size: .9rem; font-weight: 600; cursor: pointer; border: none; transition: opacity .15s; }
+    .btn { padding: 9px 20px; border-radius: 50px; font-size: .9rem; font-weight: 600; cursor: pointer; border: none; transition: opacity .15s; }
     .btn:hover { opacity: .85; }
-    .btn-outline { background: transparent; border: 2px solid #5c3dc4; color: #5c3dc4; }
-    .btn-primary { background: #5c3dc4; color: #fff; }
+    .btn-outline { background: transparent; border: 2px solid #1C3D35; color: #1C3D35; }
+    .btn-primary { background: #1C3D35; color: #FAF6F1; }
     .btn-sm { padding: 7px 16px; font-size: .82rem; }
 
     /* ── HERO ── */
     .hero { text-align: center; padding: 72px 24px 60px; max-width: 700px; margin: 0 auto; position: relative; z-index: 10; }
     .hero-heading { display: flex; flex-direction: column; align-items: center; gap: 6px; margin-bottom: 20px; }
-    .hero-line { font-size: clamp(30px, 5.2vw, 50px); font-weight: 800; line-height: 1.15; letter-spacing: -.6px; color: #0f0b1e; opacity: 0; transform: translateY(20px); animation: heroIn .7s ease forwards; }
+    .hero-line { font-size: clamp(28px, 5vw, 48px); font-weight: 700; line-height: 1.2; letter-spacing: -.3px; color: #1C3D35; font-family: 'Lora', Georgia, serif; opacity: 0; transform: translateY(20px); animation: heroIn .7s ease forwards; }
     .hero-line:nth-child(1) { animation-delay: .1s; }
     .hero-line:nth-child(2) { animation-delay: .35s; }
     .hero-line:nth-child(3) { animation-delay: .6s; }
-    .hero-accent { color: #6c2eff; }
+    .hero-accent { color: #D45E2B; font-style: italic; }
     .hero > p { font-size: 17px; color: #666; line-height: 1.65; max-width: 480px; margin: 0 auto; opacity: 0; transform: translateY(15px); animation: heroIn .7s ease forwards; animation-delay: .95s; }
     @keyframes heroIn { to { opacity: 1; transform: translateY(0); } }
 
     /* ── SECTION HEADER ── */
     .section { max-width: 1160px; margin: 0 auto; padding: 0 24px 80px; }
-    .section-title { text-align: center; font-size: 22px; font-weight: 700; color: #0f0b1e; margin-bottom: 10px; }
+    .section-title { text-align: center; font-size: 12px; font-weight: 700; color: #5B8A7A; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1.5px; }
     .section-header-wrap { position: relative; text-align: center; }
     .header-spark { position: absolute; width: 7px; height: 7px; border-radius: 50%; background: #FFD93D; animation: sparkFloat 2.6s ease-in-out infinite; }
     .header-spark.s1 { top: -6px; left: 38%; }
-    .header-spark.s2 { top: 10px; right: 30%; animation-delay: .8s; background: #a78bfa; }
+    .header-spark.s2 { top: 10px; right: 30%; animation-delay: .8s; background: #5B8A7A; }
     @keyframes sparkFloat { 0%,100% { opacity: .3; transform: translateY(0) scale(.8); } 50% { opacity: 1; transform: translateY(-6px) scale(1.15); } }
-    .section-underline { width: 60px; height: 4px; background: linear-gradient(90deg, #6c2eff, #a78bfa); border-radius: 4px; margin: 0 auto 14px; transform: scaleX(0); transition: transform .6s ease .3s; }
+    .section-underline { width: 60px; height: 4px; background: linear-gradient(90deg, #1C3D35, #5B8A7A); border-radius: 4px; margin: 0 auto 14px; transform: scaleX(0); transition: transform .6s ease .3s; }
     .section-underline.in-view { transform: scaleX(1); }
-    .section-tagline { font-size: 17px; font-weight: 700; color: #1a1a2e; margin-bottom: 6px; opacity: 0; transform: translateY(14px); transition: opacity .6s ease, transform .6s ease; }
+    .section-tagline { font-size: 20px; font-weight: 700; color: #1C3D35; margin-bottom: 6px; font-family: 'Lora', Georgia, serif; opacity: 0; transform: translateY(14px); transition: opacity .6s ease, transform .6s ease; }
     .section-hint { font-size: 14px; color: #888; margin-bottom: 36px; opacity: 0; transform: translateY(14px); transition: opacity .6s ease .15s, transform .6s ease .15s; }
     .section-tagline.in-view, .section-hint.in-view { opacity: 1; transform: translateY(0); }
 
@@ -151,7 +153,7 @@
     /* trust badges + mobile hint: hidden on desktop */
     .trust-badges { display: none; }
     .section-hint-mobile { display: none; }
-    .trust-badge { font-size: .75rem; font-weight: 600; color: #444; background: #f5f4ff; border: 1px solid #e0deff; padding: 5px 12px; border-radius: 20px; white-space: nowrap; }
+    .trust-badge { font-size: .75rem; font-weight: 600; color: #1C3D35; background: #E8F2EE; border: 1px solid #C3DDD5; padding: 5px 12px; border-radius: 20px; white-space: nowrap; }
 
     @media (max-width: 768px) {
       /* Nav compact */
@@ -172,8 +174,8 @@
       .section { padding: 0 16px 16px; }
       .section-header-wrap { padding-bottom: 4px; }
       .section-underline { margin: 0 auto 6px; }
-      .section-title { font-size: 1rem; margin: 8px 0 4px; }
-      .section-tagline { font-size: 0.8rem; margin: 0 0 4px; }
+      .section-title { font-size: 10px; margin: 4px 0 2px; }
+      .section-tagline { font-size: 0.9rem; margin: 0 0 4px; }
       .section-hint-mobile { display: block; font-size: 0.75rem; color: #888; margin: 0 0 8px; opacity: 0; transform: translateY(8px); animation: heroIn .6s ease forwards; animation-delay: .4s; }
 
       /* Hide desktop card grid, show swipe carousel */
@@ -197,7 +199,7 @@
 
       .swipe-dots { display: flex; justify-content: center; align-items: center; gap: 8px; padding: 10px 0 2px; }
       .swipe-dot { width: 8px; height: 8px; border-radius: 4px; background: #ddd; cursor: pointer; transition: width .25s, background .25s; flex-shrink: 0; }
-      .swipe-dot.active { width: 24px; background: #5c3dc4; }
+      .swipe-dot.active { width: 24px; background: #1C3D35; }
     }
 
     /* ── PERSONA DETAIL (lives inside the modal) ── */
@@ -288,6 +290,99 @@
 
     /* ── MISC ── */
     footer { text-align: center; padding: 32px 24px; color: #bbb; font-size: .8rem; }
+
+    /* ── NAV BADGE ── */
+    .nav-badge { font-size: .65rem; font-weight: 700; color: #5B8A7A; background: #E8F2EE; border: 1px solid #C3DDD5; padding: 3px 10px; border-radius: 20px; white-space: nowrap; letter-spacing: .3px; }
+
+    /* ── HERO ADDITIONS (desktop only) ── */
+    .hero-video-placeholder { width: 100%; max-width: 640px; margin: 28px auto 0; border-radius: 20px; background: #E8F2EE; border: 2px dashed #5B8A7A; height: 200px; display: flex; align-items: center; justify-content: center; color: #5B8A7A; font-size: .85rem; font-weight: 600; }
+    .hero-cta { background: #1C3D35; color: #FAF6F1; border: none; padding: 16px 36px; border-radius: 50px; font-size: 1rem; font-weight: 700; cursor: pointer; font-family: inherit; margin: 28px auto 0; transition: opacity .15s; display: block; }
+    .hero-cta:hover { opacity: .85; }
+    .hero-microcopy { font-size: .75rem; color: #999; margin-top: 10px; text-align: center; }
+
+    /* ── PAIN POINTS ── */
+    .pain-section { background: #1C3D35; padding: 72px 24px; }
+    .pain-section .section-title { color: #5B8A7A; }
+    .pain-section .section-tagline { color: #FAF6F1; font-family: 'Lora', Georgia, serif; opacity: 1; transform: none; }
+    .pain-points-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; max-width: 960px; margin: 40px auto 0; }
+    .pain-card { background: rgba(255,255,255,.07); border-radius: 16px; padding: 28px 24px; }
+    .pain-emoji { font-size: 2rem; margin-bottom: 12px; }
+    .pain-title { font-size: 1rem; font-weight: 700; color: #FAF6F1; margin-bottom: 8px; font-family: 'Lora', Georgia, serif; line-height: 1.3; }
+    .pain-desc { font-size: 14px; color: rgba(250,246,241,.7); line-height: 1.65; }
+
+    /* ── BEFORE / AFTER ── */
+    .ba-section { padding: 72px 24px; background: #FAF6F1; }
+    .ba-section .section-title { color: #5B8A7A; }
+    .ba-section .section-tagline { color: #1C3D35; font-family: 'Lora', Georgia, serif; opacity: 1; transform: none; }
+    .ba-placeholder { max-width: 800px; margin: 40px auto 0; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .ba-side { border-radius: 20px; padding: 28px 24px; }
+    .ba-before { background: #F0EBE3; border: 2px solid #E0D8CC; }
+    .ba-after { background: #E8F2EE; border: 2px solid #C3DDD5; }
+    .ba-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 16px; }
+    .ba-before .ba-label { color: #A0927D; }
+    .ba-after .ba-label { color: #5B8A7A; }
+    .ba-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; font-size: 14px; line-height: 1.5; }
+    .ba-before .ba-item { color: #7A6A58; }
+    .ba-after .ba-item { color: #2D5A4A; }
+
+    /* ── HOW IT WORKS ── */
+    .hiw-section { background: #FAF6F1; padding: 72px 24px; border-top: 1px solid #EDE8E1; }
+    .hiw-section .section-title { color: #5B8A7A; }
+    .hiw-section .section-tagline { color: #1C3D35; font-family: 'Lora', Georgia, serif; opacity: 1; transform: none; }
+    .hiw-steps { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; max-width: 900px; margin: 40px auto 0; align-items: stretch; }
+    .hiw-step { background: #fff; border-radius: 20px; padding: 32px 28px; box-shadow: 0 2px 16px rgba(0,0,0,.06); text-align: center; display: flex; flex-direction: column; align-items: center; }
+    .hiw-icon-wrap { width: 56px; height: 56px; border-radius: 14px; background: #E8F2EE; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin-bottom: 14px; flex-shrink: 0; }
+    .hiw-step-num { font-size: 11px; font-weight: 700; color: #5B8A7A; text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 8px; }
+    .hiw-title { font-size: 1.05rem; font-weight: 700; color: #1C3D35; margin-bottom: 10px; font-family: 'Lora', Georgia, serif; }
+    .hiw-desc { font-size: 14px; color: #666; line-height: 1.65; }
+
+    /* ── TESTIMONIALS ── */
+    .testi-section { background: #1C3D35; padding: 72px 0; }
+    .testi-section .section-header-wrap { padding: 0 24px; }
+    .testi-section .section-title { color: #5B8A7A; }
+    .testi-section .section-tagline { color: #FAF6F1; font-family: 'Lora', Georgia, serif; opacity: 1; transform: none; }
+    .testi-marquee-wrap { overflow: hidden; margin-top: 40px; width: 100%; }
+    .testi-track { display: flex; width: max-content; animation: testi-scroll 28s linear infinite; padding: 4px 0 12px; }
+    .testi-track:hover { animation-play-state: paused; }
+    .testi-track.paused { animation-play-state: paused; }
+    /* margin-right on every card (including last) keeps both halves equal width → clean -50% loop */
+    .testi-card { width: 320px; flex-shrink: 0; margin-right: 20px; background: #fff; border-radius: 20px; padding: 28px 24px; display: flex; flex-direction: column; gap: 12px; }
+    .testi-quotemark { font-size: 2.8rem; line-height: 1; color: #D45E2B; font-family: Georgia, serif; font-weight: 700; margin-bottom: -4px; }
+    .testi-stars { font-size: 13px; letter-spacing: 1px; color: #F5A623; }
+    .testi-quote { font-size: 15px; color: #2d2d2d; line-height: 1.7; font-family: 'Lora', Georgia, serif; font-style: italic; flex: 1; }
+    .testi-footer { display: flex; align-items: center; gap: 10px; margin-top: 4px; }
+    .testi-avatar { width: 36px; height: 36px; border-radius: 50%; background: #1C3D35; color: #FAF6F1; font-size: .85rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .testi-attribution { flex: 1; min-width: 0; }
+    .testi-name { font-size: 13px; font-weight: 700; color: #1a1a2e; }
+    .testi-persona { font-size: 11px; color: #888; margin-top: 1px; }
+    .testi-verified { font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; background: #5B8A7A; color: #fff; padding: 3px 8px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; align-self: center; }
+    @keyframes testi-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ── FINAL CTA ── */
+    .final-cta-section { background: #FAF6F1; padding: 100px 24px; text-align: center; }
+    .final-cta-section h2 { font-family: 'Lora', Georgia, serif; font-size: clamp(26px,4vw,44px); color: #1C3D35; font-weight: 700; margin-bottom: 16px; line-height: 1.3; }
+    .final-cta-section > p { font-size: 17px; color: #666; max-width: 480px; margin: 0 auto 36px; line-height: 1.65; }
+    .final-cta-btn { background: #1C3D35; color: #FAF6F1; border: none; padding: 16px 40px; border-radius: 50px; font-size: 1.05rem; font-weight: 700; cursor: pointer; font-family: inherit; transition: opacity .15s; }
+    .final-cta-btn:hover { opacity: .85; }
+    .final-microcopy { font-size: .75rem; color: #aaa; margin-top: 12px; }
+
+    /* ── MOBILE OVERRIDES — NEW SECTIONS ── */
+    @media (max-width: 768px) {
+      .hero-video-placeholder, .hero-microcopy { display: none; }
+      .hero-cta { margin-top: 12px; padding: 12px 24px; font-size: .9rem; }
+      .pain-section, .ba-section, .hiw-section { padding: 48px 20px; }
+      .testi-section { padding: 48px 0; }
+      .final-cta-section { padding: 60px 20px; }
+      .pain-points-grid { grid-template-columns: 1fr; gap: 16px; }
+      .ba-placeholder { grid-template-columns: 1fr; gap: 16px; }
+      .pain-section .section-tagline, .ba-section .section-tagline,
+      .hiw-section .section-tagline, .testi-section .section-tagline { font-size: 1.1rem; }
+      .final-cta-section h2 { font-size: clamp(22px,6vw,32px); }
+    }
+    @media (max-width: 480px) {
+      .hiw-steps { grid-template-columns: 1fr; gap: 16px; }
+      .testi-grid { grid-template-columns: 1fr; gap: 16px; }
+    }
 
     /* ── MOBILE DETAIL MODAL (≤768px only) ── */
     @media (max-width: 768px) {
@@ -400,7 +495,7 @@ mixpanel.init("c19a390119d3f17a90d52c7ae87da26c", { track_pageview: true, persis
 
 <!-- NAV -->
 <nav>
-  <div class="logo">🌟 Companion</div>
+  <div class="logo">Companion <span class="nav-badge">For Busy Parents</span></div>
   <div class="nav-actions">
     <button class="btn btn-primary btn-sm" onclick="showSignup('nav')">Sign up</button>
   </div>
@@ -419,6 +514,9 @@ mixpanel.init("c19a390119d3f17a90d52c7ae87da26c", { track_pageview: true, persis
       <span class="trust-badge">👥 US Parents</span>
       <span class="trust-badge">🎯 Ages 3–6</span>
     </div>
+    <div id="hero-video-placeholder" class="hero-video-placeholder"><!-- TODO: Replace with hero video --></div>
+    <button class="hero-cta" onclick="showSignup('hero_cta')">Meet the Companions — it's free</button>
+    <p class="hero-microcopy">No credit card · No screen-time guilt · Ages 3–6</p>
   </div>
   <div class="mp-depth-sentinel" data-pct="25" style="height:0;overflow:hidden;pointer-events:none" aria-hidden="true"></div>
 
@@ -778,9 +876,188 @@ mixpanel.init("c19a390119d3f17a90d52c7ae87da26c", { track_pageview: true, persis
       </div>
     </div><!-- .swipe-carousel -->
 
-    <div class="mp-depth-sentinel" data-pct="50" style="height:0;overflow:hidden;pointer-events:none" aria-hidden="true"></div>
   </div><!-- .section -->
+  <div class="mp-depth-sentinel" data-pct="50" style="height:0;overflow:hidden;pointer-events:none" aria-hidden="true"></div>
+
+  <!-- ── PAIN POINTS ── -->
+  <section class="pain-section">
+    <div class="section-header-wrap" style="max-width:960px;margin:0 auto;">
+      <p class="section-title">The Real Problem</p>
+      <p class="section-tagline">You're not failing. You're just missing the right tool.</p>
+    </div>
+    <div class="pain-points-grid">
+      <div class="pain-card">
+        <div class="pain-emoji">😮‍💨</div>
+        <p class="pain-title">Every screen feels like a battle</p>
+        <p class="pain-desc">You know screen time isn't ideal. But between dinner and bedtime, you need 20 minutes of peace — and there's no good alternative.</p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-emoji">📚</div>
+        <p class="pain-title">Learning apps feel like homework</p>
+        <p class="pain-desc">Flashcard apps, counting worksheets, reading drills. Your 4-year-old isn't bored — they're disengaged. There's a difference.</p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-emoji">⏱️</div>
+        <p class="pain-title">No time to sit and do it yourself</p>
+        <p class="pain-desc">You want to read together, practice counting, talk through big feelings. But you're stretched thin. It's okay to need help.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── BEFORE / AFTER ── -->
+  <section class="ba-section">
+    <div class="section-header-wrap" style="max-width:800px;margin:0 auto;">
+      <p class="section-title">What Changes</p>
+      <p class="section-tagline">The difference a focused companion makes.</p>
+    </div>
+    <!-- TODO: Replace with real before/after comparison when available -->
+    <div class="ba-placeholder">
+      <div class="ba-side ba-before">
+        <p class="ba-label">Before</p>
+        <div class="ba-item"><span>😰</span><span>Another 45-minute YouTube binge you didn't plan</span></div>
+        <div class="ba-item"><span>😤</span><span>Bedtime battles every single night</span></div>
+        <div class="ba-item"><span>😔</span><span>Guilt about screen time but no clear alternative</span></div>
+        <div class="ba-item"><span>🫤</span><span>Flashcard apps your child forgets in 5 minutes</span></div>
+      </div>
+      <div class="ba-side ba-after">
+        <p class="ba-label">After</p>
+        <div class="ba-item"><span>🏃</span><span>Screen breaks that actually burn energy</span></div>
+        <div class="ba-item"><span>😴</span><span>Calm wind-down routines that actually stick</span></div>
+        <div class="ba-item"><span>✅</span><span>Screen time you feel genuinely good about</span></div>
+        <div class="ba-item"><span>🔢</span><span>Math and language skills built in 5-minute sessions</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── HOW IT WORKS ── -->
+  <section class="hiw-section">
+    <div class="section-header-wrap" style="max-width:900px;margin:0 auto;">
+      <p class="section-title">How It Works</p>
+      <p class="section-tagline">Three steps. Thirty seconds to get started.</p>
+    </div>
+    <div class="hiw-steps">
+      <div class="hiw-step">
+        <div class="hiw-icon-wrap">🎯</div>
+        <p class="hiw-step-num">Step 1</p>
+        <p class="hiw-title">Pick a companion</p>
+        <p class="hiw-desc">Choose the specialist that matches what your child needs most right now — movement, calm, math, or creativity.</p>
+      </div>
+      <div class="hiw-step">
+        <div class="hiw-icon-wrap">💬</div>
+        <p class="hiw-step-num">Step 2</p>
+        <p class="hiw-title">Try a free interview</p>
+        <p class="hiw-desc">Ask them anything. See how they respond, how they interact, what your child will experience. No commitment.</p>
+      </div>
+      <div class="hiw-step">
+        <div class="hiw-icon-wrap">🎉</div>
+        <p class="hiw-step-num">Step 3</p>
+        <p class="hiw-title">Join the waitlist</p>
+        <p class="hiw-desc">We're launching soon. Reserve your spot and be first to get full access when we open the doors.</p>
+      </div>
+    </div>
+  </section>
   <div class="mp-depth-sentinel" data-pct="75" style="height:0;overflow:hidden;pointer-events:none" aria-hidden="true"></div>
+
+  <!-- ── TESTIMONIALS ── -->
+  <section class="testi-section">
+    <div class="section-header-wrap" style="max-width:960px;margin:0 auto;">
+      <p class="section-title">Early Reactions</p>
+      <p class="section-tagline">From parents who tested Companion early.</p>
+    </div>
+    <!-- TODO: Replace with real testimonials when available -->
+    <div class="testi-marquee-wrap">
+      <div class="testi-track" id="testi-track">
+        <!-- Real cards — read by screen readers -->
+        <div class="testi-card">
+          <div class="testi-quotemark">"</div>
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-quote">My son asked to 'do jumping with Whiskers' before he even asked for TV. That's never happened before.</p>
+          <div class="testi-footer">
+            <div class="testi-avatar">S</div>
+            <div class="testi-attribution">
+              <p class="testi-name">Sarah M.</p>
+              <p class="testi-persona">Mom of a 5-year-old · Alex &amp; Whiskers</p>
+            </div>
+            <span class="testi-verified">Verified</span>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-quotemark">"</div>
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-quote">Grandma Rose gets my daughter to bed in 15 minutes. I've been trying for two years.</p>
+          <div class="testi-footer">
+            <div class="testi-avatar">J</div>
+            <div class="testi-attribution">
+              <p class="testi-name">James T.</p>
+              <p class="testi-persona">Dad of a 4-year-old · Grandma Rose &amp; Sage</p>
+            </div>
+            <span class="testi-verified">Verified</span>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-quotemark">"</div>
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-quote">She counted 12 things on the walk to school and told me their shapes. Maya did that in one week.</p>
+          <div class="testi-footer">
+            <div class="testi-avatar">P</div>
+            <div class="testi-attribution">
+              <p class="testi-name">Priya K.</p>
+              <p class="testi-persona">Mom of a 6-year-old · Maya &amp; Ember</p>
+            </div>
+            <span class="testi-verified">Verified</span>
+          </div>
+        </div>
+        <!-- Duplicate set for seamless loop — hidden from screen readers -->
+        <div class="testi-card" aria-hidden="true">
+          <div class="testi-quotemark">"</div>
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-quote">My son asked to 'do jumping with Whiskers' before he even asked for TV. That's never happened before.</p>
+          <div class="testi-footer">
+            <div class="testi-avatar">S</div>
+            <div class="testi-attribution">
+              <p class="testi-name">Sarah M.</p>
+              <p class="testi-persona">Mom of a 5-year-old · Alex &amp; Whiskers</p>
+            </div>
+            <span class="testi-verified">Verified</span>
+          </div>
+        </div>
+        <div class="testi-card" aria-hidden="true">
+          <div class="testi-quotemark">"</div>
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-quote">Grandma Rose gets my daughter to bed in 15 minutes. I've been trying for two years.</p>
+          <div class="testi-footer">
+            <div class="testi-avatar">J</div>
+            <div class="testi-attribution">
+              <p class="testi-name">James T.</p>
+              <p class="testi-persona">Dad of a 4-year-old · Grandma Rose &amp; Sage</p>
+            </div>
+            <span class="testi-verified">Verified</span>
+          </div>
+        </div>
+        <div class="testi-card" aria-hidden="true">
+          <div class="testi-quotemark">"</div>
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-quote">She counted 12 things on the walk to school and told me their shapes. Maya did that in one week.</p>
+          <div class="testi-footer">
+            <div class="testi-avatar">P</div>
+            <div class="testi-attribution">
+              <p class="testi-name">Priya K.</p>
+              <p class="testi-persona">Mom of a 6-year-old · Maya &amp; Ember</p>
+            </div>
+            <span class="testi-verified">Verified</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FINAL CTA ── -->
+  <section class="final-cta-section">
+    <h2>Give your child<br><em style="color:#D45E2B">the companion they deserve.</em></h2>
+    <p>Free forever. Safe by design. Built for the moments when you just need 10 minutes back.</p>
+    <button class="final-cta-btn" onclick="showSignup('final_cta')">Join the waitlist — it's free</button>
+    <p class="final-microcopy">No credit card · No spam · Cancel anytime</p>
+  </section>
 
   <div class="mp-depth-sentinel" data-pct="100" style="height:0;overflow:hidden;pointer-events:none" aria-hidden="true"></div>
   <footer>© 2025 Companion. All rights reserved.</footer>
@@ -1818,6 +2095,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // hero viewed on first load
   mp("hero_viewed");
+
+  // testimonial marquee: pause on touch so users can read a card
+  const _testiTrack = document.getElementById("testi-track");
+  if (_testiTrack) {
+    _testiTrack.addEventListener("touchstart",  () => _testiTrack.classList.add("paused"),    { passive: true });
+    _testiTrack.addEventListener("touchend",    () => _testiTrack.classList.remove("paused"), { passive: true });
+    _testiTrack.addEventListener("touchcancel", () => _testiTrack.classList.remove("paused"), { passive: true });
+  }
 
   // page unload — fire session_ended for any open chat
   window.addEventListener("beforeunload", _fireChatSessionEnded);
