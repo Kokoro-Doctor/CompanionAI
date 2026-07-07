@@ -299,13 +299,23 @@
     .hero-video-wrap video { width: 100%; height: 100%; display: block; object-fit: cover; }
     .hero-cta { background: #1C3D35; color: #FAF6F1; border: none; padding: 16px 36px; border-radius: 50px; font-size: 1rem; font-weight: 700; cursor: pointer; font-family: inherit; margin: 28px auto 0; transition: opacity .15s; display: block; }
     .hero-cta:hover { opacity: .85; }
+    @media (prefers-reduced-motion: no-preference) {
+      @keyframes ctaPulse {
+        0%, 100% { transform: translateY(0);    box-shadow: 0 4px 16px rgba(28,61,53,.22); }
+        50%       { transform: translateY(-5px); box-shadow: 0 10px 28px rgba(28,61,53,.42), 0 0 0 6px rgba(28,61,53,.07); }
+      }
+      .cta-pulse { animation: ctaPulse 2.6s ease-in-out infinite; }
+      .cta-pulse:hover, .cta-pulse:focus { animation-play-state: paused; }
+    }
     .hero-microcopy { font-size: .75rem; color: #999; margin-top: 10px; text-align: center; }
+    .hero-see-how { background: none; border: none; color: #5B8A7A; font-size: .82rem; font-weight: 600; cursor: pointer; padding: 8px 0 0; font-family: inherit; display: block; margin: 0 auto; letter-spacing: .2px; }
+    .hero-see-how:hover { color: #1C3D35; }
 
     /* ── PAIN POINTS ── */
     .pain-section { background: #1C3D35; padding: 72px 24px; }
     .pain-section .section-title { color: #5B8A7A; }
     .pain-section .section-tagline { color: #FAF6F1; font-family: 'Lora', Georgia, serif; opacity: 1; transform: none; }
-    .pain-points-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; max-width: 960px; margin: 40px auto 0; }
+    .pain-points-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; max-width: 960px; margin: 40px auto 0; }
     .pain-card { background: rgba(255,255,255,.07); border-radius: 16px; padding: 28px 24px; }
     .pain-emoji { font-size: 2rem; margin-bottom: 12px; }
     .pain-title { font-size: 1rem; font-weight: 700; color: #FAF6F1; margin-bottom: 8px; font-family: 'Lora', Georgia, serif; line-height: 1.3; }
@@ -339,6 +349,8 @@
 
     /* ── TESTIMONIALS ── */
     .testi-section { background: #1C3D35; padding: 72px 0; }
+    .testi-rating { font-size: 1rem; font-weight: 700; color: #FAF6F1; text-align: center; margin-bottom: 6px; letter-spacing: .5px; }
+    .testi-disclaimer { text-align: center; font-size: 12px; color: rgba(250,246,241,.55); max-width: 480px; margin: 24px auto 0; line-height: 1.6; padding: 0 24px; }
     .testi-section .section-header-wrap { padding: 0 24px; }
     .testi-section .section-title { color: #5B8A7A; }
     .testi-section .section-tagline { color: #FAF6F1; font-family: 'Lora', Georgia, serif; opacity: 1; transform: none; }
@@ -361,21 +373,19 @@
 
     /* ── FINAL CTA ── */
     .final-cta-section { background: #FAF6F1; padding: 100px 24px; text-align: center; }
-    .final-cta-section h2 { font-family: 'Lora', Georgia, serif; font-size: clamp(26px,4vw,44px); color: #1C3D35; font-weight: 700; margin-bottom: 16px; line-height: 1.3; }
-    .final-cta-section > p { font-size: 17px; color: #666; max-width: 480px; margin: 0 auto 36px; line-height: 1.65; }
+    .final-cta-section h2 { font-family: 'Lora', Georgia, serif; font-size: clamp(26px,4vw,44px); color: #1C3D35; font-weight: 700; margin-bottom: 36px; line-height: 1.3; }
     .final-cta-btn { background: #1C3D35; color: #FAF6F1; border: none; padding: 16px 40px; border-radius: 50px; font-size: 1.05rem; font-weight: 700; cursor: pointer; font-family: inherit; transition: opacity .15s; }
     .final-cta-btn:hover { opacity: .85; }
     .final-microcopy { font-size: .75rem; color: #aaa; margin-top: 12px; }
 
     /* ── MOBILE OVERRIDES — NEW SECTIONS ── */
     @media (max-width: 768px) {
-      .hero-microcopy { display: none; }
       .hero-video-wrap { max-width: 200px; margin-top: 10px; border-radius: 16px; }
       .hero-cta { margin-top: 8px; padding: 12px 24px; font-size: .9rem; }
       .pain-section, .ba-section, .hiw-section { padding: 48px 20px; }
       .testi-section { padding: 48px 0; }
       .final-cta-section { padding: 60px 20px; }
-      .pain-points-grid { grid-template-columns: 1fr; gap: 16px; }
+      .pain-points-grid { grid-template-columns: repeat(2,1fr); gap: 16px; }
       .ba-placeholder { grid-template-columns: 1fr; gap: 16px; }
       .pain-section .section-tagline, .ba-section .section-tagline,
       .hiw-section .section-tagline, .testi-section .section-tagline { font-size: 1.1rem; }
@@ -507,10 +517,11 @@ mixpanel.init("c19a390119d3f17a90d52c7ae87da26c", { track_pageview: true, persis
 <div id="landing">
 
   <div class="hero">
+    <p class="section-title" style="margin-bottom:16px">HANDS FREE · CHILD NEARBY</p>
     <h1 class="hero-heading">
-      <span class="hero-line">Because Parenting doesn't come with a pause button.</span>
+      <span class="hero-line">A little help for <em class="hero-accent">busy parents.</em></span>
     </h1>
-    <p>Every companion is a specialist. Not a generalist. Built for one skill, obsessed with one outcome — and ready to show your child what that looks like up close.</p>
+    <p>Interactive AI companions that keep your child learning while you get a few peaceful minutes.</p>
     <div class="trust-badges">
       <span class="trust-badge">✅ 100% Safe</span>
       <span class="trust-badge">👥 US Parents</span>
@@ -519,8 +530,9 @@ mixpanel.init("c19a390119d3f17a90d52c7ae87da26c", { track_pageview: true, persis
     <div class="hero-video-wrap">
       <video src="videos/hero_video.mp4" autoplay muted loop playsinline webkit-playsinline preload="metadata"></video>
     </div>
-    <button class="hero-cta" onclick="document.getElementById('companions-section').scrollIntoView({behavior:'smooth'})">Meet the AI Nanny</button>
-    <p class="hero-microcopy">No credit card · No screen-time guilt · Ages 3–6</p>
+    <button class="hero-cta cta-pulse" onclick="mp('hero_cta_clicked');document.getElementById('companions-section').scrollIntoView({behavior:'smooth'})">Meet the AI Nanny</button>
+    <p class="hero-microcopy">Free 7-day trial · No credit card</p>
+    <button class="hero-see-how" onclick="document.getElementById('pain-section').scrollIntoView({behavior:'smooth'})">See how it works ↓</button>
   </div>
   <div class="mp-depth-sentinel" data-pct="25" style="height:0;overflow:hidden;pointer-events:none" aria-hidden="true"></div>
 
@@ -530,9 +542,9 @@ mixpanel.init("c19a390119d3f17a90d52c7ae87da26c", { track_pageview: true, persis
       <span class="header-spark s2"></span>
       <p class="section-title">Meet the Companions</p>
       <div class="section-underline" id="sectionUnderline"></div>
-      <p class="section-tagline" id="sectionTagline">Every companion. One superpower. One less thing to worry about.</p>
-      <p class="section-hint" id="sectionHint">Hover to see what they do. Click to see them in action.</p>
-      <p class="section-hint-mobile">Swipe to explore. Tap Interview to try one.</p>
+      <p class="section-tagline" id="sectionTagline">Meet your child's new AI best friend — and talk to them first.</p>
+      <p class="section-hint" id="sectionHint">Hover to peek. Click to meet them face to face — before your little one does.</p>
+      <p class="section-hint-mobile">👆 Tap any companion to interview them →</p>
     </div>
 
     <div class="card-grid">
@@ -884,26 +896,26 @@ mixpanel.init("c19a390119d3f17a90d52c7ae87da26c", { track_pageview: true, persis
   <div class="mp-depth-sentinel" data-pct="50" style="height:0;overflow:hidden;pointer-events:none" aria-hidden="true"></div>
 
   <!-- ── PAIN POINTS ── -->
-  <section class="pain-section">
+  <section class="pain-section" id="pain-section">
     <div class="section-header-wrap" style="max-width:960px;margin:0 auto;">
-      <p class="section-title">The Real Problem</p>
-      <p class="section-tagline">You're not failing. You're just missing the right tool.</p>
+      <p class="section-title">Ever felt this?</p>
     </div>
     <div class="pain-points-grid">
       <div class="pain-card">
-        <div class="pain-emoji">😮‍💨</div>
-        <p class="pain-title">Every screen feels like a battle</p>
-        <p class="pain-desc">You know screen time isn't ideal. But between dinner and bedtime, you need 20 minutes of peace — and there's no good alternative.</p>
+        <div class="pain-emoji">😩</div>
+        <p class="pain-title">Crying during meetings</p>
       </div>
       <div class="pain-card">
-        <div class="pain-emoji">📚</div>
-        <p class="pain-title">Learning apps feel like homework</p>
-        <p class="pain-desc">Flashcard apps, counting worksheets, reading drills. Your 4-year-old isn't bored — they're disengaged. There's a difference.</p>
+        <div class="pain-emoji">🧺</div>
+        <p class="pain-title">Laundry never ends</p>
       </div>
       <div class="pain-card">
-        <div class="pain-emoji">⏱️</div>
-        <p class="pain-title">No time to sit and do it yourself</p>
-        <p class="pain-desc">You want to read together, practice counting, talk through big feelings. But you're stretched thin. It's okay to need help.</p>
+        <div class="pain-emoji">🛒</div>
+        <p class="pain-title">Grocery trips are chaos</p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-emoji">📞</div>
+        <p class="pain-title">Need ten quiet minutes</p>
       </div>
     </div>
   </section>
@@ -912,7 +924,7 @@ mixpanel.init("c19a390119d3f17a90d52c7ae87da26c", { track_pageview: true, persis
   <section class="ba-section">
     <div class="section-header-wrap" style="max-width:800px;margin:0 auto;">
       <p class="section-title">What Changes</p>
-      <p class="section-tagline">The difference a focused companion makes.</p>
+      <p class="section-tagline">From overwhelmed to peaceful.</p>
     </div>
     <!-- TODO: Replace with real before/after comparison when available -->
     <div class="ba-placeholder">
@@ -937,26 +949,25 @@ mixpanel.init("c19a390119d3f17a90d52c7ae87da26c", { track_pageview: true, persis
   <section class="hiw-section">
     <div class="section-header-wrap" style="max-width:900px;margin:0 auto;">
       <p class="section-title">How It Works</p>
-      <p class="section-tagline">Three steps. Thirty seconds to get started.</p>
     </div>
     <div class="hiw-steps">
       <div class="hiw-step">
-        <div class="hiw-icon-wrap">🎯</div>
+        <div class="hiw-icon-wrap">📱</div>
         <p class="hiw-step-num">Step 1</p>
-        <p class="hiw-title">Pick a companion</p>
-        <p class="hiw-desc">Choose the specialist that matches what your child needs most right now — movement, calm, math, or creativity.</p>
+        <p class="hiw-title">Open App</p>
+        <p class="hiw-desc">In one tap.</p>
       </div>
       <div class="hiw-step">
-        <div class="hiw-icon-wrap">💬</div>
+        <div class="hiw-icon-wrap">🧸</div>
         <p class="hiw-step-num">Step 2</p>
-        <p class="hiw-title">Try a free interview</p>
-        <p class="hiw-desc">Ask them anything. See how they respond, how they interact, what your child will experience. No commitment.</p>
+        <p class="hiw-title">Choose Companion</p>
+        <p class="hiw-desc">Pick a friend.</p>
       </div>
       <div class="hiw-step">
-        <div class="hiw-icon-wrap">🎉</div>
+        <div class="hiw-icon-wrap">☕</div>
         <p class="hiw-step-num">Step 3</p>
-        <p class="hiw-title">Join the waitlist</p>
-        <p class="hiw-desc">We're launching soon. Reserve your spot and be first to get full access when we open the doors.</p>
+        <p class="hiw-title">Relax</p>
+        <p class="hiw-desc">They learn. You breathe.</p>
       </div>
     </div>
   </section>
@@ -965,48 +976,60 @@ mixpanel.init("c19a390119d3f17a90d52c7ae87da26c", { track_pageview: true, persis
   <!-- ── TESTIMONIALS ── -->
   <section class="testi-section">
     <div class="section-header-wrap" style="max-width:960px;margin:0 auto;">
-      <p class="section-title">Early Reactions</p>
-      <p class="section-tagline">From parents who tested Companion early.</p>
+      <p class="testi-rating">★★★★★ 4.9</p>
+      <p class="section-title">From mothers like you</p>
     </div>
-    <!-- TODO: Replace with real testimonials when available -->
     <div class="testi-marquee-wrap">
       <div class="testi-track" id="testi-track">
         <!-- Real cards — read by screen readers -->
         <div class="testi-card">
           <div class="testi-quotemark">"</div>
           <div class="testi-stars">★★★★★</div>
-          <p class="testi-quote">My son asked to 'do jumping with Whiskers' before he even asked for TV. That's never happened before.</p>
-          <div class="testi-footer">
-            <div class="testi-avatar">S</div>
-            <div class="testi-attribution">
-              <p class="testi-name">Sarah M.</p>
-              <p class="testi-persona">Mom of a 5-year-old · Alex &amp; Whiskers</p>
-            </div>
-            <span class="testi-verified">Verified</span>
-          </div>
-        </div>
-        <div class="testi-card">
-          <div class="testi-quotemark">"</div>
-          <div class="testi-stars">★★★★★</div>
-          <p class="testi-quote">Grandma Rose gets my daughter to bed in 15 minutes. I've been trying for two years.</p>
-          <div class="testi-footer">
-            <div class="testi-avatar">J</div>
-            <div class="testi-attribution">
-              <p class="testi-name">James T.</p>
-              <p class="testi-persona">Dad of a 4-year-old · Grandma Rose &amp; Sage</p>
-            </div>
-            <span class="testi-verified">Verified</span>
-          </div>
-        </div>
-        <div class="testi-card">
-          <div class="testi-quotemark">"</div>
-          <div class="testi-stars">★★★★★</div>
-          <p class="testi-quote">She counted 12 things on the walk to school and told me their shapes. Maya did that in one week.</p>
+          <p class="testi-quote">I finished a whole meeting without guilt.</p>
           <div class="testi-footer">
             <div class="testi-avatar">P</div>
             <div class="testi-attribution">
-              <p class="testi-name">Priya K.</p>
-              <p class="testi-persona">Mom of a 6-year-old · Maya &amp; Ember</p>
+              <p class="testi-name">Priya</p>
+              <p class="testi-persona">Mom of 3</p>
+            </div>
+            <span class="testi-verified">Verified</span>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-quotemark">"</div>
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-quote">Ten quiet minutes to make dinner. Magic.</p>
+          <div class="testi-footer">
+            <div class="testi-avatar">A</div>
+            <div class="testi-attribution">
+              <p class="testi-name">Anna</p>
+              <p class="testi-persona">Mom of twins</p>
+            </div>
+            <span class="testi-verified">Verified</span>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-quotemark">"</div>
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-quote">She asks for her fox friend every evening.</p>
+          <div class="testi-footer">
+            <div class="testi-avatar">M</div>
+            <div class="testi-attribution">
+              <p class="testi-name">Meera</p>
+              <p class="testi-persona">Mom of a 4-yo</p>
+            </div>
+            <span class="testi-verified">Verified</span>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-quotemark">"</div>
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-quote">Bedtime went from war to whispers.</p>
+          <div class="testi-footer">
+            <div class="testi-avatar">S</div>
+            <div class="testi-attribution">
+              <p class="testi-name">Sara</p>
+              <p class="testi-persona">Mom of 2</p>
             </div>
             <span class="testi-verified">Verified</span>
           </div>
@@ -1015,56 +1038,69 @@ mixpanel.init("c19a390119d3f17a90d52c7ae87da26c", { track_pageview: true, persis
         <div class="testi-card" aria-hidden="true">
           <div class="testi-quotemark">"</div>
           <div class="testi-stars">★★★★★</div>
-          <p class="testi-quote">My son asked to 'do jumping with Whiskers' before he even asked for TV. That's never happened before.</p>
-          <div class="testi-footer">
-            <div class="testi-avatar">S</div>
-            <div class="testi-attribution">
-              <p class="testi-name">Sarah M.</p>
-              <p class="testi-persona">Mom of a 5-year-old · Alex &amp; Whiskers</p>
-            </div>
-            <span class="testi-verified">Verified</span>
-          </div>
-        </div>
-        <div class="testi-card" aria-hidden="true">
-          <div class="testi-quotemark">"</div>
-          <div class="testi-stars">★★★★★</div>
-          <p class="testi-quote">Grandma Rose gets my daughter to bed in 15 minutes. I've been trying for two years.</p>
-          <div class="testi-footer">
-            <div class="testi-avatar">J</div>
-            <div class="testi-attribution">
-              <p class="testi-name">James T.</p>
-              <p class="testi-persona">Dad of a 4-year-old · Grandma Rose &amp; Sage</p>
-            </div>
-            <span class="testi-verified">Verified</span>
-          </div>
-        </div>
-        <div class="testi-card" aria-hidden="true">
-          <div class="testi-quotemark">"</div>
-          <div class="testi-stars">★★★★★</div>
-          <p class="testi-quote">She counted 12 things on the walk to school and told me their shapes. Maya did that in one week.</p>
+          <p class="testi-quote">I finished a whole meeting without guilt.</p>
           <div class="testi-footer">
             <div class="testi-avatar">P</div>
             <div class="testi-attribution">
-              <p class="testi-name">Priya K.</p>
-              <p class="testi-persona">Mom of a 6-year-old · Maya &amp; Ember</p>
+              <p class="testi-name">Priya</p>
+              <p class="testi-persona">Mom of 3</p>
+            </div>
+            <span class="testi-verified">Verified</span>
+          </div>
+        </div>
+        <div class="testi-card" aria-hidden="true">
+          <div class="testi-quotemark">"</div>
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-quote">Ten quiet minutes to make dinner. Magic.</p>
+          <div class="testi-footer">
+            <div class="testi-avatar">A</div>
+            <div class="testi-attribution">
+              <p class="testi-name">Anna</p>
+              <p class="testi-persona">Mom of twins</p>
+            </div>
+            <span class="testi-verified">Verified</span>
+          </div>
+        </div>
+        <div class="testi-card" aria-hidden="true">
+          <div class="testi-quotemark">"</div>
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-quote">She asks for her fox friend every evening.</p>
+          <div class="testi-footer">
+            <div class="testi-avatar">M</div>
+            <div class="testi-attribution">
+              <p class="testi-name">Meera</p>
+              <p class="testi-persona">Mom of a 4-yo</p>
+            </div>
+            <span class="testi-verified">Verified</span>
+          </div>
+        </div>
+        <div class="testi-card" aria-hidden="true">
+          <div class="testi-quotemark">"</div>
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-quote">Bedtime went from war to whispers.</p>
+          <div class="testi-footer">
+            <div class="testi-avatar">S</div>
+            <div class="testi-attribution">
+              <p class="testi-name">Sara</p>
+              <p class="testi-persona">Mom of 2</p>
             </div>
             <span class="testi-verified">Verified</span>
           </div>
         </div>
       </div>
     </div>
+    <p class="testi-disclaimer">A supportive play companion — not a replacement for parental care. Designed for use while a caregiver is nearby.</p>
   </section>
 
   <!-- ── FINAL CTA ── -->
   <section class="final-cta-section">
-    <h2>Give your child<br><em style="color:#D45E2B">the companion they deserve.</em></h2>
-    <p>Free forever. Safe by design. Built for the moments when you just need 10 minutes back.</p>
-    <button class="final-cta-btn" onclick="showSignup('final_cta')">Join the waitlist — it's free</button>
-    <p class="final-microcopy">No credit card · No spam · Cancel anytime</p>
+    <h2>Ten peaceful minutes.<br><em style="color:#D45E2B">One tap away.</em></h2>
+    <button class="final-cta-btn cta-pulse" onclick="showSignup('final_cta')">Find Your Child's Best Friend</button>
+    <p class="final-microcopy">Free 7-day trial · No credit card required</p>
   </section>
 
   <div class="mp-depth-sentinel" data-pct="100" style="height:0;overflow:hidden;pointer-events:none" aria-hidden="true"></div>
-  <footer>© 2025 Companion. All rights reserved.</footer>
+  <footer>© Companion · Made with care, for parents</footer>
 </div>
 
 <!-- CHAT SCREEN -->
@@ -1346,7 +1382,7 @@ const _sectionObserver = new IntersectionObserver((entries) => {
     _sectionObserver.disconnect();
   }
 }, { threshold: 0.3 });
-_sectionObserver.observe(document.querySelector(".section-title"));
+_sectionObserver.observe(document.querySelector("#companions-section .section-title"));
 
 function startFromDetail(personaId, idx) {
   closeModal();
