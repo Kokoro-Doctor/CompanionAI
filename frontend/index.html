@@ -2042,6 +2042,7 @@ function initSwipeCarousel() {
   if (!track || !carousel) return;
   let current = 0;
   const count = 4;
+  const SWIPE_CARDS = ["alex", "rose", "maya", "elena"];
 
   function goTo(idx) {
     current = Math.max(0, Math.min(count - 1, idx));
@@ -2055,7 +2056,18 @@ function initSwipeCarousel() {
   let tx = 0, ty = 0, lx = 0, ly = 0, touching = false;
   function detectSwipe(ex, ey) {
     const dx = ex - tx, dy = ey - ty;
-    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 44) goTo(current + (dx < 0 ? 1 : -1));
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 44) {
+      const step  = dx < 0 ? 1 : -1;
+      const toIdx = Math.max(0, Math.min(count - 1, current + step));
+      if (toIdx !== current) {
+        mp("mobile_carousel_swiped", {
+          direction:     dx < 0 ? "left" : "right",
+          from_index:    current,
+          to_persona_id: CARD_TO_PERSONA[SWIPE_CARDS[toIdx]]
+        });
+      }
+      goTo(current + step);
+    }
   }
   track.addEventListener("touchstart", e => {
     tx = lx = e.touches[0].clientX; ty = ly = e.touches[0].clientY; touching = true;
@@ -2075,7 +2087,16 @@ function initSwipeCarousel() {
     detectSwipe(lx, ly);
   }, { passive: true });
 
-  dots.forEach((dot, i) => dot.addEventListener("click", () => goTo(i)));
+  dots.forEach((dot, i) => dot.addEventListener("click", () => {
+    if (i !== current) {
+      mp("mobile_carousel_dot_tapped", {
+        from_index:    current,
+        to_index:      i,
+        to_persona_id: CARD_TO_PERSONA[SWIPE_CARDS[i]]
+      });
+    }
+    goTo(i);
+  }));
 
   window.addEventListener("resize", () => {
     track.style.transition = "none";
