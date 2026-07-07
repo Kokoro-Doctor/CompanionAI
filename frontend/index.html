@@ -183,7 +183,7 @@
 
       .swipe-carousel { display: block; overflow: hidden; }
       .swipe-track { display: flex; transition: transform .35s cubic-bezier(.25,.46,.45,.94); will-change: transform; touch-action: pan-y; }
-      .swipe-card { flex: 0 0 100%; padding: 0 8px; box-sizing: border-box; user-select: none; -webkit-user-select: none; }
+      .swipe-card { flex: 0 0 100%; padding: 0 8px; box-sizing: border-box; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
       .swipe-card-inner { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,.09); }
 
       /* Card video: 45vw keeps card compact so full card is visible ATF */
@@ -519,12 +519,12 @@ mixpanel.init("c19a390119d3f17a90d52c7ae87da26c", { track_pageview: true, persis
     <div class="hero-video-wrap">
       <video src="videos/hero_video.mp4" autoplay muted loop playsinline webkit-playsinline preload="metadata"></video>
     </div>
-    <button class="hero-cta" onclick="showSignup('hero_cta')">Meet the Companions — it's free</button>
+    <button class="hero-cta" onclick="document.getElementById('companions-section').scrollIntoView({behavior:'smooth'})">Meet the AI Nanny</button>
     <p class="hero-microcopy">No credit card · No screen-time guilt · Ages 3–6</p>
   </div>
   <div class="mp-depth-sentinel" data-pct="25" style="height:0;overflow:hidden;pointer-events:none" aria-hidden="true"></div>
 
-  <div class="section">
+  <div class="section" id="companions-section">
     <div class="section-header-wrap">
       <span class="header-spark s1"></span>
       <span class="header-spark s2"></span>
@@ -2016,17 +2016,28 @@ function initSwipeCarousel() {
     });
   }
 
-  let tx = 0, ty = 0, touching = false;
+  let tx = 0, ty = 0, lx = 0, ly = 0, touching = false;
+  function detectSwipe(ex, ey) {
+    const dx = ex - tx, dy = ey - ty;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 44) goTo(current + (dx < 0 ? 1 : -1));
+  }
   track.addEventListener("touchstart", e => {
-    tx = e.touches[0].clientX; ty = e.touches[0].clientY; touching = true;
+    tx = lx = e.touches[0].clientX; ty = ly = e.touches[0].clientY; touching = true;
+  }, { passive: true });
+  track.addEventListener("touchmove", e => {
+    if (!touching) return;
+    lx = e.touches[0].clientX; ly = e.touches[0].clientY;
   }, { passive: true });
   track.addEventListener("touchend", e => {
     if (!touching) return; touching = false;
-    const dx = e.changedTouches[0].clientX - tx;
-    const dy = e.changedTouches[0].clientY - ty;
-    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 44) goTo(current + (dx < 0 ? 1 : -1));
+    detectSwipe(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
   }, { passive: true });
-  track.addEventListener("touchcancel", () => { touching = false; }, { passive: true });
+  // iOS fires touchcancel (not touchend) when scroll-steal kicks in on text areas.
+  // Use last known touchmove coords so the swipe still registers.
+  track.addEventListener("touchcancel", () => {
+    if (!touching) return; touching = false;
+    detectSwipe(lx, ly);
+  }, { passive: true });
 
   dots.forEach((dot, i) => dot.addEventListener("click", () => goTo(i)));
 
