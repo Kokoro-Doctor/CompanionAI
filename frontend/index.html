@@ -21,14 +21,13 @@
     .btn-sm { padding: 7px 16px; font-size: .82rem; }
 
     /* ── HERO ── */
-    .hero { text-align: center; padding: 72px 24px 60px; max-width: 700px; margin: 0 auto; position: relative; z-index: 10; }
+    .hero { text-align: center; padding: 24px 24px 60px; max-width: 700px; margin: 0 auto; position: relative; z-index: 10; }
     .hero-heading { display: flex; flex-direction: column; align-items: center; gap: 6px; margin-bottom: 20px; }
     .hero-line { font-size: clamp(28px, 5vw, 48px); font-weight: 700; line-height: 1.2; letter-spacing: -.3px; color: #1C3D35; font-family: 'Lora', Georgia, serif; opacity: 0; transform: translateY(20px); animation: heroIn .7s ease forwards; }
     .hero-line:nth-child(1) { animation-delay: .1s; }
     .hero-line:nth-child(2) { animation-delay: .35s; }
     .hero-line:nth-child(3) { animation-delay: .6s; }
     .hero-accent { color: #D45E2B; font-style: italic; }
-    .hero > p { font-size: 17px; color: #666; line-height: 1.65; max-width: 480px; margin: 0 auto; opacity: 0; transform: translateY(15px); animation: heroIn .7s ease forwards; animation-delay: .95s; }
     @keyframes heroIn { to { opacity: 1; transform: translateY(0); } }
 
     /* ── SECTION HEADER ── */
@@ -160,10 +159,12 @@
       nav { padding: 8px 16px; }
 
       /* Hero compact */
-      .hero > p { display: none; }
-      .hero { padding: 16px 20px 8px; }
-      .hero-heading { margin-bottom: 0; }
+      .hero { padding: 0 20px 8px; }
+      .hero-heading { margin-bottom: 0; margin-top: 14px; }
       .hero-line { font-size: 1.4rem; }
+      .hero-subline { font-size: .9rem; margin-bottom: 10px; }
+      .hero-teaser-bubble { font-size: .78rem; padding: 7px 12px; }
+      .hero-persona-teaser { margin-bottom: 10px; }
 
       /* Trust badges compact */
       .trust-badges { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 8px; }
@@ -295,10 +296,38 @@
     .nav-badge { font-size: .65rem; font-weight: 700; color: #5B8A7A; background: #E8F2EE; border: 1px solid #C3DDD5; padding: 3px 10px; border-radius: 20px; white-space: nowrap; letter-spacing: .3px; }
 
     /* ── HERO VIDEO + CTA ── */
-    .hero-video-wrap { max-width: 280px; aspect-ratio: 9/16; margin: 28px auto 0; border-radius: 24px; overflow: hidden; background: #1a1a2e; line-height: 0; box-shadow: 0 12px 40px rgba(0,0,0,.2); }
+    .hero-video-wrap { position: relative; max-width: 280px; aspect-ratio: 9/16; margin: 0 auto 20px; border-radius: 24px; overflow: hidden; background: #1a1a2e; line-height: 0; box-shadow: 0 12px 40px rgba(0,0,0,.2); }
     .hero-video-wrap video { width: 100%; height: 100%; display: block; object-fit: cover; }
-    .hero-cta { background: #1C3D35; color: #FAF6F1; border: none; padding: 16px 36px; border-radius: 50px; font-size: 1rem; font-weight: 700; cursor: pointer; font-family: inherit; margin: 28px auto 0; transition: opacity .15s; display: block; }
+
+    /* Video overlay — badge */
+    .hero-video-badge { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.8px; color: #1C3D35; background: rgba(250,246,241,.92); border: 1px solid #C3DDD5; padding: 4px 12px; border-radius: 20px; white-space: nowrap; z-index: 2; }
+
+    /* Video overlay — hero text */
+    .hero-video-text { position: absolute; bottom: 0; left: 0; right: 0; padding: 44px 16px 18px; background: linear-gradient(to bottom, transparent, rgba(0,0,0,.65)); display: flex; flex-direction: column; gap: 1px; z-index: 2; }
+    .hero-vt-plain { font-size: 1.35rem; font-weight: 800; color: rgba(250,246,241,.95); line-height: 1.2; font-family: 'Lora', Georgia, serif; text-shadow: 0 1px 6px rgba(0,0,0,.5); display: block; }
+    .hero-vt-accent { font-size: 1.35rem; font-weight: 800; color: #F07845; font-style: italic; line-height: 1.2; font-family: 'Lora', Georgia, serif; text-shadow: 0 1px 6px rgba(0,0,0,.5); display: block; }
+
+    /* Hero subline */
+    .hero-subline { font-size: 1rem; color: #555; line-height: 1.55; margin: 0 auto 16px; max-width: 340px; font-weight: 500; }
+
+    /* Alex persona teaser */
+    .hero-persona-teaser { display: flex; align-items: center; gap: 10px; margin: 0 auto 16px; max-width: 320px; justify-content: center; }
+    .hero-teaser-avatar { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 2.5px solid #1C3D35; flex-shrink: 0; }
+    .hero-teaser-bubble { background: #fff; border: 1px solid #E8EDE8; border-radius: 18px 18px 18px 4px; padding: 9px 14px; font-size: .82rem; font-weight: 600; color: #1C3D35; box-shadow: 0 2px 10px rgba(0,0,0,.07); line-height: 1.4; text-align: left; }
+
+    .hero-cta { background: #1C3D35; color: #FAF6F1; border: none; padding: 8px 32px 8px 8px; border-radius: 50px; font-size: 1rem; font-weight: 700; cursor: pointer; font-family: inherit; margin: 0 auto; transition: opacity .15s; display: flex; align-items: center; gap: 10px; }
     .hero-cta:hover { opacity: .85; }
+    /* Countdown ring badge */
+    .cta-count-badge { position: relative; width: 44px; height: 44px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+    .cta-ring { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
+    .cta-ring-track { fill: #FAF6F1; stroke: rgba(28,61,53,.18); stroke-width: 2.5; }
+    .cta-ring-fill { fill: none; stroke: #D45E2B; stroke-width: 2.5; stroke-linecap: round; stroke-dasharray: 125.66; stroke-dashoffset: 0; transition: stroke-dashoffset 0.85s linear; }
+    .cta-ring-num { position: relative; z-index: 1; font-size: .9rem; font-weight: 800; color: #1C3D35; line-height: 1; }
+
+    /* Rainbow CTA — hero button only */
+    .hero-cta-rainbow { position: relative; z-index: 0; overflow: visible; }
+    .hero-cta-rainbow::before { content: ''; position: absolute; inset: -4px; border-radius: 54px; background: rgba(28,61,53,.75); z-index: -1; filter: blur(8px); opacity: .80; }
+    .hero-cta-rainbow::after { content: ''; position: absolute; inset: 0; border-radius: 50px; background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,.26) 50%, transparent 70%); background-size: 300% 100%; background-position: -100% center; pointer-events: none; z-index: 1; }
     @media (prefers-reduced-motion: no-preference) {
       @keyframes ctaPulse {
         0%, 100% { transform: translateY(0);    box-shadow: 0 4px 16px rgba(28,61,53,.22); }
@@ -306,7 +335,15 @@
       }
       .cta-pulse { animation: ctaPulse 2.6s ease-in-out infinite; }
       .cta-pulse:hover, .cta-pulse:focus { animation-play-state: paused; }
+      @keyframes ctaRainbowBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+      @keyframes rainbowBreath { 0%, 100% { filter: blur(8px); opacity: .80; } 50% { filter: blur(14px); opacity: 1; } }
+      @keyframes shimmerSweep { 0%, 20% { background-position: -100% center; } 60%, 100% { background-position: 200% center; } }
+      .hero-cta-rainbow { animation: ctaRainbowBounce 2.6s ease-in-out infinite; }
+      .hero-cta-rainbow:hover, .hero-cta-rainbow:focus { animation-play-state: paused; }
+      .hero-cta-rainbow::before { animation: rainbowBreath 4s ease-in-out infinite; }
+      .hero-cta-rainbow::after { animation: shimmerSweep 3.5s ease-in-out 0.8s infinite; }
     }
+
     .hero-microcopy { font-size: .75rem; color: #999; margin-top: 10px; text-align: center; }
     .hero-see-how { background: none; border: none; color: #5B8A7A; font-size: .82rem; font-weight: 600; cursor: pointer; padding: 8px 0 0; font-family: inherit; display: block; margin: 0 auto; letter-spacing: .2px; }
     .hero-see-how:hover { color: #1C3D35; }
@@ -380,8 +417,11 @@
 
     /* ── MOBILE OVERRIDES — NEW SECTIONS ── */
     @media (max-width: 768px) {
-      .hero-video-wrap { max-width: 200px; margin-top: 10px; border-radius: 16px; }
-      .hero-cta { margin-top: 8px; padding: 12px 24px; font-size: .9rem; }
+      .hero-video-wrap { max-width: 260px; margin: 0 auto 14px; border-radius: 20px; }
+      .hero-vt-plain, .hero-vt-accent { font-size: 1.15rem; }
+      .hero-cta { margin-top: 0; padding: 6px 22px 6px 6px; font-size: .85rem; }
+      .cta-count-badge { width: 36px; height: 36px; }
+      .cta-ring-num { font-size: .8rem; }
       .pain-section, .ba-section, .hiw-section { padding: 48px 20px; }
       .testi-section { padding: 48px 0; }
       .final-cta-section { padding: 60px 20px; }
@@ -517,21 +557,30 @@ mixpanel.init("c19a390119d3f17a90d52c7ae87da26c", { track_pageview: true, persis
 <div id="landing">
 
   <div class="hero">
-    <p class="section-title" style="margin-bottom:16px">HANDS FREE · CHILD NEARBY</p>
+    <div class="hero-video-wrap">
+      <video src="videos/hero_video.mp4" autoplay muted loop playsinline webkit-playsinline preload="metadata"></video>
+      <div class="hero-video-badge">EARLY ACCESS · LIMITED SPOTS</div>
+      <div class="hero-video-text">
+        <span class="hero-vt-plain">15 minutes.</span>
+        <span class="hero-vt-accent">Baby engaged.</span>
+        <span class="hero-vt-plain">Work done.</span>
+      </div>
+    </div>
     <h1 class="hero-heading">
       <span class="hero-line">A little help for <em class="hero-accent">busy parents.</em></span>
     </h1>
-    <p>Interactive AI companions that keep your child learning while you get a few peaceful minutes.</p>
+    <p class="hero-subline">You earn. <em class="hero-accent">They learn.</em> Nobody loses.</p>
     <div class="trust-badges">
       <span class="trust-badge">✅ 100% Safe</span>
       <span class="trust-badge">👥 US Parents</span>
       <span class="trust-badge">🎯 Ages 3–6</span>
     </div>
-    <div class="hero-video-wrap">
-      <video src="videos/hero_video.mp4" autoplay muted loop playsinline webkit-playsinline preload="metadata"></video>
+    <div class="hero-persona-teaser">
+      <img src="images/kitten.jpg" alt="Alex" class="hero-teaser-avatar" />
+      <div class="hero-teaser-bubble">Hey I'm Alex — tap below to meet me 👋</div>
     </div>
-    <button class="hero-cta cta-pulse" onclick="mp('hero_cta_clicked');document.getElementById('companions-section').scrollIntoView({behavior:'smooth'})">Meet the AI Babysitter</button>
-    <p class="hero-microcopy">Free 7-day trial · No credit card</p>
+    <button class="hero-cta hero-cta-rainbow" onclick="mp('hero_cta_clicked');document.getElementById('companions-section').scrollIntoView({behavior:'smooth'})"><span class="cta-count-badge"><svg class="cta-ring" viewBox="0 0 46 46" aria-hidden="true"><circle class="cta-ring-track" cx="23" cy="23" r="20"/><circle class="cta-ring-fill" id="hero-countdown-ring" cx="23" cy="23" r="20"/></svg><span class="cta-ring-num" id="hero-countdown-num">15</span></span>Click here to see the magic now →</button>
+    <p class="hero-microcopy">Free during early access · No credit card</p>
     <button class="hero-see-how" onclick="document.getElementById('pain-section').scrollIntoView({behavior:'smooth'})">See how it works ↓</button>
   </div>
   <div class="mp-depth-sentinel" data-pct="25" style="height:0;overflow:hidden;pointer-events:none" aria-hidden="true"></div>
@@ -2167,6 +2216,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // hero viewed on first load
   mp("hero_viewed");
+
+  // hero countdown — ring + number synced, instant reset on loop
+  (function() {
+    const CIRC = 125.66;
+    let s = 15;
+    const el   = document.getElementById("hero-countdown-num");
+    const ring = document.getElementById("hero-countdown-ring");
+    if (!el) return;
+    setInterval(() => {
+      if (s <= 1) {
+        s = 15;
+        if (ring) { ring.style.transition = 'none'; ring.style.strokeDashoffset = '0'; }
+        el.textContent = s;
+        requestAnimationFrame(() => requestAnimationFrame(() => { if (ring) ring.style.transition = ''; }));
+      } else {
+        s--;
+        el.textContent = s;
+        if (ring) ring.style.strokeDashoffset = CIRC * (15 - s) / 15;
+      }
+    }, 1000);
+  })();
 
   // testimonial marquee: pause on touch so users can read a card
   const _testiTrack = document.getElementById("testi-track");
