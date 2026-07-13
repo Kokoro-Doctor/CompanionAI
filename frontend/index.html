@@ -48,6 +48,8 @@
     .card-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; align-items: start; }
 
     .persona-card { background: #fff; border-radius: 20px; border: 2px solid transparent; overflow: hidden; position: relative; transition: border-color .2s, box-shadow .2s, transform .2s; }
+    .recommended-badge { position: absolute; top: 10px; left: 10px; z-index: 5; background: rgba(255,243,200,.95); color: #92650A; border: 1px solid #F5D060; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; padding: 4px 10px; border-radius: 20px; white-space: nowrap; display: flex; align-items: center; gap: 4px; }
+    .persona-card::after { content: ''; position: absolute; inset: 0; border-radius: 20px; background: linear-gradient(115deg, transparent 35%, rgba(255,255,255,.12) 50%, transparent 65%); background-size: 300% 100%; background-position: -100% center; pointer-events: none; z-index: 2; }
     .persona-card:not(.expanded):hover { box-shadow: 0 10px 28px rgba(0,0,0,.1); cursor: pointer; transform: translateY(-3px); }
     .persona-card.expanded { border-color: var(--accent); box-shadow: 0 8px 32px rgba(0,0,0,.11); grid-column: 1/-1; }
 
@@ -115,8 +117,9 @@
 
     .interview-cta { padding: 22px 32px 30px; text-align: center; background: #fafafa; border-top: 1px solid #f0f0f0; }
     .interview-hint { font-size: 12px; color: #999; margin-bottom: 10px; }
-    .interview-btn { background: var(--accent); color: #fff; border: none; padding: 13px 28px; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; transition: transform .15s, box-shadow .15s; }
+    .interview-btn { background: var(--accent); color: #fff; border: none; padding: 13px 28px; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; transition: transform .15s, box-shadow .15s; position: relative; }
     .interview-btn:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 10px 22px rgba(0,0,0,.16); }
+    .interview-btn::after { content: ''; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,.32) 50%, transparent 70%); background-size: 300% 100%; background-position: -100% center; pointer-events: none; z-index: 1; }
 
     @media (max-width: 960px) {
       .card-grid { grid-template-columns: 1fr 1fr; }
@@ -184,19 +187,21 @@
 
       .swipe-carousel { display: block; overflow: hidden; }
       .swipe-track { display: flex; transition: transform .35s cubic-bezier(.25,.46,.45,.94); will-change: transform; touch-action: pan-y; }
-      .swipe-card { flex: 0 0 100%; padding: 0 8px; box-sizing: border-box; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
-      .swipe-card-inner { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,.09); }
+      .swipe-card { flex: 0 0 88%; padding: 0 8px; box-sizing: border-box; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+      .swipe-card-inner { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,.09); position: relative; }
+      .swipe-card-inner::after { content: ''; position: absolute; inset: 0; border-radius: 20px; background: linear-gradient(115deg, transparent 35%, rgba(255,255,255,.12) 50%, transparent 65%); background-size: 300% 100%; background-position: -100% center; pointer-events: none; z-index: 2; }
 
       /* Card video: 45vw keeps card compact so full card is visible ATF */
-      .swipe-video-wrap { position: relative; width: 100%; padding-top: 45vw; overflow: hidden; background: #15132a; }
+      .swipe-video-wrap { position: relative; width: 100%; padding-top: 56vw; overflow: hidden; background: #15132a; }
       .swipe-video-wrap video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
 
       .swipe-card-body { padding: 14px 14px 18px; display: flex; flex-direction: column; gap: 8px; }
       .swipe-name { font-size: 1.1rem; font-weight: 800; color: #1a1a2e; line-height: 1.2; margin: 0; }
       .swipe-tag { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; padding: 4px 12px; border-radius: 20px; align-self: flex-start; }
       .swipe-desc { font-size: 13.5px; color: #555; line-height: 1.5; margin: 2px 0; }
-      .swipe-cta { width: 100%; padding: 14px; border: none; border-radius: 12px; color: #fff; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; margin-top: 6px; transition: transform .12s; }
+      .swipe-cta { width: 100%; padding: 14px; border: none; border-radius: 12px; color: #fff; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; margin-top: 6px; transition: transform .12s; position: relative; }
       .swipe-cta:active { transform: scale(.97); }
+      .swipe-cta::after { content: ''; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,.32) 50%, transparent 70%); background-size: 300% 100%; background-position: -100% center; pointer-events: none; z-index: 1; }
 
       .swipe-dots { display: flex; justify-content: center; align-items: center; gap: 8px; padding: 10px 0 2px; }
       .swipe-dot { width: 8px; height: 8px; border-radius: 4px; background: #ddd; cursor: pointer; transition: width .25s, background .25s; flex-shrink: 0; }
@@ -342,6 +347,10 @@
       .hero-cta-rainbow:hover, .hero-cta-rainbow:focus { animation-play-state: paused; }
       .hero-cta-rainbow::before { animation: rainbowBreath 4s ease-in-out infinite; }
       .hero-cta-rainbow::after { animation: shimmerSweep 3.5s ease-in-out 0.8s infinite; }
+      .interview-btn::after { animation: shimmerSweep 3.5s ease-in-out 2s infinite; }
+      .swipe-cta::after    { animation: shimmerSweep 3.5s ease-in-out 1.4s infinite; }
+      .swipe-card-inner::after { animation: shimmerSweep 5s ease-in-out 3s infinite; }
+      .persona-card::after     { animation: shimmerSweep 5s ease-in-out 0.8s infinite; }
     }
 
     .hero-microcopy { font-size: .75rem; color: #999; margin-top: 10px; text-align: center; }
@@ -582,17 +591,16 @@ mixpanel.init("c19a390119d3f17a90d52c7ae87da26c", { track_pageview: true, persis
     <div class="section-header-wrap">
       <span class="header-spark s1"></span>
       <span class="header-spark s2"></span>
-      <p class="section-title">Meet the AI Babysitters</p>
+      <p class="section-title">MEET THE COMPANIONS</p>
       <div class="section-underline" id="sectionUnderline"></div>
-      <p class="section-tagline" id="sectionTagline">Meet your child's new AI best friend — and talk to them first.</p>
-      <p class="section-hint" id="sectionHint">Hover to peek. Click to meet them face to face — before your little one does.</p>
-      <p class="section-hint-mobile">👆 Tap any companion to interview them →</p>
+      <p class="section-tagline" id="sectionTagline">Pick today's <em class="hero-accent">little adventure.</em></p>
     </div>
 
     <div class="card-grid">
 
       <!-- ── ALEX (bongo) ── -->
       <div class="persona-card" id="card-alex" style="--accent:#A9744F;--accent-light:#FFF7F0">
+        <span class="recommended-badge">⭐ RECOMMENDED</span>
         <div class="card-top" onclick="toggleCard('alex')">
           <div class="card-avatar-img"><video src="videos/kitten_frontcard.mp4" muted loop autoplay playsinline webkit-playsinline></video></div>
           <div class="card-text">
@@ -871,6 +879,7 @@ mixpanel.init("c19a390119d3f17a90d52c7ae87da26c", { track_pageview: true, persis
 
         <div class="swipe-card">
           <div class="swipe-card-inner">
+            <span class="recommended-badge">⭐ RECOMMENDED</span>
             <div class="swipe-video-wrap">
               <video src="videos/kitten_frontcard.mp4" muted autoplay loop playsinline webkit-playsinline></video>
             </div>
@@ -1425,7 +1434,6 @@ const _sectionObserver = new IntersectionObserver((entries) => {
   if (entries[0].isIntersecting) {
     document.getElementById("sectionUnderline").classList.add("in-view");
     document.getElementById("sectionTagline").classList.add("in-view");
-    document.getElementById("sectionHint").classList.add("in-view");
     _sectionObserver.disconnect();
   }
 }, { threshold: 0.3 });
@@ -2093,7 +2101,9 @@ function initSwipeCarousel() {
 
   function goTo(idx) {
     current = Math.max(0, Math.min(count - 1, idx));
-    track.style.transform = `translateX(-${current * carousel.offsetWidth}px)`;
+    const cardWidth  = carousel.offsetWidth * 0.88;
+    const peekOffset = (carousel.offsetWidth - cardWidth) / 2;
+    track.style.transform = `translateX(${-(current * cardWidth - peekOffset)}px)`;
     dots.forEach((d, i) => d.classList.toggle("active", i === current));
     track.querySelectorAll(".swipe-video-wrap video").forEach((v, i) => {
       i === current ? v.play().catch(() => {}) : v.pause();
@@ -2147,7 +2157,9 @@ function initSwipeCarousel() {
 
   window.addEventListener("resize", () => {
     track.style.transition = "none";
-    track.style.transform = `translateX(-${current * carousel.offsetWidth}px)`;
+    const cardWidth  = carousel.offsetWidth * 0.88;
+    const peekOffset = (carousel.offsetWidth - cardWidth) / 2;
+    track.style.transform = `translateX(${-(current * cardWidth - peekOffset)}px)`;
     requestAnimationFrame(() => { track.style.transition = ""; });
   });
 
