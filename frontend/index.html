@@ -2227,23 +2227,28 @@ document.addEventListener("DOMContentLoaded", () => {
   // hero viewed on first load
   mp("hero_viewed");
 
-  // hero countdown — ring + number synced, instant reset on loop
+  // hero countdown — counts down once, auto-opens Alex at 0, never restarts
   (function() {
     const CIRC = 125.66;
     let s = 15;
     const el   = document.getElementById("hero-countdown-num");
     const ring = document.getElementById("hero-countdown-ring");
     if (!el) return;
-    setInterval(() => {
-      if (s <= 1) {
-        s = 15;
-        if (ring) { ring.style.transition = 'none'; ring.style.strokeDashoffset = '0'; }
-        el.textContent = s;
-        requestAnimationFrame(() => requestAnimationFrame(() => { if (ring) ring.style.transition = ''; }));
-      } else {
-        s--;
-        el.textContent = s;
-        if (ring) ring.style.strokeDashoffset = CIRC * (15 - s) / 15;
+
+    const timer = setInterval(() => {
+      s--;
+      el.textContent = s;
+      if (ring) ring.style.strokeDashoffset = CIRC * (15 - s) / 15;
+
+      if (s <= 0) {
+        clearInterval(timer);
+        mp("hero_countdown_expired", { persona_id: "bongo", trigger: "auto_countdown" });
+        if (window.innerWidth > 768) {
+          document.getElementById("companions-section").scrollIntoView({ behavior: "smooth" });
+          setTimeout(() => toggleCard("alex"), 600);
+        } else {
+          openMobileDetail("bongo");
+        }
       }
     }, 1000);
   })();
